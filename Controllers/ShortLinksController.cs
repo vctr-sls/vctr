@@ -140,6 +140,8 @@ namespace slms2asp.Controllers
             }
 
             shortLink.PasswordHash = Hashing.CreatePasswordHash(pwModel.Password);
+            Db.ShortLinks.Update(shortLink);
+            await Db.SaveChangesAsync();
 
             return Ok();
         }

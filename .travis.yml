@@ -1,0 +1,25 @@
+﻿language: csharp
+
+mono: none
+
+dotnet: 2.1
+
+services:
+  - docker
+
+install:
+  - dotnet restore
+
+jobs:
+  include:
+    
+    - stage: build
+      script: dotnet build
+
+    - stage: docker-deploy
+      if: branch = master
+      script: |
+        docker build . -t zekro/aspmusiclist:latest
+        # ENABLING THIS WHEN THIS PROJECT IS READY TO DEPLOY PRODUCTIVELY
+        # docker login -u ${DOCKER_USERNAME} -p ${DOCKER_PASSWORD}
+        # docker push zekro/aspmusiclist:latest

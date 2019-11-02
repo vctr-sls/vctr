@@ -1,0 +1,9 @@
+.vscode/
+bin/
+obj/
+*.db
+*.md
+*.user
+
+**/node_modules/
+**/dist/
