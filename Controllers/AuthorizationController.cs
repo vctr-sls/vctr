@@ -6,13 +6,15 @@ using Microsoft.Extensions.Primitives;
 using slms2asp.Shared;
 using System.Collections.Generic;
 using System.Security.Claims;
+using System.Threading.Tasks;
 
 namespace slms2asp.Controllers
 {
+    // ----------------------------------------------------
+    // -- Authorization Controller
+    // -- /api/authorization
 
-    // TODO: Docs
-
-    [Route("api/[controller]")]
+    [Route("api/[controller]/[action]")]
     [ApiController]
     public class AuthorizationController : ControllerBase
     {
@@ -25,8 +27,20 @@ namespace slms2asp.Controllers
             PasswordHash = Configuration.GetValue<string>("Authorization:PasswordHash");
         }
 
-        [HttpPost("[action]")]
-        public IActionResult Login()
+        // ------------------------------------------------
+        // POST /api/authorization/login
+        // 
+        // Checks the passed 'Authorization' header value
+        // for a valid password which is passed as basic
+        // token:
+        //   Authorization: Baisc passwordString
+        // 
+        // If the passed authorization token is valid, a
+        // session token will be set which is used for
+        // further authorization.
+
+        [HttpPost]
+        public async Task<IActionResult> Login()
         {
             StringValues authHeaderValue;
             if (!HttpContext.Request.Headers.TryGetValue("Authorization", out authHeaderValue))
@@ -52,8 +66,20 @@ namespace slms2asp.Controllers
             var identity = new ClaimsIdentity(claims, "login");
             var principal = new ClaimsPrincipal(identity);
 
-            HttpContext.SignInAsync(principal);
+            await HttpContext.SignInAsync(principal);
 
+            return Ok();
+        }
+
+        // ------------------------------------------------
+        // POST /api/authorization/logout
+        // 
+        // Removes an authorization cookie, if existent.
+
+        [HttpPost]
+        public async Task<IActionResult> Logout()
+        {
+            await HttpContext.SignOutAsync();
             return Ok();
         }
     }

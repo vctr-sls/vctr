@@ -4,10 +4,10 @@ EXPOSE 80
 
 FROM mcr.microsoft.com/dotnet/core/sdk:2.1-stretch AS build
 WORKDIR /src
-COPY ["slms2asp/slms2asp.csproj", "slms2asp/"]
+COPY slms2asp.csproj slms2asp/
 RUN dotnet restore "slms2asp/slms2asp.csproj"
 COPY . .
-WORKDIR "/src/slms2asp"
+WORKDIR /src/slms2asp
 RUN dotnet build "slms2asp.csproj" -c Release -o /app/build
 
 FROM build AS publish

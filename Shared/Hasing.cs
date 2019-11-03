@@ -1,8 +1,5 @@
 ﻿using DevOne.Security.Cryptography.BCrypt;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace slms2asp.Shared
 {
@@ -40,7 +37,7 @@ namespace slms2asp.Shared
             {
                 return BCryptHelper.CheckPassword(pw, hash);
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 return false;
             }

@@ -12,8 +12,8 @@ using slms2asp.Shared;
 namespace slms2asp.Controllers
 {
     // ----------------------------------------------------
-    //   Short Links Controller
-    //   /api/shortlinks
+    // -- Short Links Controller
+    // -- /api/shortlinks
 
     [Authorize]
     [Route("api/[controller]")]
@@ -22,7 +22,7 @@ namespace slms2asp.Controllers
     [ApiController]
     public class ShortLinksController : ControllerBase
     {
-        private AppDbContext Db;
+        private readonly AppDbContext Db;
 
         public ShortLinksController(AppDbContext _db)
         {
@@ -46,6 +46,24 @@ namespace slms2asp.Controllers
         }
 
         // ------------------------------------------------
+        // GET /api/shortlinks/{guid}
+        //
+        // Get a specified short link object by GUID.
+
+        [HttpGet("{guid}")]
+        public IActionResult GetSingle(Guid guid)
+        {
+            var shortLink = Db.ShortLinks.Find(guid);
+
+            if (shortLink == null)
+            {
+                return NotFound(ErrorModel.NotFound());
+            }
+
+            return Ok(shortLink);
+        }
+
+        // ------------------------------------------------
         // POST /api/shortlinks
         //
         // Create a short link object.
@@ -53,7 +71,7 @@ namespace slms2asp.Controllers
         [HttpPost]
         public async Task<IActionResult> Create([FromBody] ShortLinkModel shortLink)
         {
-            if (shortLink.ShortIdent.IsEmpty())
+            if (!shortLink.ValidateIdent())
             {
                 return BadRequest(ErrorModel.BadRequest("invalid short ident"));
             }
@@ -68,7 +86,7 @@ namespace slms2asp.Controllers
                 return BadRequest(ErrorModel.BadRequest("invalid root link"));
             }
 
-            shortLink.Sanitize();
+            shortLink.Sanitize(asNew: true);
 
             Db.ShortLinks.Add(shortLink);
             await Db.SaveChangesAsync();
@@ -92,7 +110,12 @@ namespace slms2asp.Controllers
                 return NotFound(ErrorModel.NotFound());
             }
 
-            if (!CheckShortIdent(newShortLink))
+            if (!shortLink.ValidateIdent())
+            {
+                return BadRequest(ErrorModel.BadRequest("invalid short ident"));
+            }
+
+            if (!CheckShortIdent(newShortLink, shortLink.GUID))
             {
                 return BadRequest(ErrorModel.BadRequest("short ident already in use"));
             }
@@ -103,11 +126,34 @@ namespace slms2asp.Controllers
             }
 
             shortLink.Update(newShortLink);
+            shortLink.Sanitize();
 
             Db.ShortLinks.Update(shortLink);
             await Db.SaveChangesAsync();
 
             return Ok(shortLink);
+        }
+
+        // ------------------------------------------------
+        // DELETE /api/shortlinks/{guid}
+        //
+        // Deletes the short link object by the specified
+        // GUID.
+
+        [HttpDelete("{guid}")]
+        public async Task<IActionResult> Delete(Guid guid)
+        {
+            var shortLink = Db.ShortLinks.Find(guid);
+
+            if (shortLink == null)
+            {
+                return NotFound(ErrorModel.NotFound());
+            }
+
+            Db.ShortLinks.Remove(shortLink);
+            await Db.SaveChangesAsync();
+
+            return Ok();
         }
 
         // ------------------------------------------------
@@ -131,6 +177,7 @@ namespace slms2asp.Controllers
             if (pwModel.Reset)
             {
                 shortLink.PasswordHash = default;
+                shortLink.IsPasswordProtected = false;
                 return Ok();
             }
 
@@ -140,6 +187,8 @@ namespace slms2asp.Controllers
             }
 
             shortLink.PasswordHash = Hashing.CreatePasswordHash(pwModel.Password);
+            shortLink.IsPasswordProtected = true;
+
             Db.ShortLinks.Update(shortLink);
             await Db.SaveChangesAsync();
 
@@ -150,7 +199,12 @@ namespace slms2asp.Controllers
 
         private bool CheckShortIdent(ShortLinkModel shortLink) =>
             Db.ShortLinks
-                .Where(sl => sl.ShortIdent.Equals(shortLink.ShortIdent))
+                .Where(sl => sl.ShortIdent.Equals(shortLink.ShortIdent) && !sl.GUID.Equals(shortLink.GUID))
+                .Count() == 0;
+
+        private bool CheckShortIdent(ShortLinkModel shortLink, Guid guid) =>
+            Db.ShortLinks
+                .Where(sl => sl.ShortIdent.Equals(shortLink.ShortIdent) && !sl.GUID.Equals(guid))
                 .Count() == 0;
     }
 }
