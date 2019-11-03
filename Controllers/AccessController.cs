@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using slms2asp.Database;
+using slms2asp.Models;
 using slms2asp.Shared;
 
 namespace slms2asp.Controllers
@@ -43,12 +44,35 @@ namespace slms2asp.Controllers
                 shortLink.Activates.CompareTo(DateTime.Now) < 0 ||
                 shortLink.Expires.CompareTo(DateTime.Now) >= 0)
             {
-                return Content(ErrorResponseContent.SHORT_LINK_NOT_FOUND, MediaTypeNames.Text.Plain);
+                return RedirectPreserveMethod("/ui/error/invalid");
             }
 
-            // TODO: Actual access and tracking flow.
+            if (shortLink.IsPasswordProtected)
+            {
+                return RedirectPreserveMethod("/ui/protected");
+            }
 
-            return Redirect(shortLink.RootURL);
+            if (!disableTracking)
+            {
+                await CountRedirect(shortLink);
+            }
+
+            if (shortLink.IsPermanentRedirect)
+            {
+                return RedirectPermanent(shortLink.RootURL);
+            }
+            else
+            {
+                return RedirectPreserveMethod(shortLink.RootURL);
+            }
+        }
+
+        public async Task CountRedirect(ShortLinkModel shortLink)
+        {
+            shortLink.Access();
+            Db.ShortLinks.Update(shortLink);
+
+            await Db.SaveChangesAsync();
         }
     }
 }

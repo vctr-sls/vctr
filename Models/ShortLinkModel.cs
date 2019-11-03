@@ -39,10 +39,10 @@ namespace slms2asp.Models
 
         // Not User-Settable variables
         public bool IsPasswordProtected { get; set; }
-        public int AccessCount { get; set; }
+        public int AccessCount { get; private set; }
         public DateTime CreationDate { get; private set; }
-        public DateTime LastAccess { get; set; }
-        public DateTime LastModified { get; set; }
+        public DateTime LastAccess { get; private set; }
+        public DateTime LastModified { get; private set; }
 
         [IgnoreDataMember]
         public string PasswordHash { get; set; }
@@ -147,7 +147,20 @@ namespace slms2asp.Models
             IsActive = newShortLink.IsActive;
             Activates = newShortLink.Activates;
             Expires = newShortLink.Expires;
+
+            LastModified = DateTime.Now;
         }
-        
+     
+        /// <summary>
+        /// 
+        /// Increases <i>AccessCount</i> by one and
+        /// sets <i>LastAccess</i> to now.
+        /// 
+        /// </summary>
+        public void Access()
+        {
+            AccessCount++;
+            LastAccess = DateTime.Now;
+        }
     }
 }
