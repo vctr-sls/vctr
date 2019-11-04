@@ -9,6 +9,13 @@ using System.Threading.Tasks;
 
 namespace slms2asp.Models
 {
+    /// <summary>
+    /// 
+    /// Model which describes a Short Link Object.
+    /// This is used as database model object and
+    /// as HTTP response / request model.
+    /// 
+    /// </summary>
     public class ShortLinkModel
     {
         // ------------------------------------------------

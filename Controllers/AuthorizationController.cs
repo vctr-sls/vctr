@@ -5,6 +5,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Primitives;
 using slms2asp.Shared;
 using System.Collections.Generic;
+using System.Net.Mime;
 using System.Security.Claims;
 using System.Threading.Tasks;
 
@@ -16,6 +17,8 @@ namespace slms2asp.Controllers
 
     [Route("api/[controller]/[action]")]
     [ApiController]
+    [Produces(MediaTypeNames.Application.Json)]
+    [Consumes(MediaTypeNames.Application.Json)]
     public class AuthorizationController : ControllerBase
     {
         private readonly IConfiguration Configuration;

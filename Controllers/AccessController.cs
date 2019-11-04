@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using slms2asp.Database;
+using slms2asp.Extensions;
 using slms2asp.Models;
 using slms2asp.Shared;
 
@@ -19,7 +20,7 @@ namespace slms2asp.Controllers
     // -- The actual controller for accesses of short links
     // -- which controlls the redirection flow.
 
-    [Route("{shortIdent}")]
+    [Route("")]
     [ApiController]
     public class AccessController : ControllerBase
     {
@@ -30,7 +31,26 @@ namespace slms2asp.Controllers
             Db = _db;
         }
 
-        public async Task<IActionResult> Get(string shortIdent, [FromQuery] bool disableTracking)
+        [HttpGet]
+        public IActionResult GetDefault()
+        {
+            var settings = Db.GeneralSettings.FirstOrDefault();
+
+            if (settings == null || settings.PasswordHash.IsEmpty())
+            {
+                return Redirect("/ui/initialize");
+            }
+
+            if (!settings.DefaultRedirect.IsEmpty())
+            {
+                return Redirect(settings.DefaultRedirect);
+            }
+
+            return Redirect("/ui/manage");
+        }
+
+        [HttpGet("{shortIdent}")]
+        public async Task<IActionResult> GetShortLink(string shortIdent, [FromQuery] bool disableTracking)
         {
             var shortLink = Db.ShortLinks.SingleOrDefault(sl => sl.ShortIdent == shortIdent);
 

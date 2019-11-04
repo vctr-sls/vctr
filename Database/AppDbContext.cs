@@ -20,6 +20,7 @@ namespace slms2asp.Database
 
         public DbSet<ShortLinkModel> ShortLinks { get; private set; }
         public DbSet<AccessModel> Accesses { get; private set; }
+        public DbSet<GeneralSettingsModel> GeneralSettings { get; private set; }
 
         public AppDbContext() { }
 

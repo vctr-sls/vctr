@@ -16,6 +16,6 @@ namespace slms2asp.Extensions
         /// <param name="str"></param>
         /// <returns>is empty state</returns>
         public static bool IsEmpty(this string str) =>
-            str.Equals(default) || str.Length <= 0;
+            str == null || str.Equals(default) || str.Length <= 0;
     }
 }

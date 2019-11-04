@@ -1,8 +1,9 @@
 using DevOne.Security.Cryptography.BCrypt;
-using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Logging;
 using System;
+using System.IO;
 
 namespace slms2asp
 {
@@ -42,8 +43,34 @@ namespace slms2asp
             CreateWebHostBuilder(args).Build().Run();
         }
 
-        public static IWebHostBuilder CreateWebHostBuilder(string[] args) =>
-            WebHost.CreateDefaultBuilder(args)
+        public static IWebHostBuilder CreateWebHostBuilder(string[] args)
+        {
+            var config = new ConfigurationBuilder()
+                .SetBasePath(Directory.GetCurrentDirectory())
+                .AddJsonFile("appsettings.json", optional: true)
+                .AddEnvironmentVariables(prefix: "VCTR_")
+                .AddCommandLine(args)
+                .Build();
+
+            return new WebHostBuilder()
+                .UseKestrel()
+                .UseContentRoot(Directory.GetCurrentDirectory())
+                .UseIISIntegration()
+                .UseConfiguration(config)
+                .UseUrls(config["Server:URL"] ?? "http://localhost:80")
+                .UseDefaultServiceProvider((context, options) =>
+                {
+                    options.ValidateScopes = context.HostingEnvironment.IsDevelopment();
+                })
+                .ConfigureLogging((hostingContext, logging) =>
+                {
+                    logging
+                        .AddConfiguration(hostingContext.Configuration.GetSection("Logging"))
+                        .AddConsole()
+                        .AddDebug()
+                        .AddEventSourceLogger();
+                })
                 .UseStartup<Startup>();
+        }
     }
 }
