@@ -7,6 +7,8 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using slms2asp.Database;
 using slms2asp.Filters;
+using slms2asp.Shared;
+using System;
 using System.Text;
 
 namespace slms2asp
@@ -42,7 +44,10 @@ namespace slms2asp
             });
 
             services
-                .AddSingleton<IConfiguration>(Configuration);
+                .AddSingleton(Configuration)
+                .AddSingleton(new IPCache(
+                    cleanupInterval: TimeSpan.FromMinutes(10), 
+                    expiration: TimeSpan.FromHours(12)));
 
             services
                 .AddDbContext<AppDbContext>();

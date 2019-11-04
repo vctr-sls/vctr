@@ -24,9 +24,9 @@ namespace slms2asp.Controllers
     {
         private readonly AppDbContext Db;
 
-        public ShortLinksController(AppDbContext _db)
+        public ShortLinksController(AppDbContext db)
         {
-            Db = _db;
+            Db = db;
         }
 
         // ------------------------------------------------

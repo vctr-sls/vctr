@@ -25,10 +25,12 @@ namespace slms2asp.Controllers
     public class AccessController : ControllerBase
     {
         private readonly AppDbContext Db;
+        private readonly IPCache IPCache;
 
-        public AccessController(AppDbContext _db)
+        public AccessController(AppDbContext db, IPCache ipCache)
         {
-            Db = _db;
+            Db = db;
+            IPCache = ipCache;
         }
 
         [HttpGet]
@@ -52,7 +54,8 @@ namespace slms2asp.Controllers
         [HttpGet("{shortIdent}")]
         public async Task<IActionResult> GetShortLink(string shortIdent, [FromQuery] bool disableTracking)
         {
-            var shortLink = Db.ShortLinks.SingleOrDefault(sl => sl.ShortIdent == shortIdent);
+            var shortLink = Db.ShortLinks
+                .SingleOrDefault(sl => sl.ShortIdent == shortIdent);
 
             if (shortLink == null)
             {
@@ -72,6 +75,8 @@ namespace slms2asp.Controllers
                 return RedirectPreserveMethod("/ui/protected");
             }
 
+            var addr = HttpContext.Connection.RemoteIpAddress;
+
             if (!disableTracking)
             {
                 await CountRedirect(shortLink);
@@ -89,11 +94,25 @@ namespace slms2asp.Controllers
 
         public async Task CountRedirect(ShortLinkModel shortLink)
         {
-            
-            // TODO: Count unique accesses and add to access log
-
             shortLink.Access();
+
+            var addr = HttpContext.Connection.RemoteIpAddress;
+
+            bool isUnique = true;
+
+            if (IPCache.Contains(addr))
+            {
+                var guid = IPCache.Get(addr);
+                isUnique = !guid.HasValue || guid.Value != shortLink.GUID;
+            }
+
+            shortLink.Access(isUnique);
             Db.ShortLinks.Update(shortLink);
+
+            if (isUnique)
+            {
+                IPCache.Push(addr, shortLink.GUID);
+            }
 
             await Db.SaveChangesAsync();
         }
