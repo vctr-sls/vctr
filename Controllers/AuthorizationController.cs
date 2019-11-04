@@ -3,8 +3,11 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Primitives;
+using slms2asp.Database;
+using slms2asp.Extensions;
 using slms2asp.Shared;
 using System.Collections.Generic;
+using System.Linq;
 using System.Net.Mime;
 using System.Security.Claims;
 using System.Threading.Tasks;
@@ -21,13 +24,11 @@ namespace slms2asp.Controllers
     [Consumes(MediaTypeNames.Application.Json)]
     public class AuthorizationController : ControllerBase
     {
-        private readonly IConfiguration Configuration;
-        private readonly string PasswordHash;
+        private readonly AppDbContext Db;
 
-        public AuthorizationController(IConfiguration configuration)
+        public AuthorizationController(AppDbContext _db)
         {
-            Configuration = configuration;
-            PasswordHash = Configuration.GetValue<string>("Authorization:PasswordHash");
+            Db = _db;
         }
 
         // ------------------------------------------------
@@ -58,7 +59,14 @@ namespace slms2asp.Controllers
 
             var authValue = authHeaderValue[0].Substring(6);
 
-            if (!Hashing.CompareStringToHash(authValue, PasswordHash))
+            var settings = Db.GeneralSettings.FirstOrDefault();
+
+            if (settings == null || settings.PasswordHash.IsEmpty())
+            {
+                return Unauthorized();
+            }
+
+            if (!Hashing.CompareStringToHash(authValue, settings.PasswordHash))
             {
                 return Unauthorized();
             }

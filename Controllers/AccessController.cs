@@ -60,9 +60,9 @@ namespace slms2asp.Controllers
             }
 
             if (!shortLink.IsActive || 
-                shortLink.AccessCount >= shortLink.MaxUses ||
-                shortLink.Activates.CompareTo(DateTime.Now) < 0 ||
-                shortLink.Expires.CompareTo(DateTime.Now) >= 0)
+                (shortLink.MaxUses > 0 && shortLink.UniqueAccessCount >= shortLink.MaxUses) ||
+                shortLink.Activates.CompareTo(DateTime.Now) > 0 ||
+                shortLink.Expires.CompareTo(DateTime.Now) <= 0)
             {
                 return RedirectPreserveMethod("/ui/error/invalid");
             }
@@ -89,6 +89,9 @@ namespace slms2asp.Controllers
 
         public async Task CountRedirect(ShortLinkModel shortLink)
         {
+            
+            // TODO: Count unique accesses and add to access log
+
             shortLink.Access();
             Db.ShortLinks.Update(shortLink);
 

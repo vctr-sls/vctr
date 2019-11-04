@@ -39,14 +39,15 @@ namespace slms2asp.Models
         public string RootURL { get; set; }
         public string ShortIdent { get; set; }
         public int MaxUses { get; set; }
-        public bool IsActive { get; set; }
+        public bool IsActive { get; set; } = true;
         public DateTime Activates { get; set; }
-        public DateTime Expires { get; set; }
+        public DateTime Expires { get; set; } = DateTime.MaxValue;
         public bool IsPermanentRedirect { get; set; }
 
         // Not User-Settable variables
         public bool IsPasswordProtected { get; set; }
         public int AccessCount { get; private set; }
+        public int UniqueAccessCount { get; private set; }
         public DateTime CreationDate { get; private set; }
         public DateTime LastAccess { get; private set; }
         public DateTime LastModified { get; private set; }
@@ -62,7 +63,7 @@ namespace slms2asp.Models
         public ShortLinkModel(
             string rootUrl,
             string shortIdent,
-            int maxUses = -1,
+            int maxUses = 0,
             bool active = true,
             DateTime activates = default,
             DateTime expires = default,
@@ -164,10 +165,15 @@ namespace slms2asp.Models
         /// sets <i>LastAccess</i> to now.
         /// 
         /// </summary>
-        public void Access()
+        public void Access(bool isUnique = false)
         {
             AccessCount++;
             LastAccess = DateTime.Now;
+
+            if (isUnique)
+            {
+                UniqueAccessCount++;
+            }
         }
     }
 }
