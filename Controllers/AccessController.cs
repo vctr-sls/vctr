@@ -6,6 +6,7 @@ using System.Net.Mime;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Configuration;
 using slms2asp.Database;
 using slms2asp.Extensions;
 using slms2asp.Models;
@@ -26,11 +27,13 @@ namespace slms2asp.Controllers
     {
         private readonly AppDbContext Db;
         private readonly IPCache IPCache;
+        private readonly IConfiguration Configuration;
 
-        public AccessController(AppDbContext db, IPCache ipCache)
+        public AccessController(AppDbContext db, IPCache ipCache, IConfiguration configuration)
         {
             Db = db;
             IPCache = ipCache;
+            Configuration = configuration;
         }
 
         [HttpGet]
@@ -77,10 +80,7 @@ namespace slms2asp.Controllers
 
             var addr = HttpContext.Connection.RemoteIpAddress;
 
-            if (!disableTracking)
-            {
-                await CountRedirect(shortLink);
-            }
+            await CountRedirect(shortLink, disableTracking);
 
             if (shortLink.IsPermanentRedirect)
             {
@@ -92,7 +92,10 @@ namespace slms2asp.Controllers
             }
         }
 
-        public async Task CountRedirect(ShortLinkModel shortLink)
+        // ------------------------------------------------
+        // -- HELPERS
+
+        public async Task CountRedirect(ShortLinkModel shortLink, bool disableTracking)
         {
             shortLink.Access();
 
@@ -108,6 +111,42 @@ namespace slms2asp.Controllers
 
             shortLink.Access(isUnique);
             Db.ShortLinks.Update(shortLink);
+
+            var ipInfoToken = Configuration.GetSection("secrets")?.GetValue<string>("ipinfotoken");
+            var ipInfo = new IPInfoModel();
+
+            if (!ipInfoToken.IsEmpty())
+            {
+                try
+                {
+                    ipInfo = await IPInfo.GetInfo(addr, ipInfoToken);
+                }
+                catch (Exception)
+                {
+                    // TODO: Error Logging
+                }
+            }
+            else
+            {
+                // TODO: Warn Logging
+            }
+
+            if (!disableTracking)
+            {
+                Db.Accesses.Add(new AccessModel()
+                {
+                    City = ipInfo.City,
+                    Country = ipInfo.Country,
+                    IsUnique = isUnique,
+                    Org = ipInfo.Org,
+                    Postal = ipInfo.Postal,
+                    Region = ipInfo.Region,
+                    Timestamp = DateTime.Now,
+                    Timezone = ipInfo.Timezone,
+                    UserAgent = HttpContext.Request.Headers["User-Agent"].ToString(),
+                });
+            }
+
 
             if (isUnique)
             {
