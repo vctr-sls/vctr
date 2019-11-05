@@ -3,6 +3,11 @@ using System.ComponentModel.DataAnnotations;
 
 namespace slms2asp.Database
 {
+    /// <summary>
+    /// 
+    /// Database model for access log.
+    /// 
+    /// </summary>
     public class AccessModel
     {
         [Key]

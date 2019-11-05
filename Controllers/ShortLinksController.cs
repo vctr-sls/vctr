@@ -31,8 +31,8 @@ namespace slms2asp.Controllers
 
         // ------------------------------------------------
         // GET /api/shortlinks
-        //                    ?page={pageNumber}
-        //                    ?size={pageSize}
+        //                    ?page={int}
+        //                    ?size={int}
         //
         // Get a specified range of short link objects.
 
@@ -46,7 +46,7 @@ namespace slms2asp.Controllers
         }
 
         // ------------------------------------------------
-        // GET /api/shortlinks/{guid}
+        // GET /api/shortlinks/:guid
         //
         // Get a specified short link object by GUID.
 
@@ -95,7 +95,7 @@ namespace slms2asp.Controllers
         }
 
         // ------------------------------------------------
-        // PUT /api/shortlinks/{guid}
+        // PUT /api/shortlinks/:guid
         //
         // Replaces editable properties of a short link
         // object passed in the requests body.
@@ -135,7 +135,7 @@ namespace slms2asp.Controllers
         }
 
         // ------------------------------------------------
-        // DELETE /api/shortlinks/{guid}
+        // DELETE /api/shortlinks/:guid
         //
         // Deletes the short link object by the specified
         // GUID.
@@ -157,7 +157,7 @@ namespace slms2asp.Controllers
         }
 
         // ------------------------------------------------
-        // POST /api/shortlinks/{guid}/password
+        // POST /api/shortlinks/:guid/password
         //
         // Sets or resets the password state of a short
         // link object. If a password is set, password

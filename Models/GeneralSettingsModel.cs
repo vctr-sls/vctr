@@ -7,6 +7,11 @@ using System.Threading.Tasks;
 
 namespace slms2asp.Models
 {
+    /// <summary>
+    /// 
+    /// Database model for general application settings.
+    /// 
+    /// </summary>
     public class GeneralSettingsModel
     {
         [Key]
@@ -19,6 +24,12 @@ namespace slms2asp.Models
         public string DefaultRedirect { get; set; }
     }
 
+    /// <summary>
+    /// 
+    /// HTTP post body model for setting general
+    /// application configuration.
+    /// 
+    /// </summary>
     public class GeneralSettingsPostModel
     {
         public string Password;

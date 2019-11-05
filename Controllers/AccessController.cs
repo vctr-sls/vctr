@@ -36,6 +36,14 @@ namespace slms2asp.Controllers
             Configuration = configuration;
         }
 
+        // ------------------------------------------------
+        // GET /
+        //
+        // Redirects to the initialization page where you
+        // enter your password on first startup. Defaultly,
+        // this redirect either to the web interface
+        // entrypoint or to a default page, if configured.
+
         [HttpGet]
         public IActionResult GetDefault()
         {
@@ -53,6 +61,34 @@ namespace slms2asp.Controllers
 
             return Redirect("/ui/manage");
         }
+
+        // ------------------------------------------------
+        // GET /:shortIdent
+        //                 ?disableTracking={bool}
+        //
+        // The basic entrypoint for each defined short
+        // link. This methods tries to get the short link
+        // object from the database by its identifier and
+        // decides if the user is allowed to be redirected
+        // to the root link set for this short link.
+        // 
+        // If the short link is set as 'inavtive', the
+        // activation date is not reached yet, the maximum
+        // access count is exceed or the expration date is
+        // reached, this will redirect to the invalid short
+        // link error page of the web UI.
+        //
+        // If the short link has a set password, this will
+        // redirect to the password form of the web UI with
+        // the short link GUID as URL query.
+        //
+        // If the URL query parameter 'disableTracking' is
+        // passed as 'true', this access will not be logged
+        // in the access log table. This does not mean, that
+        // the access count will not be increased and this
+        // wil not prevent vctr from saving the access remote
+        // address in the in-memory address cache to prevent
+        // bypassing the access count limit.
 
         [HttpGet("{shortIdent}")]
         public async Task<IActionResult> GetShortLink(string shortIdent, [FromQuery] bool disableTracking)
@@ -75,7 +111,7 @@ namespace slms2asp.Controllers
 
             if (shortLink.IsPasswordProtected)
             {
-                return RedirectPreserveMethod("/ui/protected");
+                return RedirectPreserveMethod($"/ui/protected?ident={shortLink.GUID}");
             }
 
             var addr = HttpContext.Connection.RemoteIpAddress;
