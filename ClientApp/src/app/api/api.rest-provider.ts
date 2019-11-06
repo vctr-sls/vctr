@@ -12,13 +12,16 @@ import {
   GeneralSettingsPost,
   ShortLink,
 } from './api.models';
+import { Inject, EventEmitter } from '@angular/core';
 
 export class APIRestProvider implements IAPIProvider {
+  public authorizationError = new EventEmitter<any>();
+
   private readonly errorCatcher = (err) => {
     console.error(err);
 
     if (err && err.status === 401) {
-      this.router.navigate(['/login']);
+      this.authorizationError.emit();
     }
 
     return of(null);
@@ -38,7 +41,9 @@ export class APIRestProvider implements IAPIProvider {
     return defopts;
   };
 
-  constructor(private http: HttpClient, private router: Router) {}
+  constructor(@Inject('HttpClient') private http: HttpClient) {
+    console.log(http);
+  }
 
   public authLogin(password: string): Promise<any> {
     const opts = this.defopts({

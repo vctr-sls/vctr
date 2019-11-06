@@ -1,7 +1,8 @@
 /** @format */
 
-import { Injectable, Inject } from '@angular/core';
+import { Injectable, Inject, EventEmitter } from '@angular/core';
 import { IAPIProvider } from './api.provider';
+import { Router } from '@angular/router';
 
 /** @format */
 
@@ -9,7 +10,17 @@ import { IAPIProvider } from './api.provider';
   providedIn: 'root',
 })
 export class APIService implements IAPIProvider {
-  constructor(@Inject('APIProvider') private provider: IAPIProvider) {}
+  public authorizationError: EventEmitter<any>;
+
+  constructor(
+    @Inject('APIProvider') private provider: IAPIProvider,
+    private router: Router
+  ) {
+    this.authorizationError = provider.authorizationError;
+    this.authorizationError.subscribe(() => {
+      this.router.navigate(['/login']);
+    });
+  }
 
   public authLogin = this.provider.authLogin;
   public authLogout = this.provider.authLogout;

@@ -1,6 +1,7 @@
 /** @format */
 
 import { Component } from '@angular/core';
+import { APIService } from 'src/app/api/api.service';
 
 @Component({
   selector: 'app-route-initialize',
@@ -8,5 +9,5 @@ import { Component } from '@angular/core';
   styleUrls: ['./initialize.route.scss'],
 })
 export class InitializeRouteComponent {
-  title = 'ClientApp';
+  constructor(private api: APIService) {}
 }

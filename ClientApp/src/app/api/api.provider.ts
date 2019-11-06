@@ -7,10 +7,14 @@ import {
   SetPasswordPost,
 } from './api.models';
 import { Observable } from 'rxjs';
+import { EventEmitter } from '@angular/core';
 
 /** @format */
 
 export interface IAPIProvider {
+  // Events
+  authorizationError: EventEmitter<any>;
+
   // Authorization
   authLogin(password: string): Promise<any>;
   authLogout(): Promise<any>;
