@@ -12,6 +12,7 @@
     <BuildServerSideRenderer>false</BuildServerSideRenderer>
     <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
     <LangVersion>7.1</LangVersion>
+    <RootNamespace>slms2asp</RootNamespace>
   </PropertyGroup>
 
   <ItemGroup>

@@ -21,7 +21,7 @@ namespace slms2asp.Shared
 
     public class IPInfo
     {
-        private static HttpClient Client = new HttpClient();
+        private static readonly HttpClient Client = new HttpClient();
 
         private const string ROOT_URI = "https://ipinfo.io";
 

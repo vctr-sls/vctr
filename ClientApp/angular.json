@@ -28,7 +28,7 @@
               "src/assets"
             ],
             "styles": [
-              "src/styles/font.scss",
+              "src/styles/fonts.scss",
               "src/styles/styles.scss"
             ],
             "scripts": []
@@ -94,7 +94,7 @@
               "src/assets"
             ],
             "styles": [
-              "src/styles/font.scss",
+              "src/styles/fonts.scss",
               "src/styles/styles.scss"
             ],
             "scripts": []
