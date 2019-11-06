@@ -18,9 +18,9 @@ namespace slms2asp.Models
         [IgnoreDataMember]
         public int Key { get; set; } = 0;
 
+        [IgnoreDataMember]
         public string PasswordHash { get; set; }
 
-        [IgnoreDataMember]
         public string DefaultRedirect { get; set; }
     }
 
