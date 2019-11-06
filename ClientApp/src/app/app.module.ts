@@ -9,10 +9,14 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { InitializeRouteComponent } from './routes/initialize/initialize.route';
 import { APIRestProvider } from './api/api.rest-provider';
+import { NoteComponent } from './compontents/note/note.component';
+import { ButtonComponent } from './compontents/button/button.component';
 
 @NgModule({
   declarations: [
     AppComponent,
+    NoteComponent,
+    ButtonComponent,
 
     // ROUTES
     InitializeRouteComponent,

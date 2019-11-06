@@ -1,1 +1,19 @@
-<p>init</p>
+<div class="input-wrapper">
+  <div class="inner-container">
+    <h1>FIRST STARTUP INITIALIZATION</h1>
+
+    <div class="input">
+      <app-note type="info">
+        <p>
+          On first initialization, you need to set a password for accessing the web interface.
+          This password can be changed later in the settings menu.
+        </p>
+      </app-note>
+      <input type="password" [(ngModel)]="password" placeholder="INITIAL PASSWORD"/>
+      <input type="password" [(ngModel)]="passwordRepeated" placeholder="REPEAT INITIAL PASSWORD"/>
+      <div class="btn">
+        <app-button [disabled]="!isValidEntry" [type]="isValidEntry ? 'success' : ''" (click)="onSet()">SET PASSWORD</app-button>
+      </div>
+    </div>
+  </div>
+</div>

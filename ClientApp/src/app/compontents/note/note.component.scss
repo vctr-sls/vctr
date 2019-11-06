@@ -1,0 +1,27 @@
+@import '../../../styles/vars';
+
+@mixin color($clr) {
+  background-color: transparentize($clr, .75);
+  border: solid 2px $clr;
+}
+
+.note {
+  padding: 10px;
+  @include color($c-cyan);
+}
+
+.close {
+  width: 20px;
+  height: 20px;
+  background-image: url('../../../assets/close.svg');
+  background-size: 100%;
+  cursor: pointer;
+  float: right;
+  opacity: .6;
+
+  transition: all .25s ease;
+
+  &:hover {
+    opacity: 1;
+  }
+}

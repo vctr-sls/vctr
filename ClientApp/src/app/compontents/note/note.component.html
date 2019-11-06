@@ -1,0 +1,4 @@
+<div *ngIf="visible" class="note">
+  <div *ngIf="closable" class="close" (click)="visible = false"></div>
+  <ng-content></ng-content>
+</div>

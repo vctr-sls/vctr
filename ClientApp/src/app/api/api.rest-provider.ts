@@ -42,7 +42,7 @@ export class APIRestProvider implements IAPIProvider {
   };
 
   constructor(@Inject('HttpClient') private http: HttpClient) {
-    console.log(http);
+    console.log(this.http.post);
   }
 
   public authLogin(password: string): Promise<any> {

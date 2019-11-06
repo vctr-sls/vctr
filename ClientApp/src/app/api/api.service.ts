@@ -22,15 +22,15 @@ export class APIService implements IAPIProvider {
     });
   }
 
-  public authLogin = this.provider.authLogin;
-  public authLogout = this.provider.authLogout;
-  public settingsGet = this.provider.settingsGet;
-  public settingsSet = this.provider.settingsSet;
-  public settingsInit = this.provider.settingsInit;
-  public slGet = this.provider.slGet;
-  public slGetSingle = this.provider.slGetSingle;
-  public slCreate = this.provider.slCreate;
-  public slEdit = this.provider.slEdit;
-  public slDelete = this.provider.slDelete;
-  public slSetPassword = this.provider.slSetPassword;
+  public authLogin = this.provider.authLogin.bind(this.provider);
+  public authLogout = this.provider.authLogout.bind(this.provider);
+  public settingsGet = this.provider.settingsGet.bind(this.provider);
+  public settingsSet = this.provider.settingsSet.bind(this.provider);
+  public settingsInit = this.provider.settingsInit.bind(this.provider);
+  public slGet = this.provider.slGet.bind(this.provider);
+  public slGetSingle = this.provider.slGetSingle.bind(this.provider);
+  public slCreate = this.provider.slCreate.bind(this.provider);
+  public slEdit = this.provider.slEdit.bind(this.provider);
+  public slDelete = this.provider.slDelete.bind(this.provider);
+  public slSetPassword = this.provider.slSetPassword.bind(this.provider);
 }

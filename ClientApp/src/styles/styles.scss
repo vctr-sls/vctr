@@ -1,0 +1,38 @@
+@import './vars';
+
+* {
+  box-sizing: border-box;
+}
+
+body, html {
+  background-color: $c-bg;
+  color: $c-white;
+  font-family: 'Roboto', sans-serif;
+}
+
+a, p {
+  text-decoration: none;
+  color: $c-white;
+  margin: 0;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 300;
+  margin: 0;
+}
+
+input[type=text], input[type=password] {
+  padding: 4px 8px;
+  background-color: transparent;
+  font-family: 'Roboto', sans-serif;
+  color: $c-white;
+  border: solid 1px transparentize($c-white, .3);
+  outline: none !important;
+
+  transition: all .25s ease;
+
+  &:focus {
+    border: solid 1px $c-white;
+  }
+}

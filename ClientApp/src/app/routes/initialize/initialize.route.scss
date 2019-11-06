@@ -1,0 +1,29 @@
+h1 {
+  text-align: center;
+}
+
+.input-wrapper {
+  display: flex;
+  height: 100vh;
+  width: 100%;
+}
+
+.inner-container {
+  display: inline-block;
+  margin: auto;
+}
+
+.input {
+  width: 300px;
+  margin: 50px auto 0px auto;
+
+  input {
+    width: 100%;
+    margin-top: 20px;
+    text-align: center;
+  }
+}
+
+.btn {
+  margin-top: 20px;
+}
