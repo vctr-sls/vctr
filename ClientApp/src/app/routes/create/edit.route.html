@@ -11,6 +11,11 @@
     </p>
   </div>
 
+  <div class="section status-container">
+    <div class="status-dot" [class.active]="linkStatus.active"></div>
+    <p>{{ linkStatus.text }}</p>
+  </div>
+
   <div class="section">
     <mat-slide-toggle [(ngModel)]="shortLink.isActive">
       Short link is <b>{{ shortLink.isActive ? 'activated' : 'deactivated' }}</b>

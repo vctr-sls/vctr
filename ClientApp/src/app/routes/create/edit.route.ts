@@ -7,6 +7,11 @@ import { ShortLink } from 'src/app/api/api.models';
 import dateFormat from 'dateformat';
 import { randomIdent } from 'src/app/util/random';
 
+export interface LinkStatus {
+  active: boolean;
+  text: string;
+}
+
 @Component({
   selector: 'app-route-edit',
   templateUrl: './edit.route.html',
@@ -39,6 +44,33 @@ export class EditRouteComponent {
 
   public getIsoFormattedDate(date: Date): string {
     return dateFormat(date, "yyyy-mm-dd'T'HH:MM:ss.00");
+  }
+
+  public get linkStatus(): LinkStatus {
+    let status = {
+      active: false,
+      text: 'This short link is publicly available.',
+    } as LinkStatus;
+
+    if (!this.shortLink.isActive) {
+      status.text =
+        'The link is unavailable because it is actively deactivated.';
+    } else if (
+      this.shortLink.maxUses > 0 &&
+      this.shortLink.uniqueAccessCount >= this.shortLink.maxUses
+    ) {
+      status.text =
+        'The link is unavailable because max access count was exceed.';
+    } else if (this.shortLink.activates > new Date()) {
+      status.text =
+        'The link is unavailable because activation date is not reached yet.';
+    } else if (this.shortLink.expires < new Date()) {
+      status.text = 'The link is unavailable because expire date was reached.';
+    } else {
+      status.active = true;
+    }
+
+    return status;
   }
 
   public get today(): string {

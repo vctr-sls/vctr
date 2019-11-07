@@ -1,3 +1,5 @@
+@import '../../../styles/vars';
+
 body {
   padding: 20px;
 }
@@ -28,4 +30,21 @@ body {
 .buttons {
   margin-top: 20px;
   display: flex;
+}
+
+.status-container {
+  display: flex;
+
+  .status-dot {
+    width: 1em;
+    height: 1em;
+    border-radius: 100%;
+    margin-right: 10px;
+    background-color: $c-red;
+  }
+
+}
+
+.active {
+  background-color: $c-green !important;
 }
