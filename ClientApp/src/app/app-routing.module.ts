@@ -5,6 +5,7 @@ import { Routes, RouterModule } from '@angular/router';
 import { InitializeRouteComponent } from './routes/initialize/initialize.route';
 import { MainRouteComponent } from './routes/main/main.route';
 import { LoginRouteComponent } from './routes/login/login.route';
+import { EditRouteComponent } from './routes/create/edit.route';
 
 const routes: Routes = [
   {
@@ -18,6 +19,10 @@ const routes: Routes = [
   {
     path: 'login',
     component: LoginRouteComponent,
+  },
+  {
+    path: ':guid/edit',
+    component: EditRouteComponent,
   },
   {
     path: '**',

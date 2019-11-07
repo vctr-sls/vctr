@@ -16,7 +16,7 @@ export interface SetPasswordPost {
 
 export interface ShortLink {
   guid: string;
-  rootUrl: string;
+  rootURL: string;
   shortIdent: string;
   maxUses: number;
   isActive: boolean;

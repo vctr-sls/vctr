@@ -1,0 +1,86 @@
+<div class="padding-wrapper">
+
+  <h1>
+    {{ isNew ? 'CREATE NEW SHORT LINK' : 'EDIT SHORT LINK ' + shortLink?.shortIdent }}
+  </h1>
+
+  <div *ngIf="!isNew" class="flex mt-10">
+    <p class="mr-5 mv-auto">GUID:</p>
+    <p class="embeded">
+      {{ shortLink.guid }}
+    </p>
+  </div>
+
+  <div class="section">
+    <mat-slide-toggle [(ngModel)]="shortLink.isActive">
+      Short link is <b>{{ shortLink.isActive ? 'activated' : 'deactivated' }}</b>
+    </mat-slide-toggle>
+  </div>
+
+  <div class="section">
+    <h4>SHORT IDENT</h4>
+    <input
+      type="text"
+      placeholder="SHORT IDENT"
+      [(ngModel)]="shortLink.shortIdent"
+      [class.error]="!shortLink.shortIdent"
+    />
+  </div>
+
+  <div class="section">
+    <h4>ROOT URL</h4>
+    <input
+      type="text"
+      placeholder="ROOT URL"
+      [(ngModel)]="shortLink.rootURL"
+      [class.error]="!shortLink.rootURL"
+    />
+  </div>
+
+  <div class="section">
+    <h4>UNIQUE ACCESS LIMIT</h4>
+    <p *ngIf="!isNew && 0 >= shortLink.maxUses">
+      Info: <b>{{ shortLink.uniqueAccessCount }}</b> accesses are already consumed.
+    </p>
+    <p *ngIf="!isNew && shortLink.maxUses > 0">
+      Info: <b>{{ shortLink.uniqueAccessCount }}</b> of <b>{{ shortLink.maxUses }}</b> accesses are already consumed.
+    </p>
+    <p *ngIf="!isNew && shortLink.maxUses > 0 && shortLink.uniqueAccessCount >= shortLink.maxUses">
+      This means, <b>this short link is not accessable anymore!</b>
+    </p>
+    <input
+      class="mt-5"
+      type="number"
+      placeholder="ACCESS LIMIT"
+      [(ngModel)]="shortLink.maxUses"
+      min="0"
+    />
+  </div>
+
+  <div class="section">
+    <h4>REDIRECTION</h4>
+    <mat-checkbox
+      [(ngModel)]="shortLink.isPermanentRedirect"
+    >Permanent Redirect</mat-checkbox>
+  </div>
+
+  <div class="section">
+    <h4>ACTIVATION DATE</h4>
+    <input type="datetime-local" [value]="getIsoFormattedDate(shortLink.activates)" [min]="today" (input)="onActivationSet($event)" />
+  </div>
+
+  <div class="section">
+    <h4>EXPIRATION DATE</h4>
+    <input type="datetime-local" [value]="getIsoFormattedDate(shortLink.expires)" [min]="today" (input)="onExpiringSet($event)" />
+  </div>
+
+  <div class="buttons">
+    <app-button
+      class="mr-10"
+      type="success"
+      (click)="action()"
+      [disabled]="!isValid"
+    >{{ isNew ? 'CREATE' : 'CONFIRM' }}</app-button>
+    <app-button routerLink="/">CANCEL</app-button>
+  </div>
+</div>

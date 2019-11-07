@@ -22,7 +22,10 @@ h1, h2, h3, h4, h5, h6 {
   margin: 0;
 }
 
-input[type=text], input[type=password] {
+input[type=text],
+input[type=password],
+input[type=number],
+input[type=datetime-local] {
   padding: 4px 8px;
   background-color: transparent;
   font-family: 'Roboto', sans-serif;
@@ -36,3 +39,89 @@ input[type=text], input[type=password] {
     border: solid 1px $c-white;
   }
 }
+
+input.error {
+  border: solid 1px transparentize($c-red, .3);
+
+  &:focus {
+    border: solid 1px $c-red;
+  }
+}
+
+.mt-5 {
+  margin-top: 5px;
+}
+
+.mt-10 {
+  margin-top: 10px;
+}
+
+.mt-auto {
+  margin-top: auto;
+}
+
+.mb-5 {
+  margin-bottom: 5px;
+}
+
+.mb-10 {
+  margin-bottom: 10px;
+}
+
+.mb-auto {
+  margin-bottom: auto;
+}
+
+.mr-5 {
+  margin-right: 5px;
+}
+
+.mr-10 {
+  margin-right: 10px;
+}
+
+.mr-auto {
+  margin-right: auto;
+}
+
+.ml-5 {
+  margin-left: 5px;
+}
+
+.ml-10 {
+  margin-left: 10px;
+}
+
+.ml-auto {
+  margin-left: auto;
+}
+
+.mv-auto {
+  margin-top: auto;
+  margin-bottom: auto;
+}
+
+.mh-auto {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.flex {
+  display: flex;
+}
+
+.padding-wrapper {
+  padding: 20px;
+}
+
+.embeded {
+  padding: 4px 8px;
+  border-radius: 4px;
+  background-color: rgba(0, 0, 0, .4);
+  width: fit-content;
+  height: fit-content;
+  font-family: 'Roboto Mono', monospace;
+}
+
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }

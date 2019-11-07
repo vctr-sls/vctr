@@ -93,7 +93,7 @@ export class APIRestProvider implements IAPIProvider {
 
   public slGetSingle(guid: string): Observable<ShortLink> {
     return this.http
-      .get<ShortLink>(`/api/settings/${guid}`, this.defopts())
+      .get<ShortLink>(`/api/shortlinks/${guid}`, this.defopts())
       .pipe(catchError(this.errorCatcher));
   }
 

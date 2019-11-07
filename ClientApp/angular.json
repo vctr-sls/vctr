@@ -29,6 +29,7 @@
             ],
             "styles": [
               "src/styles/fonts.scss",
+              "src/styles/material.scss",
               "src/styles/styles.scss"
             ],
             "scripts": []
@@ -95,6 +96,7 @@
             ],
             "styles": [
               "src/styles/fonts.scss",
+              "src/styles/material.scss",
               "src/styles/styles.scss"
             ],
             "scripts": []

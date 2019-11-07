@@ -1,0 +1,31 @@
+body {
+  padding: 20px;
+}
+
+.section {
+  margin-top: 20px;
+  width: 100%;
+  max-width: 600px;
+
+  h4 {
+    margin-bottom: 5px;
+  }
+
+  input {
+    width: 100%;
+  }
+
+  input[type=time] {
+    width: fit-content;
+  }
+}
+
+.info-text {
+  font-size: 14px;
+  opacity: .8;
+}
+
+.buttons {
+  margin-top: 20px;
+  display: flex;
+}
