@@ -59,7 +59,7 @@ namespace slms2asp.Controllers
                 return Redirect(settings.DefaultRedirect);
             }
 
-            return Redirect("/ui/manage");
+            return Redirect("/ui");
         }
 
         // ------------------------------------------------
@@ -98,7 +98,7 @@ namespace slms2asp.Controllers
 
             if (shortLink == null)
             {
-                return Content(ErrorResponseContent.SHORT_LINK_NOT_FOUND, MediaTypeNames.Text.Plain);
+                return RedirectPreserveMethod("/ui/error/invalid");
             }
 
             if (!shortLink.IsActive || 

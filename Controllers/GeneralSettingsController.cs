@@ -87,7 +87,7 @@ namespace slms2asp.Controllers
 
             if (settings != null && !settings.PasswordHash.IsEmpty())
             {
-                return Forbid();
+                return new ForbidResult();
             }
 
             if (model.Password.IsEmpty())

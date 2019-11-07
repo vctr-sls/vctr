@@ -25,3 +25,7 @@
     opacity: 1;
   }
 }
+
+.error {
+  @include color($c-red);
+}

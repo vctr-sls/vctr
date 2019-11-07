@@ -41,6 +41,15 @@ namespace slms2asp.Models
 
         /// <summary>
         /// 
+        /// Error model object for 403 Forbidden.
+        /// 
+        /// </summary>
+        /// <returns>ErrorModel</returns>
+        public static ErrorModel Forbidden(string reason = "forbidden") =>
+            new ErrorModel(403, reason);
+
+        /// <summary>
+        /// 
         /// Error model object for 401 Unauthorized.
         /// 
         /// </summary>

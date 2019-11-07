@@ -3,6 +3,13 @@
 import { Injectable, Inject, EventEmitter } from '@angular/core';
 import { IAPIProvider } from './api.provider';
 import { Router } from '@angular/router';
+import { Observable } from 'rxjs';
+import {
+  GeneralSettings,
+  ShortLink,
+  SetPasswordPost,
+  GeneralSettingsPost,
+} from './api.models';
 
 /** @format */
 
@@ -22,15 +29,47 @@ export class APIService implements IAPIProvider {
     });
   }
 
-  public authLogin = this.provider.authLogin.bind(this.provider);
-  public authLogout = this.provider.authLogout.bind(this.provider);
-  public settingsGet = this.provider.settingsGet.bind(this.provider);
-  public settingsSet = this.provider.settingsSet.bind(this.provider);
-  public settingsInit = this.provider.settingsInit.bind(this.provider);
-  public slGet = this.provider.slGet.bind(this.provider);
-  public slGetSingle = this.provider.slGetSingle.bind(this.provider);
-  public slCreate = this.provider.slCreate.bind(this.provider);
-  public slEdit = this.provider.slEdit.bind(this.provider);
-  public slDelete = this.provider.slDelete.bind(this.provider);
-  public slSetPassword = this.provider.slSetPassword.bind(this.provider);
+  public authLogin(password: string): Promise<any> {
+    return this.provider.authLogin(password);
+  }
+
+  public authLogout(): Promise<any> {
+    return this.provider.authLogout();
+  }
+
+  public settingsGet(): Observable<GeneralSettings> {
+    return this.provider.settingsGet();
+  }
+
+  public settingsSet(settings: GeneralSettingsPost): Promise<GeneralSettings> {
+    return this.provider.settingsSet(settings);
+  }
+
+  public settingsInit(password: string): Promise<any> {
+    return this.provider.settingsInit(password);
+  }
+
+  public slGet(page: number, size: number): Observable<ShortLink[]> {
+    return this.provider.slGet(page, size);
+  }
+
+  public slGetSingle(guid: string): Observable<ShortLink> {
+    return this.provider.slGetSingle(guid);
+  }
+
+  public slCreate(shortLink: ShortLink): Promise<ShortLink> {
+    return this.provider.slCreate(shortLink);
+  }
+
+  public slEdit(shortLink: ShortLink): Promise<ShortLink> {
+    return this.provider.slEdit(shortLink);
+  }
+
+  public slDelete(guid: string): Promise<any> {
+    return this.provider.slDelete(guid);
+  }
+
+  public slSetPassword(guid: string, password: SetPasswordPost): Promise<any> {
+    return this.provider.slSetPassword(guid, password);
+  }
 }

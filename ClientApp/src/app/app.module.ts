@@ -11,15 +11,20 @@ import { InitializeRouteComponent } from './routes/initialize/initialize.route';
 import { APIRestProvider } from './api/api.rest-provider';
 import { NoteComponent } from './compontents/note/note.component';
 import { ButtonComponent } from './compontents/button/button.component';
+import { MainRouteComponent } from './routes/main/main.route';
+import { LoginRouteComponent } from './routes/login/login.route';
 
 @NgModule({
   declarations: [
+    // COMPONENTS
     AppComponent,
     NoteComponent,
     ButtonComponent,
 
     // ROUTES
     InitializeRouteComponent,
+    MainRouteComponent,
+    LoginRouteComponent,
   ],
   imports: [BrowserModule, AppRoutingModule, HttpClientModule, FormsModule],
   providers: [

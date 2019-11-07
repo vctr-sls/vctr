@@ -48,13 +48,10 @@ export class APIRestProvider implements IAPIProvider {
   public authLogin(password: string): Promise<any> {
     const opts = this.defopts({
       headers: new HttpHeaders({
-        Auhtorization: `Basic ${password}`,
+        Authorization: `Basic ${password}`,
       }),
     });
-    return this.http
-      .post('/api/authorization/login', null, opts)
-      .pipe(catchError(this.errorCatcher))
-      .toPromise();
+    return this.http.post('/api/authorization/login', null, opts).toPromise();
   }
 
   public authLogout(): Promise<any> {
