@@ -42,4 +42,11 @@ export class LoginRouteComponent {
       this.password = '';
     }
   }
+
+  public onKeyPress(event: any) {
+    if (event.keyCode === 13) {
+      event.preventDefault();
+      this.onLogin();
+    }
+  }
 }

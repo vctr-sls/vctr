@@ -6,7 +6,7 @@
       <app-note [(ngModel)]="error.visible" type="error">
         <p>{{ error.text }}</p>
       </app-note>
-      <input type="password" [(ngModel)]="password" placeholder="PASSWORD"/>
+      <input type="password" [(ngModel)]="password" placeholder="PASSWORD" (keypress)="onKeyPress($event)"/>
       <div class="btn">
         <app-button [disabled]="!isValidEntry" [type]="isValidEntry ? 'success' : ''" (click)="onLogin()">LOGIN</app-button>
       </div>
