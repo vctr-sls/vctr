@@ -19,6 +19,10 @@ vctr `[ˈvɛktər]` is a self hosted service to access, create, manage and analy
 | Configure server settings like password or default redirection | ✔️ | ✔️ | ❌ |
 | Analyse usage of short links | ✔️ | ✖️ | ❌ |
 
+> - ✔️ fully implemented
+> - ✖️ partially implemented but not fully functional yet
+> - ❌ not implemented
+
 ## TO-DOs
 
 - [ ] `[UI ]` Delet short links in edit view
@@ -27,9 +31,6 @@ vctr `[ˈvɛktər]` is a self hosted service to access, create, manage and analy
 - [ ] `[API]` Short link analysis details endpoint
 - [ ] `[UI ]` Short link details and analysis
 
-> - ✔️ fully implemented
-> - ✖️ partially implemented but not fully functional yet
-> - ❌ not implemented
 
 ---
 
