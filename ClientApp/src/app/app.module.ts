@@ -13,11 +13,13 @@ import { NoteComponent } from './compontents/note/note.component';
 import { ButtonComponent } from './compontents/button/button.component';
 import { MainRouteComponent } from './routes/main/main.route';
 import { LoginRouteComponent } from './routes/login/login.route';
-import { EditRouteComponent } from './routes/create/edit.route';
+import { EditRouteComponent } from './routes/edit/edit.route';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatCheckboxModule } from '@angular/material/checkbox';
+import { HeaderComponent } from './compontents/header/header.component';
+import { LinkTileComponent } from './compontents/linktile/linktile.component';
 
 @NgModule({
   declarations: [
@@ -25,6 +27,8 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
     AppComponent,
     NoteComponent,
     ButtonComponent,
+    HeaderComponent,
+    LinkTileComponent,
 
     // ROUTES
     InitializeRouteComponent,

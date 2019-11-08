@@ -6,11 +6,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { ShortLink } from 'src/app/api/api.models';
 import dateFormat from 'dateformat';
 import { randomIdent } from 'src/app/util/random';
-
-export interface LinkStatus {
-  active: boolean;
-  text: string;
-}
+import { getLinkStatus, LinkStatus } from 'src/app/util/linkstatus';
 
 @Component({
   selector: 'app-route-edit',
@@ -47,30 +43,7 @@ export class EditRouteComponent {
   }
 
   public get linkStatus(): LinkStatus {
-    let status = {
-      active: false,
-      text: 'This short link is publicly available.',
-    } as LinkStatus;
-
-    if (!this.shortLink.isActive) {
-      status.text =
-        'The link is unavailable because it is actively deactivated.';
-    } else if (
-      this.shortLink.maxUses > 0 &&
-      this.shortLink.uniqueAccessCount >= this.shortLink.maxUses
-    ) {
-      status.text =
-        'The link is unavailable because max access count was exceed.';
-    } else if (this.shortLink.activates > new Date()) {
-      status.text =
-        'The link is unavailable because activation date is not reached yet.';
-    } else if (this.shortLink.expires < new Date()) {
-      status.text = 'The link is unavailable because expire date was reached.';
-    } else {
-      status.active = true;
-    }
-
-    return status;
+    return getLinkStatus(this.shortLink);
   }
 
   public get today(): string {

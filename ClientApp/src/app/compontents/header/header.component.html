@@ -1,0 +1,17 @@
+<div class="header-container">
+
+  <div class="title mr-auto">
+    <h1>vctr</h1>
+  </div>
+
+  <div *ngIf="displaySearch" class="search-bar">
+    <img src="assets/search.svg" />
+    <input [(ngModel)]="searchValue" (input)="onSearchInput()"/>
+  </div>
+
+  <div class="ml-auto mv-auto flex">
+    <app-button class="mr-10" routerLink="/settings">SETTINGS</app-button>
+    <app-button (click)="onLogout()">LOGOUT</app-button>
+  </div>
+
+</div>

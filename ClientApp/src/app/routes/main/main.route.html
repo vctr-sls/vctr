@@ -1,0 +1,9 @@
+<app-header></app-header>
+
+<a class="add-button" routerLink="/new/edit">+</a>
+
+<div class="view-box">
+  <div *ngFor="let sl of shortLinks" class="link-tile">
+    <app-linktile [shortLink]="sl"></app-linktile>
+  </div>
+</div>

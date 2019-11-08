@@ -18,7 +18,7 @@ button {
   padding: 4px 8px;
   color: $c-white;
   text-align: center;
-  width: 100%;
+  width: fit-content;
   cursor: pointer;
 
   transition: all .25s ease;
@@ -31,5 +31,5 @@ button {
 }
 
 .success {
-  @include color($c-green);
+  @include color($c-cyan);
 }

@@ -1,13 +1,13 @@
 @import '../../../styles/vars';
 
-body {
-  padding: 20px;
+
+.edit-container {
+  max-width: 600px;
 }
 
 .section {
   margin-top: 20px;
   width: 100%;
-  max-width: 600px;
 
   h4 {
     margin-bottom: 5px;

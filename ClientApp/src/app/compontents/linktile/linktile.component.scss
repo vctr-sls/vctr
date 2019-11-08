@@ -1,0 +1,78 @@
+@import '../../../styles/vars';
+
+
+.link-tile-container {
+  display: grid;
+  column-gap: 15px;
+  row-gap: 5px;
+  grid-template-columns: 32px auto 60px;
+  grid-template-rows: 20px 20px 20px;
+
+  width: 100%;
+  height: fit-content;
+  padding: 10px;
+
+  background-color: $c-blue-gray;
+
+  cursor: pointer;
+
+  transition: all .25s ease;
+
+  &:hover {
+    background-color: lighten($c-blue-gray, 5);
+    box-shadow: rgba(0, 0, 0, .5) 0 0 20px;
+  }
+}
+
+.first-two-rows {
+  grid-row-start: 0;
+  grid-row-end: 2;
+}
+
+.favicon {
+  width: 32px;
+  height: 32px;
+}
+
+.root-url {
+  grid-column-start: 2;
+  grid-row-start: 2;
+  grid-row-end: span 3;
+  margin-top: 10px;
+
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+
+  font-size: 14px;
+  color: darken($c-white, 20);
+}
+
+.click-count {
+  display: flex;
+
+  height: 20px;
+  margin: auto 0;
+
+  p {
+    margin: auto 0 auto 5px;
+  }
+}
+
+.unique-access-count {
+  grid-row-start: 2;
+  grid-column-start: 3;
+}
+
+.status {
+  display: flex;
+
+  grid-row-start: 3;
+  grid-column-start: 3;
+
+  img {
+    height: 18px;
+    width: 18px;
+    margin: auto 5px auto 0px;
+  }
+}
