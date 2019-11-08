@@ -12,7 +12,9 @@
     <p>{{ shortLink.uniqueAccessCount }}</p>
   </div>
 
-  <p class="root-url">{{ shortLink.rootURL }}</p>
+  <a class="root-url" [href]="shortLink.rootURL" target="_blank" (click)="onRootLinkClick($event)">{{ shortLink.rootURL }}</a>
+
+  <p class="creation-date">Created: {{ dateFormat(shortLink.creationDate, 'dd/mm/yyyy - HH:MM') }}</p>
 
   <div class="status">
     <img *ngIf="!linkStatus.active" src="assets/lock.svg" />

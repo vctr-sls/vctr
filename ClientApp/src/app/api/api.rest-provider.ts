@@ -85,7 +85,11 @@ export class APIRestProvider implements IAPIProvider {
       .toPromise();
   }
 
-  public slGet(page: number, size: number): Observable<ShortLink[]> {
+  public slGet(
+    page: number,
+    size: number,
+    sortBy: string
+  ): Observable<ShortLink[]> {
     return this.http
       .get<ShortLink[]>('/api/shortlinks', this.defopts())
       .pipe(catchError(this.errorCatcher));

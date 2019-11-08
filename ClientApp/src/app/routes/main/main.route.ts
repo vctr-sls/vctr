@@ -1,6 +1,6 @@
 /** @format */
 
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { APIService } from 'src/app/api/api.service';
 import { Router } from '@angular/router';
 import { ShortLink } from 'src/app/api/api.models';
@@ -10,11 +10,18 @@ import { ShortLink } from 'src/app/api/api.models';
   templateUrl: './main.route.html',
   styleUrls: ['./main.route.scss'],
 })
-export class MainRouteComponent {
+export class MainRouteComponent implements OnInit {
   public shortLinks: ShortLink[];
+  public sortBy = 'creationDate';
 
-  constructor(private api: APIService, private router: Router) {
-    this.api.slGet(0, 100).subscribe((shortLinks) => {
+  constructor(private api: APIService, private router: Router) {}
+
+  public ngOnInit() {
+    this.fetchData();
+  }
+
+  public fetchData() {
+    this.api.slGet(0, 100, this.sortBy).subscribe((shortLinks) => {
       this.shortLinks = shortLinks;
     });
   }

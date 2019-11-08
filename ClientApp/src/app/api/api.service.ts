@@ -49,8 +49,12 @@ export class APIService implements IAPIProvider {
     return this.provider.settingsInit(password);
   }
 
-  public slGet(page: number, size: number): Observable<ShortLink[]> {
-    return this.provider.slGet(page, size);
+  public slGet(
+    page: number,
+    size: number,
+    sortBy: string
+  ): Observable<ShortLink[]> {
+    return this.provider.slGet(page, size, sortBy);
   }
 
   public slGetSingle(guid: string): Observable<ShortLink> {

@@ -5,6 +5,7 @@ import { ShortLink } from 'src/app/api/api.models';
 import { getFavicon } from '../../util/favicon';
 import { Router } from '@angular/router';
 import { LinkStatus, getLinkStatus } from 'src/app/util/linkstatus';
+import dateFormat from 'dateformat';
 
 @Component({
   selector: 'app-linktile',
@@ -14,6 +15,7 @@ import { LinkStatus, getLinkStatus } from 'src/app/util/linkstatus';
 export class LinkTileComponent implements OnInit {
   @Input() public shortLink: ShortLink;
   public favicon: string;
+  public dateFormat = dateFormat;
 
   constructor(private router: Router) {}
 
@@ -31,6 +33,10 @@ export class LinkTileComponent implements OnInit {
     }
 
     this.router.navigate([this.shortLink.guid, 'edit']);
+  }
+
+  public onRootLinkClick(event: Event) {
+    event.stopPropagation();
   }
 
   public get linkStatus(): LinkStatus {

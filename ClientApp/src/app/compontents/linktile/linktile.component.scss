@@ -21,6 +21,10 @@
   &:hover {
     background-color: lighten($c-blue-gray, 5);
     box-shadow: rgba(0, 0, 0, .5) 0 0 20px;
+
+    .root-url {
+      text-decoration: underline;
+    }
   }
 }
 
@@ -75,4 +79,14 @@
     width: 18px;
     margin: auto 5px auto 0px;
   }
+}
+
+.creation-date {
+  grid-column-start: 2;
+  grid-row-start: 3;
+
+  margin-top: 10px;
+  font-size: 12px;
+
+  color: darken($c-white, 30);
 }
