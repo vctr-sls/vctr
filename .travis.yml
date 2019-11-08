@@ -20,6 +20,5 @@ jobs:
       if: branch = master
       script: |
         docker build . -t zekro/aspmusiclist:latest
-        # ENABLING THIS WHEN THIS PROJECT IS READY TO DEPLOY PRODUCTIVELY
-        # docker login -u ${DOCKER_USERNAME} -p ${DOCKER_PASSWORD}
-        # docker push zekro/aspmusiclist:latest
+        docker login -u ${DOCKER_USERNAME} -p ${DOCKER_PASSWORD}
+        docker push zekro/aspmusiclist:latest
