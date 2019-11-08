@@ -33,13 +33,24 @@ namespace slms2asp.Controllers
         // GET /api/shortlinks
         //                    ?page={int}
         //                    ?size={int}
+        //                    ?sortBy={string}
         //
         // Get a specified range of short link objects.
 
         [HttpGet]
-        public IActionResult Get([FromQuery] int page = 0, [FromQuery] int size = 100)
+        public IActionResult Get([FromQuery] int page = 0, [FromQuery] int size = 100, [FromQuery] string sortBy = "CreationDate")
         {
+            var shortLinkModel = typeof(ShortLinkModel);
+            var property = shortLinkModel.GetProperties()
+                .FirstOrDefault(p => p.Name.ToLower() == sortBy.ToLower());
+
+            if (property == null)
+            {
+                return BadRequest(ErrorModel.BadRequest("invalid property for 'sortBy'"));
+            }
+
             var outList = Db.ShortLinks
+                .OrderByDescending(sl => property.GetValue(sl))
                 .Skip(page * size)
                 .Take(size);
             return Ok(outList);
