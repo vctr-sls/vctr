@@ -19,6 +19,6 @@ jobs:
     - stage: docker-deploy
       if: branch = master
       script: |
-        docker build . -t zekro/aspmusiclist:latest
+        docker build . -t zekro/vctr:latest
         docker login -u ${DOCKER_USERNAME} -p ${DOCKER_PASSWORD}
-        docker push zekro/aspmusiclist:latest
+        docker push zekro/vctr:latest
