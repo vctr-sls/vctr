@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.SpaServices.AngularCli;
 using Microsoft.Extensions.Configuration;
@@ -43,6 +44,11 @@ namespace slms2asp
                 configuration.RootPath = "ClientApp/dist";
             });
 
+            services.Configure<ForwardedHeadersOptions>(options =>
+            {
+                options.ForwardedHeaders = ForwardedHeaders.All;
+            });
+
             services
                 .AddSingleton(Configuration)
                 .AddSingleton(new IPCache(
@@ -80,6 +86,8 @@ namespace slms2asp
             {
                 app.UseExceptionHandler("/Error");
             }
+
+            app.UseForwardedHeaders();
 
             app
                 .UseStaticFiles()
