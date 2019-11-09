@@ -1,5 +1,5 @@
 <div align="center">
-    <img src=".media/gh-bannner-rendered.png">
+    <img src=".media/gh-banner-rendered.png">
     <br/>
     <a href="https://travis-ci.org/zekroTJA/vctr"><img src="https://travis-ci.org/zekroTJA/vctr.svg?branch=master"></a>
     <a href="https://hub.docker.com/r/zekro/vctr"><img src="https://img.shields.io/badge/docker-zekro%2Fvctr-16abc9?logo=docker&logoColor=16abc9"></a>
