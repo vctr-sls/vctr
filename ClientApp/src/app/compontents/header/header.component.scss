@@ -41,5 +41,14 @@
 }
 
 .title {
-  margin: auto 0;
+  display: flex;
+  cursor: pointer;
+
+  * {
+    margin: auto 0;
+  }
+
+  img {
+    margin-right: 5px;
+  }
 }
