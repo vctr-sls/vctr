@@ -1,4 +1,11 @@
-# vctr &nbsp; [![Build Status](https://travis-ci.org/zekroTJA/vctr.svg?branch=master)](https://travis-ci.org/zekroTJA/vctr) [![](https://img.shields.io/badge/docker-zekro%2Fvctr-16abc9?logo=docker&logoColor=16abc9)](https://hub.docker.com/r/zekro/vctr)
+<div align="center">
+    <img src=".media/gh-bannner-rendered.png">
+    <br/>
+    <a href="https://travis-ci.org/zekroTJA/vctr"><img src="https://travis-ci.org/zekroTJA/vctr.svg?branch=master"></a>
+    <a href="https://hub.docker.com/r/zekro/vctr"><img src="https://img.shields.io/badge/docker-zekro%2Fvctr-16abc9?logo=docker&logoColor=16abc9"></a>
+</div>
+
+---
 
 > This project is currently work in progress and not in a productive usable state. Keep track of following releases for actual usable versions.
 
