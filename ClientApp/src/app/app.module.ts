@@ -20,6 +20,7 @@ import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { HeaderComponent } from './compontents/header/header.component';
 import { LinkTileComponent } from './compontents/linktile/linktile.component';
+import { ErrorRouteComponent } from './routes/error/error.route';
 
 @NgModule({
   declarations: [
@@ -35,6 +36,7 @@ import { LinkTileComponent } from './compontents/linktile/linktile.component';
     MainRouteComponent,
     LoginRouteComponent,
     EditRouteComponent,
+    ErrorRouteComponent,
   ],
   imports: [
     BrowserModule,

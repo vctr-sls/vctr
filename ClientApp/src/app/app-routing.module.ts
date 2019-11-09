@@ -6,6 +6,7 @@ import { InitializeRouteComponent } from './routes/initialize/initialize.route';
 import { MainRouteComponent } from './routes/main/main.route';
 import { LoginRouteComponent } from './routes/login/login.route';
 import { EditRouteComponent } from './routes/edit/edit.route';
+import { ErrorRouteComponent } from './routes/error/error.route';
 
 const routes: Routes = [
   {
@@ -19,6 +20,10 @@ const routes: Routes = [
   {
     path: 'login',
     component: LoginRouteComponent,
+  },
+  {
+    path: 'error/:type',
+    component: ErrorRouteComponent,
   },
   {
     path: ':guid/edit',
