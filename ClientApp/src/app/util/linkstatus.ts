@@ -31,6 +31,9 @@ export function getLinkStatus(shortLink: ShortLink): LinkStatus {
   } else if (shortLink.expires < new Date()) {
     status.text = 'The link is unavailable because expire date was reached.';
     status.type = 4;
+  } else if (shortLink.isPasswordProtected) {
+    status.text = 'The link is only available on entering a password.';
+    status.type = 5;
   } else {
     status.active = true;
     status.type = 0;

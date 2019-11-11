@@ -7,6 +7,7 @@ import { MainRouteComponent } from './routes/main/main.route';
 import { LoginRouteComponent } from './routes/login/login.route';
 import { EditRouteComponent } from './routes/edit/edit.route';
 import { ErrorRouteComponent } from './routes/error/error.route';
+import { ProtectedRouteComponent } from './routes/protected/protected.route';
 
 const routes: Routes = [
   {
@@ -20,6 +21,10 @@ const routes: Routes = [
   {
     path: 'login',
     component: LoginRouteComponent,
+  },
+  {
+    path: 'protected',
+    component: ProtectedRouteComponent,
   },
   {
     path: 'error/:type',

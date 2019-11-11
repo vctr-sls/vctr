@@ -18,9 +18,12 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatCheckboxModule } from '@angular/material/checkbox';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+
 import { HeaderComponent } from './compontents/header/header.component';
 import { LinkTileComponent } from './compontents/linktile/linktile.component';
 import { ErrorRouteComponent } from './routes/error/error.route';
+import { ProtectedRouteComponent } from './routes/protected/protected.route';
 
 @NgModule({
   declarations: [
@@ -37,6 +40,7 @@ import { ErrorRouteComponent } from './routes/error/error.route';
     LoginRouteComponent,
     EditRouteComponent,
     ErrorRouteComponent,
+    ProtectedRouteComponent,
   ],
   imports: [
     BrowserModule,
@@ -48,6 +52,7 @@ import { ErrorRouteComponent } from './routes/error/error.route';
     // MATERIAL UI STUFF
     MatSlideToggleModule,
     MatCheckboxModule,
+    MatProgressSpinnerModule,
   ],
   providers: [
     { provide: 'HttpClient', useClass: HttpClient },

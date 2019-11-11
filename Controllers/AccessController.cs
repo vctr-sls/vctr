@@ -96,22 +96,20 @@ namespace slms2asp.Controllers
             var shortLink = Db.ShortLinks
                 .SingleOrDefault(sl => sl.ShortIdent == shortIdent);
 
-            if (shortLink == null)
-            {
-                return RedirectPreserveMethod("/ui/error/invalid");
-            }
-
-            if (!shortLink.IsActive || 
-                (shortLink.MaxUses > 0 && shortLink.UniqueAccessCount >= shortLink.MaxUses) ||
-                shortLink.Activates.CompareTo(DateTime.Now) > 0 ||
-                shortLink.Expires.CompareTo(DateTime.Now) <= 0)
+            if (!IsValid(shortLink))
             {
                 return RedirectPreserveMethod("/ui/error/invalid");
             }
 
             if (shortLink.IsPasswordProtected)
             {
-                return RedirectPreserveMethod($"/ui/protected?ident={shortLink.GUID}");
+                var url = $"/ui/protected?guid={shortLink.GUID}";
+                if (disableTracking)
+                {
+                    url += "&disableTracking=true";
+                }
+
+                return RedirectPreserveMethod(url);
             }
 
             var addr = HttpContext.Connection.RemoteIpAddress;
@@ -128,8 +126,57 @@ namespace slms2asp.Controllers
             }
         }
 
+        [HttpPost("protectedredirect/{guid}")]
+        public async Task<IActionResult> ProtectedRedirect(Guid guid, [FromBody] ProtectedPostModel model)
+        {
+            if (model.Password.IsEmpty())
+            {
+                return Unauthorized();
+            }
+
+            var shortLink = Db.ShortLinks.Find(guid);
+
+            if (!IsValid(shortLink))
+            {
+                return BadRequest(ErrorModel.BadRequest("invalid short link"));
+            }
+
+            if (!shortLink.IsPasswordProtected)
+            {
+                return BadRequest(ErrorModel.BadRequest("short link not password protected"));
+            }
+
+            try
+            {
+                if (!Hashing.CompareStringToHash(model.Password, shortLink.PasswordHash))
+                {
+                    return Unauthorized();
+                }
+            }
+            catch (Exception)
+            {
+                return Unauthorized();
+            }
+
+            await CountRedirect(shortLink, model.DisableTracking);
+
+            var res = new ProtectedResponseModel()
+            {
+                RootURL = shortLink.RootURL,
+            };
+
+            return Ok(res);
+        }
+
         // ------------------------------------------------
         // -- HELPERS
+
+        public bool IsValid(ShortLinkModel shortLink) =>
+            shortLink != null &&
+            shortLink.IsActive &&
+            (shortLink.MaxUses <= 0 || shortLink.UniqueAccessCount < shortLink.MaxUses) &&
+            shortLink.Activates.CompareTo(DateTime.Now) < 0 &&
+            shortLink.Expires.CompareTo(DateTime.Now) >= 0;
 
         public async Task CountRedirect(ShortLinkModel shortLink, bool disableTracking)
         {

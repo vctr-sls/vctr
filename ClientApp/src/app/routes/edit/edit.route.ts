@@ -3,7 +3,7 @@
 import { Component } from '@angular/core';
 import { APIService } from 'src/app/api/api.service';
 import { Router, ActivatedRoute } from '@angular/router';
-import { ShortLink } from 'src/app/api/api.models';
+import { ShortLink, SetPasswordPost } from 'src/app/api/api.models';
 import dateFormat from 'dateformat';
 import { randomIdent } from 'src/app/util/random';
 import { getLinkStatus, LinkStatus } from 'src/app/util/linkstatus';
@@ -20,6 +20,8 @@ export class EditRouteComponent {
     isActive: true,
     expires: new Date('9999-12-31T23:59:59.00'),
   } as ShortLink;
+
+  public passwordInput: string;
 
   constructor(
     private api: APIService,
@@ -86,5 +88,40 @@ export class EditRouteComponent {
           console.error(err);
         });
     }
+  }
+
+  public onRemovePassword() {
+    const pw = {
+      reset: true,
+    } as SetPasswordPost;
+
+    this.api
+      .slSetPassword(this.shortLink.guid, pw)
+      .then(() => {
+        this.shortLink.isPasswordProtected = false;
+      })
+      .catch((err) => {
+        console.error(err);
+      });
+  }
+
+  public onSetPassword() {
+    if (!this.passwordInput || this.passwordInput.length <= 0) {
+      return;
+    }
+
+    const pw = {
+      password: this.passwordInput,
+    } as SetPasswordPost;
+
+    this.api
+      .slSetPassword(this.shortLink.guid, pw)
+      .then(() => {
+        this.shortLink.isPasswordProtected = true;
+        this.passwordInput = '';
+      })
+      .catch((err) => {
+        console.error(err);
+      });
   }
 }

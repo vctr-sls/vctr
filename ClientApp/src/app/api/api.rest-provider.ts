@@ -11,6 +11,8 @@ import {
   SetPasswordPost,
   GeneralSettingsPost,
   ShortLink,
+  ProtectedLogin,
+  ProtectedResponse,
 } from './api.models';
 import { Inject, EventEmitter } from '@angular/core';
 
@@ -126,6 +128,19 @@ export class APIRestProvider implements IAPIProvider {
     return this.http
       .post(`/api/shortLinks/${guid}/password`, password, this.defopts())
       .pipe(catchError(this.errorCatcher))
+      .toPromise();
+  }
+
+  public protectedRedirect(
+    guid: string,
+    login: ProtectedLogin
+  ): Promise<ProtectedResponse> {
+    return this.http
+      .post<ProtectedResponse>(
+        `/protectedredirect/${guid}`,
+        login,
+        this.defopts()
+      )
       .toPromise();
   }
 }

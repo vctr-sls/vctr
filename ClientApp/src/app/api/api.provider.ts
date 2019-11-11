@@ -5,6 +5,8 @@ import {
   GeneralSettingsPost,
   ShortLink,
   SetPasswordPost,
+  ProtectedLogin,
+  ProtectedResponse,
 } from './api.models';
 import { Observable } from 'rxjs';
 import { EventEmitter } from '@angular/core';
@@ -14,6 +16,12 @@ import { EventEmitter } from '@angular/core';
 export interface IAPIProvider {
   // Events
   authorizationError: EventEmitter<any>;
+
+  // Protected Access
+  protectedRedirect(
+    guid: string,
+    login: ProtectedLogin
+  ): Promise<ProtectedResponse>;
 
   // Authorization
   authLogin(password: string): Promise<any>;

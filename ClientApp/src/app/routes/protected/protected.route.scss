@@ -1,0 +1,48 @@
+h1 {
+  text-align: center;
+}
+
+.input-wrapper {
+  display: flex;
+  width: 100%;
+}
+
+.inner-container {
+  display: inline-block;
+  margin: 30vh auto 0 auto;
+}
+
+.input {
+  width: 300px;
+  margin: 50px auto 0px auto;
+
+  input {
+    width: 100%;
+    margin-top: 20px;
+    text-align: center;
+  }
+}
+
+.btn {
+  margin-top: 20px;
+
+  &::ng-deep {
+    button {
+      width: 100%;
+    }
+  }
+}
+
+.description {
+  text-align: center;
+  margin-top: 20px;
+}
+
+.spinner {
+  display: flex;
+  margin-top: 30px;
+
+  * {
+    margin: auto 0;
+  }
+}

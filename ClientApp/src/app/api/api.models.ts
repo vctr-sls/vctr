@@ -31,3 +31,12 @@ export interface ShortLink {
   lastAccess: Date;
   lastModified: Date;
 }
+
+export interface ProtectedLogin {
+  password: string;
+  disableTracking: boolean;
+}
+
+export interface ProtectedResponse {
+  rootURL: string;
+}

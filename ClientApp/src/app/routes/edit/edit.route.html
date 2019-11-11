@@ -14,7 +14,7 @@
   </div>
 
   <div class="section status-container">
-    <div class="status-dot" [class.active]="linkStatus.active"></div>
+    <div class="status-dot" [class.active]="linkStatus.active" [class.password]="linkStatus.type === 5"></div>
     <p>{{ linkStatus.text }}</p>
   </div>
 
@@ -79,6 +79,20 @@
   <div class="section">
     <h4>EXPIRATION DATE</h4>
     <input type="datetime-local" [value]="getIsoFormattedDate(shortLink.expires)" [min]="today" (input)="onExpiringSet($event)" />
+  </div>
+
+  <div class="section">
+    <h4>PASSWORD PROTECTION</h4>
+    <div *ngIf="shortLink.isPasswordProtected; else pwInput">
+      <p class="mb-10" >This short link is password protected.</p>
+      <app-button (click)="onRemovePassword()">REMOVE PASSWORD</app-button>
+    </div>
+    <ng-template #pwInput>
+      <div>
+        <input class="mb-10" type="password" [(ngModel)]="passwordInput" placeholder="PASSWORD"/>
+        <app-button (click)="onSetPassword()">SET PASSWORD</app-button>
+      </div>
+    </ng-template>
   </div>
 
   <div class="buttons">

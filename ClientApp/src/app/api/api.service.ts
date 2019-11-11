@@ -9,6 +9,8 @@ import {
   ShortLink,
   SetPasswordPost,
   GeneralSettingsPost,
+  ProtectedLogin,
+  ProtectedResponse,
 } from './api.models';
 
 /** @format */
@@ -75,5 +77,12 @@ export class APIService implements IAPIProvider {
 
   public slSetPassword(guid: string, password: SetPasswordPost): Promise<any> {
     return this.provider.slSetPassword(guid, password);
+  }
+
+  public protectedRedirect(
+    guid: string,
+    login: ProtectedLogin
+  ): Promise<ProtectedResponse> {
+    return this.provider.protectedRedirect(guid, login);
   }
 }
