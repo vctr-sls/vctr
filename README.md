@@ -23,7 +23,7 @@ vctr `[ˈvɛktər]` is a self hosted service to access, create, manage and analy
 | Set a access count limit for unique accesses | ✔️ | ✔️ | ✔️ |
 | Chose between temporary *(uncached)* and permanent *(cached)* rediecting | ✔️ | ✔️ | ✔️ |
 | Set an activation and/or expiration date for the short link | ✔️ | ✔️ | ✔️ |
-| Configure server settings like password or default redirection | ✔️ | ✔️ | ❌ |
+| Configure server settings like password or default redirection | ✔️ | ✔️ | ✔️ |
 | Analyse usage of short links | ✔️ | ✖️ | ❌ |
 
 > - ✔️ fully implemented
@@ -32,8 +32,6 @@ vctr `[ˈvɛktər]` is a self hosted service to access, create, manage and analy
 
 ## TO-DOs
 
-- [ ] `[UI ]` Delet short links in edit view
-- [ ] `[UI ]` Error pages for invalid or deactivated links
 - [ ] `[UI ]` General Settings View
 - [ ] `[API]` Short link analysis details endpoint
 - [ ] `[UI ]` Short link details and analysis
