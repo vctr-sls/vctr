@@ -131,3 +131,13 @@ input.error {
   padding: 0 20px;
   margin: 20px auto;
 }
+
+.dark-snack-bar {
+  color: $c-white;
+  background-color: $c-light-blue-gray;
+}
+
+.dark-snack-bar.error {
+  color: $c-white;
+  background-color: $c-red;
+}

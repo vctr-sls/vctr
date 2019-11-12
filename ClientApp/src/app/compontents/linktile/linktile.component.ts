@@ -1,11 +1,21 @@
 /** @format */
 
-import { Component, Input, OnInit } from '@angular/core';
+import {
+  Component,
+  Input,
+  OnInit,
+  TemplateRef,
+  ViewChild,
+} from '@angular/core';
 import { ShortLink } from 'src/app/api/api.models';
 import { getFavicon } from '../../util/favicon';
 import { Router } from '@angular/router';
 import { LinkStatus, getLinkStatus } from 'src/app/util/linkstatus';
+
 import dateFormat from 'dateformat';
+import * as copyToClipboard from 'copy-to-clipboard';
+import { getShortLinkURL } from 'src/app/util/shortlinks';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-linktile',
@@ -14,10 +24,11 @@ import dateFormat from 'dateformat';
 })
 export class LinkTileComponent implements OnInit {
   @Input() public shortLink: ShortLink;
+
   public favicon: string;
   public dateFormat = dateFormat;
 
-  constructor(private router: Router) {}
+  constructor(private router: Router, private snackBar: MatSnackBar) {}
 
   public ngOnInit() {
     this.favicon = getFavicon(this.shortLink.rootURL);
@@ -29,6 +40,16 @@ export class LinkTileComponent implements OnInit {
 
   public onClick(event: any) {
     if (event.shiftKey) {
+      const url = getShortLinkURL(this.shortLink);
+      if (copyToClipboard(url)) {
+        this.snackBar.open('Copied Short Link to Clip Board!', 'Ok', {
+          panelClass: 'dark-snack-bar',
+        });
+      } else {
+        this.snackBar.open('Copied Short Link to Clip Board!', 'Ok', {
+          panelClass: ['dark-snack-bar', 'error'],
+        });
+      }
       return;
     }
 

@@ -15,6 +15,7 @@ import { EventEmitter } from '@angular/core';
 
 export interface IAPIProvider {
   // Events
+  error: EventEmitter<any>;
   authorizationError: EventEmitter<any>;
 
   // Protected Access

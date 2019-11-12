@@ -2,8 +2,7 @@
 
 import { IAPIProvider } from './api.provider';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Router } from '@angular/router';
-import { of, Observable } from 'rxjs';
+import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 
 import {
@@ -18,15 +17,16 @@ import { Inject, EventEmitter } from '@angular/core';
 
 export class APIRestProvider implements IAPIProvider {
   public authorizationError = new EventEmitter<any>();
+  public error = new EventEmitter<any>();
 
   private readonly errorCatcher = (err) => {
-    console.error(err);
-
     if (err && err.status === 401) {
       this.authorizationError.emit();
+    } else {
+      this.error.emit(err);
     }
 
-    return of(null);
+    return throwError(err);
   };
 
   private readonly defopts = (obj?: object) => {
@@ -71,7 +71,7 @@ export class APIRestProvider implements IAPIProvider {
 
   public settingsSet(settings: GeneralSettingsPost): Promise<GeneralSettings> {
     return this.http
-      .post('/api/settings', settings, this.defopts())
+      .post<GeneralSettings>('/api/settings', settings, this.defopts())
       .pipe(catchError(this.errorCatcher))
       .toPromise();
   }
@@ -112,7 +112,11 @@ export class APIRestProvider implements IAPIProvider {
 
   public slEdit(shortLink: ShortLink): Promise<ShortLink> {
     return this.http
-      .put(`/api/shortLinks/${shortLink.guid}`, shortLink, this.defopts())
+      .put<ShortLink>(
+        `/api/shortLinks/${shortLink.guid}`,
+        shortLink,
+        this.defopts()
+      )
       .pipe(catchError(this.errorCatcher))
       .toPromise();
   }

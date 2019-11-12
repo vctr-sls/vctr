@@ -21,6 +21,7 @@
     "@angular/platform-browser": "~8.2.8",
     "@angular/platform-browser-dynamic": "~8.2.8",
     "@angular/router": "~8.2.8",
+    "copy-to-clipboard": "^3.2.0",
     "dateformat": "^3.0.3",
     "rxjs": "~6.4.0",
     "tslib": "^1.10.0",

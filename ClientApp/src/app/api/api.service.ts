@@ -12,6 +12,7 @@ import {
   ProtectedLogin,
   ProtectedResponse,
 } from './api.models';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 /** @format */
 
@@ -19,15 +20,35 @@ import {
   providedIn: 'root',
 })
 export class APIService implements IAPIProvider {
+  public error: EventEmitter<any>;
   public authorizationError: EventEmitter<any>;
 
   constructor(
     @Inject('APIProvider') private provider: IAPIProvider,
-    private router: Router
+    private router: Router,
+    private snackBar: MatSnackBar
   ) {
     this.authorizationError = provider.authorizationError;
+    this.error = this.provider.error;
+
     this.authorizationError.subscribe(() => {
       this.router.navigate(['/login']);
+    });
+
+    this.error.subscribe((err) => {
+      let msg: string;
+
+      if (!err) {
+        msg = 'An unexpected error occured.';
+      } else if (err.error && err.error.message) {
+        msg = err.error.message;
+      } else if (err.status && err.statusText) {
+        msg = `${err.status}: ${err.statusText}`;
+      }
+
+      this.snackBar.open(msg, 'Ok', {
+        panelClass: ['dark-snack-bar', 'error'],
+      });
     });
   }
 
