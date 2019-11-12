@@ -102,6 +102,15 @@
       (click)="action()"
       [disabled]="!isValid"
     >{{ isNew ? 'CREATE' : 'CONFIRM' }}</app-button>
+    <app-button *ngIf="!isNew" type="error" class="mr-10" (click)="onDelete()">DELETE</app-button>
     <app-button routerLink="/">CANCEL</app-button>
   </div>
 </div>
+
+<ng-template #deleteDialog>
+  <p class="mb-10">Do you really want to delete the short link <b>{{shortLink.shortIdent}}</b>?</p>
+  <div class="flex mt-10">
+    <button mat-button class="ml-auto mr-5" (click)="onDeleteNoClick()" cdkFocusInitial>CANCEL</button>
+    <button mat-button [mat-dialog-close]="1">DELETE</button>
+  </div>
+</ng-template>

@@ -14,8 +14,6 @@ import {
 } from './api.models';
 import { MatSnackBar } from '@angular/material/snack-bar';
 
-/** @format */
-
 @Injectable({
   providedIn: 'root',
 })

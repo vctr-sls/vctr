@@ -33,3 +33,7 @@ button {
 .success {
   @include color($c-cyan);
 }
+
+.error {
+  @include color($c-red);
+}

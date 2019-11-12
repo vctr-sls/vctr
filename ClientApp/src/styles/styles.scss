@@ -10,6 +10,11 @@ body, html {
   background-color: $c-bg;
   color: $c-white;
   font-family: 'Roboto', sans-serif;
+
+}
+
+a, p, h1, h2, h3, h4, h5, h6 {
+  user-select: none;
 }
 
 a, p {

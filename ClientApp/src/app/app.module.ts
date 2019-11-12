@@ -13,6 +13,8 @@ import {
   MatSnackBarModule,
   MAT_SNACK_BAR_DEFAULT_OPTIONS,
 } from '@angular/material/snack-bar';
+import { MatDialogModule } from '@angular/material/dialog';
+import { MatButtonModule } from '@angular/material/button';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -58,6 +60,8 @@ import { ProtectedRouteComponent } from './routes/protected/protected.route';
     MatCheckboxModule,
     MatProgressSpinnerModule,
     MatSnackBarModule,
+    MatDialogModule,
+    MatButtonModule,
   ],
   providers: [
     { provide: 'HttpClient', useClass: HttpClient },

@@ -1,12 +1,13 @@
 /** @format */
 
-import { Component } from '@angular/core';
+import { Component, ViewChild, TemplateRef } from '@angular/core';
 import { APIService } from 'src/app/api/api.service';
 import { Router, ActivatedRoute } from '@angular/router';
 import { ShortLink, SetPasswordPost } from 'src/app/api/api.models';
 import dateFormat from 'dateformat';
 import { randomIdent } from 'src/app/util/random';
 import { getLinkStatus, LinkStatus } from 'src/app/util/linkstatus';
+import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-route-edit',
@@ -14,6 +15,9 @@ import { getLinkStatus, LinkStatus } from 'src/app/util/linkstatus';
   styleUrls: ['./edit.route.scss'],
 })
 export class EditRouteComponent {
+  @ViewChild('deleteDialog', { static: true })
+  public deleteDialog: TemplateRef<any>;
+
   public isNew = false;
   public shortLink = {
     shortIdent: randomIdent(),
@@ -22,11 +26,13 @@ export class EditRouteComponent {
   } as ShortLink;
 
   public passwordInput: string;
+  public deleteDialogRef: MatDialogRef<any>;
 
   constructor(
     private api: APIService,
     private route: ActivatedRoute,
-    private router: Router
+    private router: Router,
+    private dialog: MatDialog
   ) {
     this.route.params.subscribe((params) => {
       if (params.guid === 'new') {
@@ -123,5 +129,20 @@ export class EditRouteComponent {
       .catch((err) => {
         console.error(err);
       });
+  }
+
+  public onDelete() {
+    this.deleteDialogRef = this.dialog.open(this.deleteDialog);
+    this.deleteDialogRef.afterClosed().subscribe((res) => {
+      if (res) {
+        this.api.slDelete(this.shortLink.guid).then(() => {
+          this.router.navigate(['/']);
+        });
+      }
+    });
+  }
+
+  public onDeleteNoClick() {
+    this.deleteDialogRef.close();
   }
 }
