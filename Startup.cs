@@ -42,7 +42,6 @@ namespace slms2asp
             services.AddSpaStaticFiles(configuration =>
             {
                 configuration.RootPath = "ClientApp/dist/ClientApp";
-                configuration.RequestPath = "/ui";
             });
 
             services.Configure<ForwardedHeadersOptions>(options =>
@@ -90,10 +89,6 @@ namespace slms2asp
 
             app.UseForwardedHeaders();
 
-            app
-                .UseStaticFiles()
-                .UseSpaStaticFiles();
-
             app.UseAuthentication();
 
 #pragma warning disable CS1998
@@ -108,6 +103,10 @@ namespace slms2asp
 
             app.Map("/ui", options =>
             {
+                options
+                    .UseStaticFiles()
+                    .UseSpaStaticFiles();
+                
                 options.UseSpa(spa =>
                 {
                     spa.Options.SourcePath = "ClientApp";
