@@ -30,6 +30,7 @@ import { HeaderComponent } from './compontents/header/header.component';
 import { LinkTileComponent } from './compontents/linktile/linktile.component';
 import { ErrorRouteComponent } from './routes/error/error.route';
 import { ProtectedRouteComponent } from './routes/protected/protected.route';
+import { SettingsRouteComponent } from './routes/settings/settings.route';
 
 @NgModule({
   declarations: [
@@ -47,6 +48,7 @@ import { ProtectedRouteComponent } from './routes/protected/protected.route';
     EditRouteComponent,
     ErrorRouteComponent,
     ProtectedRouteComponent,
+    SettingsRouteComponent,
   ],
   imports: [
     BrowserModule,

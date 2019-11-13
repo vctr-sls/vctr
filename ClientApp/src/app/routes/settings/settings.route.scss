@@ -1,0 +1,22 @@
+@import '../../../styles/vars';
+
+.edit-container {
+  max-width: 600px;
+}
+
+.section {
+  margin-top: 20px;
+  width: 100%;
+
+  h4 {
+    margin-bottom: 5px;
+  }
+
+  input {
+    width: 100%;
+  }
+
+  input[type=time] {
+    width: fit-content;
+  }
+}

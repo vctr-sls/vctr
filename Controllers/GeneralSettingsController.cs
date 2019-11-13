@@ -56,16 +56,29 @@ namespace slms2asp.Controllers
             
             if (!model.Password.IsEmpty())
             {
+                if (model.CurrentPassword.IsEmpty() || !Hashing.CompareStringToHash(model.CurrentPassword, settings.PasswordHash))
+                {
+                    return BadRequest(ErrorModel.BadRequest("invalid current password"));
+                }
+
                 settings.PasswordHash = Hashing.CreatePasswordHash(model.Password);
             }
 
             if (!model.DefaultRedirect.IsEmpty())
             {
-                if (!await URIValidation.Validate(model.DefaultRedirect))
+                if (model.DefaultRedirect.Equals("__RESET__"))
                 {
-                    return BadRequest(ErrorModel.BadRequest("invalid defautl redirect url"));
+                    settings.DefaultRedirect = null;
                 }
-                settings.DefaultRedirect = model.DefaultRedirect;
+                else
+                {
+                    if (!await URIValidation.Validate(model.DefaultRedirect))
+                    {
+                        return BadRequest(ErrorModel.BadRequest("invalid defautl redirect url"));
+                    }
+                    settings.DefaultRedirect = model.DefaultRedirect;
+                }
+
             }
 
             if (isNew)
@@ -76,6 +89,8 @@ namespace slms2asp.Controllers
             {
                 Db.GeneralSettings.Update(settings);
             }
+
+            await Db.SaveChangesAsync();
 
             return Ok(settings);
         }
@@ -92,7 +107,7 @@ namespace slms2asp.Controllers
 
             if (model.Password.IsEmpty())
             {
-                return BadRequest(ErrorModel.BadRequest("invalid password"));
+                return BadRequest(ErrorModel.BadRequest("invalid new password"));
             }
 
             var hash = Hashing.CreatePasswordHash(model.Password);

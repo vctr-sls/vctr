@@ -8,6 +8,7 @@ import dateFormat from 'dateformat';
 import { randomIdent } from 'src/app/util/random';
 import { getLinkStatus, LinkStatus } from 'src/app/util/linkstatus';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-route-edit',
@@ -32,7 +33,8 @@ export class EditRouteComponent {
     private api: APIService,
     private route: ActivatedRoute,
     private router: Router,
-    private dialog: MatDialog
+    private dialog: MatDialog,
+    private snackBar: MatSnackBar
   ) {
     this.route.params.subscribe((params) => {
       if (params.guid === 'new') {
@@ -79,6 +81,7 @@ export class EditRouteComponent {
       this.api
         .slCreate(this.shortLink)
         .then(() => {
+          this.snackBar.open('Short Link created.', 'Ok');
           this.router.navigate(['/']);
         })
         .catch((err) => {
@@ -88,6 +91,7 @@ export class EditRouteComponent {
       this.api
         .slEdit(this.shortLink)
         .then(() => {
+          this.snackBar.open('Short Link updated.', 'Ok');
           this.router.navigate(['/']);
         })
         .catch((err) => {

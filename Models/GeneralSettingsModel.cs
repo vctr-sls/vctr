@@ -32,6 +32,7 @@ namespace slms2asp.Models
     /// </summary>
     public class GeneralSettingsPostModel
     {
+        public string CurrentPassword;
         public string Password;
         public string DefaultRedirect;
     }

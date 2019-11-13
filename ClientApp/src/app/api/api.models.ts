@@ -5,6 +5,7 @@ export interface GeneralSettings {
 }
 
 export interface GeneralSettingsPost {
+  currentPassword: string;
   password: string;
   defaultRedirect: string;
 }
