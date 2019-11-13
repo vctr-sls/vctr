@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Logging;
 using slms2asp.Database;
 using slms2asp.Extensions;
 using slms2asp.Models;
@@ -28,12 +29,14 @@ namespace slms2asp.Controllers
         private readonly AppDbContext Db;
         private readonly IPCache IPCache;
         private readonly IConfiguration Configuration;
+        private readonly ILogger<Startup> Logger;
 
-        public AccessController(AppDbContext db, IPCache ipCache, IConfiguration configuration)
+        public AccessController(AppDbContext db, IPCache ipCache, IConfiguration configuration, ILogger<Startup> logger)
         {
             Db = db;
             IPCache = ipCache;
             Configuration = configuration;
+            Logger = logger;
         }
 
         // ------------------------------------------------
@@ -204,14 +207,14 @@ namespace slms2asp.Controllers
                 {
                     ipInfo = await IPInfo.GetInfo(addr, ipInfoToken);
                 }
-                catch (Exception)
+                catch (Exception e)
                 {
-                    // TODO: Error Logging
+                    Logger.LogError("Failed getting IPInfo: ", e);
                 }
             }
             else
             {
-                // TODO: Warn Logging
+                Logger.LogWarning("IPInfo could not be collected because no IPInfo API token was provided");
             }
 
             if (!disableTracking)
