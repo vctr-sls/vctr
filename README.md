@@ -98,6 +98,26 @@ The recommendet way to set up and install vctr is by using the provided docker i
 
 Then, open up your browser and connect to the published address of `vctr` to initially set a password which is used  to access the service.
 
+## Self-Compile Binaries
+
+For that, following installations are required:
+- ASP.NET Core 2.1 SDK
+- node JS >= 12.13.x
+
+Then, compile it with the following command to a self-contained binary with all nessecary web assets and libraries:
+```
+$ dotnet publish -c Release -r linux-x64 --self-contained true
+```
+
+Of course, you need to modify the RID (`Runtime Identifier`) depending on your needs. [Here](https://docs.microsoft.com/en-us/dotnet/core/rid-catalog) you can find a catalog of runtime identifiers available.
+
+The resulting assets are located at
+```
+bin/Release/netcoreapp2.1/linux-x64/
+```
+
+*Don't be surprised because the binaies will be named `slms2asp`. That's the actual current namespace of the application, which was created when `vctr` was not the official project name.*
+
 ---
 
 © 2019 Ringo Hoffmann (zekro Development).  
