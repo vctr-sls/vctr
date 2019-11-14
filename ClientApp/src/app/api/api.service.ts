@@ -78,6 +78,15 @@ export class APIService implements IAPIProvider {
     return this.provider.slGet(page, size, sortBy);
   }
 
+  public slSearch(
+    query: string,
+    page: number,
+    size: number,
+    sortBy: string
+  ): Observable<ShortLink[]> {
+    return this.provider.slSearch(query, page, size, sortBy);
+  }
+
   public slGetSingle(guid: string): Observable<ShortLink> {
     return this.provider.slGetSingle(guid);
   }

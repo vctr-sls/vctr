@@ -1,7 +1,7 @@
 /** @format */
 
 import { IAPIProvider } from './api.provider';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 
@@ -92,8 +92,34 @@ export class APIRestProvider implements IAPIProvider {
     size: number,
     sortBy: string
   ): Observable<ShortLink[]> {
+    const opts = this.defopts({
+      params: new HttpParams()
+        .set('page', page.toString())
+        .set('size', size.toString())
+        .set('sortBy', sortBy),
+    });
+
     return this.http
-      .get<ShortLink[]>('/api/shortlinks', this.defopts())
+      .get<ShortLink[]>('/api/shortlinks', opts)
+      .pipe(catchError(this.errorCatcher));
+  }
+
+  public slSearch(
+    query: string,
+    page: number,
+    size: number,
+    sortBy: string
+  ): Observable<ShortLink[]> {
+    const opts = this.defopts({
+      params: new HttpParams()
+        .set('page', page.toString())
+        .set('size', size.toString())
+        .set('sortBy', sortBy)
+        .set('query', query),
+    });
+
+    return this.http
+      .get<ShortLink[]>('/api/shortlinks/search', opts)
       .pipe(catchError(this.errorCatcher));
   }
 

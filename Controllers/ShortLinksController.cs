@@ -38,7 +38,9 @@ namespace slms2asp.Controllers
         // Get a specified range of short link objects.
 
         [HttpGet]
-        public IActionResult Get([FromQuery] int page = 0, [FromQuery] int size = 100, [FromQuery] string sortBy = "CreationDate")
+        public IActionResult Get([FromQuery] int page = 0, 
+                                 [FromQuery] int size = 100, 
+                                 [FromQuery] string sortBy = "CreationDate")
         {
             var shortLinkModel = typeof(ShortLinkModel);
             var property = shortLinkModel.GetProperties()
@@ -53,6 +55,7 @@ namespace slms2asp.Controllers
                 .OrderByDescending(sl => property.GetValue(sl))
                 .Skip(page * size)
                 .Take(size);
+
             return Ok(outList);
         }
 
@@ -72,6 +75,51 @@ namespace slms2asp.Controllers
             }
 
             return Ok(shortLink);
+        }
+
+        // ------------------------------------------------
+        // GET /api/shortlinks/search
+        //                           ?query={string}
+        //                           ?page={int}
+        //                           ?size={int}
+        //                           ?sortBy={string}
+        //
+        // Get a specified range of short link objects
+        // filtered by search query.
+
+        [HttpGet("search")]
+        public IActionResult Search([FromQuery] string query, 
+                                    [FromQuery] int page = 0, 
+                                    [FromQuery] int size = 100, 
+                                    [FromQuery] string sortBy = "CreationDate")
+        {
+            if (query.IsEmpty())
+            {
+                return BadRequest(ErrorModel.BadRequest("invalid search query"));
+            }
+
+            query = query.ToLower();
+
+            var shortLinkModel = typeof(ShortLinkModel);
+            var property = shortLinkModel.GetProperties()
+                .FirstOrDefault(p => p.Name.ToLower() == sortBy.ToLower());
+
+            if (property == null)
+            {
+                return BadRequest(ErrorModel.BadRequest("invalid property for 'sortBy'"));
+            }
+
+            Console.WriteLine("QUERY: " + query);
+
+            var outList = Db.ShortLinks
+                .Where((sl) => sl.ShortIdent.Contains(query) ||
+                           sl.RootURL.Contains(query) ||
+                           sl.GUID.ToString().Contains(query))
+                .OrderByDescending(sl => property.GetValue(sl))
+                .Skip(page * size)
+                .Take(size);
+
+            return Ok(outList);
         }
 
         // ------------------------------------------------
