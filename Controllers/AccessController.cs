@@ -221,6 +221,7 @@ namespace slms2asp.Controllers
             {
                 Db.Accesses.Add(new AccessModel()
                 {
+                    ShortLinkGUID = shortLink.GUID,
                     City = ipInfo.City,
                     Country = ipInfo.Country,
                     IsUnique = isUnique,

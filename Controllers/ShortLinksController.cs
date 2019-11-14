@@ -109,8 +109,6 @@ namespace slms2asp.Controllers
                 return BadRequest(ErrorModel.BadRequest("invalid property for 'sortBy'"));
             }
 
-            Console.WriteLine("QUERY: " + query);
-
             var outList = Db.ShortLinks
                 .Where((sl) => sl.ShortIdent.Contains(query) ||
                            sl.RootURL.Contains(query) ||
