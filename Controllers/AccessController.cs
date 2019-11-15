@@ -174,12 +174,27 @@ namespace slms2asp.Controllers
         // ------------------------------------------------
         // -- HELPERS
 
-        public bool IsValid(ShortLinkModel shortLink) =>
-            shortLink != null &&
-            shortLink.IsActive &&
-            (shortLink.MaxUses <= 0 || shortLink.UniqueAccessCount < shortLink.MaxUses) &&
-            shortLink.Activates.CompareTo(DateTime.Now) < 0 &&
-            shortLink.Expires.CompareTo(DateTime.Now) >= 0;
+        public bool IsValid(ShortLinkModel shortLink)
+        {
+            if (shortLink == null || 
+                !shortLink.IsActive || 
+                shortLink.Activates.CompareTo(DateTime.Now) > 0 || 
+                shortLink.Expires.CompareTo(DateTime.Now) <= 0)
+            {
+                return false;
+            }
+
+            if (shortLink.MaxUses > 0)
+            {
+                var accesses = Db.Accesses
+                    .Where(a => a.IsUnique && a.ShortLinkGUID == shortLink.GUID)
+                    .Count();
+
+                return accesses < shortLink.MaxUses;
+            }
+
+            return true;
+        }
 
         public async Task CountRedirect(ShortLinkModel shortLink, bool disableTracking)
         {
