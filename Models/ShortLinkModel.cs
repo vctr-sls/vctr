@@ -3,6 +3,7 @@ using slms2asp.Shared;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Runtime.Serialization;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
@@ -46,14 +47,19 @@ namespace slms2asp.Models
 
         // Not User-Settable variables
         public bool IsPasswordProtected { get; set; }
-        public int AccessCount { get; private set; }
-        public int UniqueAccessCount { get; private set; }
         public DateTime CreationDate { get; private set; }
-        public DateTime LastAccess { get; private set; }
         public DateTime LastModified { get; private set; }
 
         [IgnoreDataMember]
         public string PasswordHash { get; set; }
+
+        // Not Mapped in Database
+        [NotMapped]
+        public int AccessCount { get; set; }
+        [NotMapped]
+        public int UniqueAccessCount { get; set; }
+        [NotMapped]
+        public DateTime LastAccess { get; set; }
 
         // ------------------------------------------------
         // -- Initializers
@@ -157,23 +163,6 @@ namespace slms2asp.Models
             Expires = newShortLink.Expires;
 
             LastModified = DateTime.Now;
-        }
-     
-        /// <summary>
-        /// 
-        /// Increases <i>AccessCount</i> by one and
-        /// sets <i>LastAccess</i> to now.
-        /// 
-        /// </summary>
-        public void Access(bool isUnique = false)
-        {
-            AccessCount++;
-            LastAccess = DateTime.Now;
-
-            if (isUnique)
-            {
-                UniqueAccessCount++;
-            }
         }
     }
 }

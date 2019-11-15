@@ -54,7 +54,22 @@ namespace slms2asp.Controllers
             var outList = Db.ShortLinks
                 .OrderByDescending(sl => property.GetValue(sl))
                 .Skip(page * size)
-                .Take(size);
+                .Take(size)
+                .ToList()
+                .Select(sl =>
+                {
+                    sl.UniqueAccessCount = Db.Accesses
+                        .Where(a => a.ShortLinkGUID == sl.GUID && a.IsUnique)
+                        .Count();
+
+                    sl.AccessCount = Db.Accesses
+                        .Where(a => a.ShortLinkGUID == sl.GUID)
+                        .Count();
+
+                    sl.LastAccess = Db.Accesses.LastOrDefault()?.Timestamp ?? DateTime.MinValue;
+
+                    return sl;
+                });
 
             return Ok(outList);
         }
@@ -73,6 +88,16 @@ namespace slms2asp.Controllers
             {
                 return NotFound(ErrorModel.NotFound());
             }
+
+            shortLink.UniqueAccessCount = Db.Accesses
+                 .Where(a => a.ShortLinkGUID == shortLink.GUID && a.IsUnique)
+                 .Count();
+
+            shortLink.AccessCount = Db.Accesses
+                .Where(a => a.ShortLinkGUID == shortLink.GUID)
+                .Count();
+
+            shortLink.LastAccess = Db.Accesses.LastOrDefault()?.Timestamp ?? DateTime.MinValue;
 
             return Ok(shortLink);
         }
@@ -115,7 +140,22 @@ namespace slms2asp.Controllers
                            sl.GUID.ToString().Contains(query))
                 .OrderByDescending(sl => property.GetValue(sl))
                 .Skip(page * size)
-                .Take(size);
+                .Take(size)
+                .ToList()
+                .Select(sl =>
+                {
+                    sl.UniqueAccessCount = Db.Accesses
+                        .Where(a => a.ShortLinkGUID == sl.GUID && a.IsUnique)
+                        .Count();
+
+                    sl.AccessCount = Db.Accesses
+                        .Where(a => a.ShortLinkGUID == sl.GUID)
+                        .Count();
+
+                    sl.LastAccess = Db.Accesses.LastOrDefault()?.Timestamp ?? DateTime.MinValue;
+
+                    return sl;
+                });
 
             return Ok(outList);
         }

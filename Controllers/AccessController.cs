@@ -183,8 +183,6 @@ namespace slms2asp.Controllers
 
         public async Task CountRedirect(ShortLinkModel shortLink, bool disableTracking)
         {
-            shortLink.Access();
-
             var addr = HttpContext.Connection.RemoteIpAddress;
 
             bool isUnique = true;
@@ -195,7 +193,6 @@ namespace slms2asp.Controllers
                 isUnique = !guid.HasValue || guid.Value != shortLink.GUID;
             }
 
-            shortLink.Access(isUnique);
             Db.ShortLinks.Update(shortLink);
 
             var ipInfoToken = Configuration.GetSection("secrets")?.GetValue<string>("ipinfotoken");
@@ -217,23 +214,29 @@ namespace slms2asp.Controllers
                 Logger.LogWarning("IPInfo could not be collected because no IPInfo API token was provided");
             }
 
+            var access = new AccessModel()
+            {
+                ShortLinkGUID = shortLink.GUID,
+                IsUnique = isUnique,
+                Timestamp = DateTime.Now,
+            };
+
+
             if (!disableTracking)
             {
-                Db.Accesses.Add(new AccessModel()
-                {
-                    ShortLinkGUID = shortLink.GUID,
-                    City = ipInfo.City,
-                    Country = ipInfo.Country,
-                    IsUnique = isUnique,
-                    Org = ipInfo.Org,
-                    Postal = ipInfo.Postal,
-                    Region = ipInfo.Region,
-                    Timestamp = DateTime.Now,
-                    Timezone = ipInfo.Timezone,
-                    UserAgent = HttpContext.Request.Headers["User-Agent"].ToString(),
-                });
+                access.ShortLinkGUID = shortLink.GUID;
+                access.City = ipInfo.City;
+                access.Country = ipInfo.Country;
+                access.IsUnique = isUnique;
+                access.Org = ipInfo.Org;
+                access.Postal = ipInfo.Postal;
+                access.Region = ipInfo.Region;
+                access.Timestamp = DateTime.Now;
+                access.Timezone = ipInfo.Timezone;
+                access.UserAgent = HttpContext.Request.Headers["User-Agent"].ToString();
             }
 
+            Db.Accesses.Add(access);
 
             if (isUnique)
             {
