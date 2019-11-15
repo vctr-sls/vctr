@@ -40,7 +40,7 @@ namespace slms2asp.Shared
     /// </summary>
     public class IPCache
     {
-        private readonly Dictionary<IPAddress, IPCacheEntry> Entries;
+        private readonly Dictionary<string, IPCacheEntry> Entries;
         private readonly Timer CleanupTimer;
         private readonly double CleanupInterval;
         private readonly TimeSpan Expiration;
@@ -60,7 +60,7 @@ namespace slms2asp.Shared
         /// </param>
         public IPCache(TimeSpan cleanupInterval, TimeSpan expiration)
         {
-            Entries = new Dictionary<IPAddress, IPCacheEntry>();
+            Entries = new Dictionary<string, IPCacheEntry>();
             CleanupInterval = cleanupInterval.TotalMilliseconds;
             Expiration = expiration;
 
@@ -78,11 +78,15 @@ namespace slms2asp.Shared
         /// <param name="guid">GUID</param>
         public void Push(IPAddress address, Guid guid)
         {
-            Entries.Add(address, new IPCacheEntry()
+            var addrStr = address.MapToIPv6().ToString();
+            if (!Entries.ContainsKey(addrStr))
             {
-                Guid = guid,
-                Expires = DateTime.Now.Add(Expiration),
-            });
+                Entries.Add(addrStr, new IPCacheEntry()
+                {
+                    Guid = guid,
+                    Expires = DateTime.Now.Add(Expiration),
+                });
+            }
         }
 
         /// <summary>
@@ -103,9 +107,11 @@ namespace slms2asp.Shared
         {
             IPCacheEntry entry;
 
+            var addrStr = address.MapToIPv6().ToString();
+
             try
             {
-                entry = Entries[address];
+                entry = Entries[addrStr];
             }
             catch (Exception)
             {
@@ -114,7 +120,7 @@ namespace slms2asp.Shared
 
             if (entry.IsExpired())
             {
-                Entries.Remove(address);
+                Entries.Remove(addrStr);
                 return null;
             }
 
@@ -133,7 +139,9 @@ namespace slms2asp.Shared
         /// <returns></returns>
         public bool Contains(IPAddress address)
         {
-            if (!Entries.ContainsKey(address))
+            var addrStr = address.MapToIPv6().ToString();
+
+            if (!Entries.ContainsKey(addrStr))
             {
                 return false;
             }
@@ -156,7 +164,7 @@ namespace slms2asp.Shared
         /// <param name="e"></param>
         private void OnCleanup(Object source, ElapsedEventArgs e)
         {
-            foreach (KeyValuePair<IPAddress, IPCacheEntry> kv in Entries)
+            foreach (KeyValuePair<string, IPCacheEntry> kv in Entries)
             {
                 if (kv.Value.IsExpired())
                 {
