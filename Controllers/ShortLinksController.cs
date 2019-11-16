@@ -23,10 +23,12 @@ namespace slms2asp.Controllers
     public class ShortLinksController : ControllerBase
     {
         private readonly AppDbContext Db;
+        private readonly AppDbCache DbCache;
 
-        public ShortLinksController(AppDbContext db)
+        public ShortLinksController(AppDbContext db, AppDbCache dbCache)
         {
             Db = db;
+            DbCache = dbCache;
         }
 
         // ------------------------------------------------
@@ -58,15 +60,15 @@ namespace slms2asp.Controllers
                 .ToList()
                 .Select(sl =>
                 {
-                    sl.UniqueAccessCount = Db.Accesses
-                        .Where(a => a.ShortLinkGUID == sl.GUID && a.IsUnique)
-                        .Count();
+                    var accesses = DbCache.GetAccesses(sl.GUID);
 
-                    sl.AccessCount = Db.Accesses
-                        .Where(a => a.ShortLinkGUID == sl.GUID)
-                        .Count();
+                    sl.UniqueAccessCount = accesses.Count(a => a.IsUnique);
 
-                    sl.LastAccess = Db.Accesses.LastOrDefault()?.Timestamp ?? DateTime.MinValue;
+                    sl.AccessCount = accesses.Count;
+
+                    sl.LastAccess = accesses
+                        .OrderBy(a => a.Timestamp)
+                        .LastOrDefault()?.Timestamp ?? DateTime.MinValue;
 
                     return sl;
                 });
@@ -89,15 +91,15 @@ namespace slms2asp.Controllers
                 return NotFound(ErrorModel.NotFound());
             }
 
-            shortLink.UniqueAccessCount = Db.Accesses
-                 .Where(a => a.ShortLinkGUID == shortLink.GUID && a.IsUnique)
-                 .Count();
+            var accesses = DbCache.GetAccesses(shortLink.GUID);
 
-            shortLink.AccessCount = Db.Accesses
-                .Where(a => a.ShortLinkGUID == shortLink.GUID)
-                .Count();
+            shortLink.UniqueAccessCount = accesses.Count(a => a.IsUnique);
 
-            shortLink.LastAccess = Db.Accesses.LastOrDefault()?.Timestamp ?? DateTime.MinValue;
+            shortLink.AccessCount = accesses.Count;
+
+            shortLink.LastAccess = accesses
+                .OrderBy(a => a.Timestamp)
+                .LastOrDefault()?.Timestamp ?? DateTime.MinValue;
 
             return Ok(shortLink);
         }
@@ -144,15 +146,15 @@ namespace slms2asp.Controllers
                 .ToList()
                 .Select(sl =>
                 {
-                    sl.UniqueAccessCount = Db.Accesses
-                        .Where(a => a.ShortLinkGUID == sl.GUID && a.IsUnique)
-                        .Count();
+                    var accesses = DbCache.GetAccesses(sl.GUID);
 
-                    sl.AccessCount = Db.Accesses
-                        .Where(a => a.ShortLinkGUID == sl.GUID)
-                        .Count();
+                    sl.UniqueAccessCount = accesses.Count(a => a.IsUnique);
 
-                    sl.LastAccess = Db.Accesses.LastOrDefault()?.Timestamp ?? DateTime.MinValue;
+                    sl.AccessCount = accesses.Count;
+
+                    sl.LastAccess = accesses
+                        .OrderBy(a => a.Timestamp)
+                        .LastOrDefault()?.Timestamp ?? DateTime.MinValue;
 
                     return sl;
                 });

@@ -27,13 +27,17 @@ namespace slms2asp.Controllers
     public class AccessController : ControllerBase
     {
         private readonly AppDbContext Db;
+        private readonly AppDbCache DbCache;
         private readonly IPCache IPCache;
         private readonly IConfiguration Configuration;
         private readonly ILogger<Startup> Logger;
 
-        public AccessController(AppDbContext db, IPCache ipCache, IConfiguration configuration, ILogger<Startup> logger)
+        public AccessController(AppDbContext db, AppDbCache dbCache, 
+                                IPCache ipCache, IConfiguration configuration, 
+                                ILogger<Startup> logger)
         {
             Db = db;
+            DbCache = dbCache;
             IPCache = ipCache;
             Configuration = configuration;
             Logger = logger;
@@ -186,11 +190,10 @@ namespace slms2asp.Controllers
 
             if (shortLink.MaxUses > 0)
             {
-                var accesses = Db.Accesses
-                    .Where(a => a.IsUnique && a.ShortLinkGUID == shortLink.GUID)
-                    .Count();
+                var accessCount = DbCache.GetAccesses(shortLink.GUID)
+                    .Count(a => a.IsUnique);
 
-                return accesses < shortLink.MaxUses;
+                return accessCount < shortLink.MaxUses;
             }
 
             return true;
@@ -208,7 +211,7 @@ namespace slms2asp.Controllers
                 isUnique = !guid.HasValue || guid.Value != shortLink.GUID;
             }
 
-            Db.ShortLinks.Update(shortLink);
+            //Db.ShortLinks.Update(shortLink);
 
             var ipInfoToken = Configuration.GetSection("secrets")?.GetValue<string>("ipinfotoken");
             var ipInfo = new IPInfoModel();
@@ -251,14 +254,14 @@ namespace slms2asp.Controllers
                 access.UserAgent = HttpContext.Request.Headers["User-Agent"].ToString();
             }
 
-            Db.Accesses.Add(access);
+            DbCache.AddAccess(access);
 
             if (isUnique)
             {
                 IPCache.Push(addr, shortLink.GUID);
             }
 
-            await Db.SaveChangesAsync();
+            //await Db.SaveChangesAsync();
         }
     }
 }

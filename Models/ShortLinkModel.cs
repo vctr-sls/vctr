@@ -56,8 +56,10 @@ namespace slms2asp.Models
         // Not Mapped in Database
         [NotMapped]
         public int AccessCount { get; set; }
+
         [NotMapped]
         public int UniqueAccessCount { get; set; }
+
         [NotMapped]
         public DateTime LastAccess { get; set; }
 
