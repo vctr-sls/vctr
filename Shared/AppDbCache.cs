@@ -1,5 +1,6 @@
 ﻿using slms2asp.Database;
 using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -11,13 +12,13 @@ namespace slms2asp.Shared
     public class AppDbCache
     {
         private readonly AppDbContext Db;
-        private readonly Dictionary<Guid, List<AccessModel>> AccessMap;
+        private readonly ConcurrentDictionary<Guid, List<AccessModel>> AccessMap;
         private readonly Timer Timer;
 
         public AppDbCache(AppDbContext db, TimeSpan timerInterval)
         {
             Db = db;
-            AccessMap = new Dictionary<Guid, List<AccessModel>>();
+            AccessMap = new ConcurrentDictionary<Guid, List<AccessModel>>();
             Timer = new Timer(timerInterval.TotalMilliseconds);
 
             Timer.Elapsed += async (object s, ElapsedEventArgs e) =>
@@ -35,7 +36,7 @@ namespace slms2asp.Shared
             if (!AccessMap.ContainsKey(guid))
             {
                 accesses = Db.Accesses.Where(a => a.ShortLinkGUID == guid).ToList();
-                AccessMap.Add(guid, accesses);
+                AccessMap.AddOrUpdate(guid, accesses, (k, v) => v);
             }
             else
             {
