@@ -23,10 +23,8 @@ namespace slms2asp
         {
             Configuration = configuration;
 
-            using (Db = new AppDbContext(configuration))
-            {
-                Db.Database.EnsureCreated();
-            }
+            Db = new AppDbContext(configuration);
+            Db.Database.EnsureCreated();
         }
 
         // This method gets called by the runtime. Use this method to add services to the container.
@@ -51,9 +49,11 @@ namespace slms2asp
 
             services
                 .AddSingleton(Configuration)
+                .AddSingleton(new AppDbCache(Db, TimeSpan.FromSeconds(15)))
                 .AddSingleton(new IPCache(
                     cleanupInterval: TimeSpan.FromMinutes(10), 
                     expiration: TimeSpan.FromHours(12)));
+
 
             services
                 .AddDbContext<AppDbContext>();

@@ -25,4 +25,10 @@ h1 {
 
 .btn {
   margin-top: 20px;
+
+  &::ng-deep {
+    button {
+      width: 100%;
+    }
+  }
 }

@@ -17,8 +17,8 @@ jobs:
       script: dotnet build
 
     - stage: docker-deploy
-      if: branch = master
+      if: branch = master OR branch = testing
       script: |
-        docker build . -t zekro/vctr:latest
+        docker build . -t zekro/vctr:${TRAVIS_BRANCH}
         docker login -u ${DOCKER_USERNAME} -p ${DOCKER_PASSWORD}
-        docker push zekro/vctr:latest
+        docker push zekro/vctr:${TRAVIS_BRANCH}
