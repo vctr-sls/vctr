@@ -191,6 +191,7 @@ namespace slms2asp.Controllers
             if (shortLink.MaxUses > 0)
             {
                 var accessCount = DbCache.GetAccesses(shortLink.GUID)
+                    .ToArray()
                     .Count(a => a.IsUnique);
 
                 return accessCount < shortLink.MaxUses;

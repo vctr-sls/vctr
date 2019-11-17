@@ -62,7 +62,9 @@ namespace slms2asp.Controllers
                 {
                     var accesses = DbCache.GetAccesses(sl.GUID);
 
-                    sl.UniqueAccessCount = accesses.Count(a => a.IsUnique);
+                    sl.UniqueAccessCount = accesses
+                        .ToArray()
+                        .Count(a => a.IsUnique);
 
                     sl.AccessCount = accesses.Count;
 
@@ -93,7 +95,9 @@ namespace slms2asp.Controllers
 
             var accesses = DbCache.GetAccesses(shortLink.GUID);
 
-            shortLink.UniqueAccessCount = accesses.Count(a => a.IsUnique);
+            shortLink.UniqueAccessCount = accesses
+                .ToArray()
+                .Count(a => a.IsUnique);
 
             shortLink.AccessCount = accesses.Count;
 
@@ -148,7 +152,9 @@ namespace slms2asp.Controllers
                 {
                     var accesses = DbCache.GetAccesses(sl.GUID);
 
-                    sl.UniqueAccessCount = accesses.Count(a => a.IsUnique);
+                    sl.UniqueAccessCount = accesses
+                        .ToArray()
+                        .Count(a => a.IsUnique);
 
                     sl.AccessCount = accesses.Count;
 
