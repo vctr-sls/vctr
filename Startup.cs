@@ -49,7 +49,7 @@ namespace slms2asp
 
             services
                 .AddSingleton(Configuration)
-                .AddSingleton(new AppDbCache(Db, TimeSpan.FromSeconds(15)))
+                .AddSingleton(new AppDbCache(Db, TimeSpan.FromSeconds(15), TimeSpan.FromHours(12)))
                 .AddSingleton(new IPCache(
                     cleanupInterval: TimeSpan.FromMinutes(10), 
                     expiration: TimeSpan.FromHours(12)));
