@@ -79,7 +79,7 @@ vctr currently requires a connection to a MySQL / MariaDB database to save persi
 
 ### Docker
 
-The recommendet way to set up and install vctr is by using the provided docker image, which can be built using the `Dockerfile` in this repository or by pulling the latest pre-built image from [Docker Hub](https://hub.docker.com/r/zekro/vctr) registry.
+The recommended way to set up and install vctr is by using the provided docker image, which can be built using the `Dockerfile` in this repository or by pulling the latest pre-built image from [Docker Hub](https://hub.docker.com/r/zekro/vctr) registry.
 
 ```
 # docker pull zekro/vctr:latest
