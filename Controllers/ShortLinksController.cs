@@ -66,7 +66,7 @@ namespace slms2asp.Controllers
                         .ToArray()
                         .Count(a => a.IsUnique);
 
-                    sl.AccessCount = accesses.Count;
+                    sl.AccessCount = accesses.Length;
 
                     sl.LastAccess = accesses
                         .OrderBy(a => a.Timestamp)
@@ -99,7 +99,7 @@ namespace slms2asp.Controllers
                 .ToArray()
                 .Count(a => a.IsUnique);
 
-            shortLink.AccessCount = accesses.Count;
+            shortLink.AccessCount = accesses.Length;
 
             shortLink.LastAccess = accesses
                 .OrderBy(a => a.Timestamp)
@@ -156,7 +156,7 @@ namespace slms2asp.Controllers
                         .ToArray()
                         .Count(a => a.IsUnique);
 
-                    sl.AccessCount = accesses.Count;
+                    sl.AccessCount = accesses.Length;
 
                     sl.LastAccess = accesses
                         .OrderBy(a => a.Timestamp)
