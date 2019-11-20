@@ -79,6 +79,22 @@ namespace slms2asp.Controllers
         }
 
         // ------------------------------------------------
+        // GET /api/shortlinks/size
+        //
+        // Returns the total size of the short links list.
+
+        [HttpGet("size")]
+        public IActionResult GetSize()
+        {
+            var data = new SizeModel()
+            {
+                Size = Db.ShortLinks.Count(),
+            };
+
+            return Ok(data);
+        }
+
+        // ------------------------------------------------
         // GET /api/shortlinks/:guid
         //
         // Get a specified short link object by GUID.

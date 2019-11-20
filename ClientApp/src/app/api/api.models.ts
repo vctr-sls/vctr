@@ -41,3 +41,7 @@ export interface ProtectedLogin {
 export interface ProtectedResponse {
   rootURL: string;
 }
+
+export interface Size {
+  size: number;
+}
