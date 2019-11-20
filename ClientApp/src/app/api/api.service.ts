@@ -11,6 +11,7 @@ import {
   GeneralSettingsPost,
   ProtectedLogin,
   ProtectedResponse,
+  Size,
 } from './api.models';
 import { MatSnackBar } from '@angular/material/snack-bar';
 
@@ -76,6 +77,10 @@ export class APIService implements IAPIProvider {
     sortBy: string
   ): Observable<ShortLink[]> {
     return this.provider.slGet(page, size, sortBy);
+  }
+
+  public slGetSize(): Observable<Size> {
+    return this.provider.slGetSize();
   }
 
   public slSearch(

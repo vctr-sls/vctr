@@ -7,6 +7,7 @@ import {
   SetPasswordPost,
   ProtectedLogin,
   ProtectedResponse,
+  Size,
 } from './api.models';
 import { Observable } from 'rxjs';
 import { EventEmitter } from '@angular/core';
@@ -35,7 +36,13 @@ export interface IAPIProvider {
 
   // Short Links
   slGet(page: number, size: number, sortBy: string): Observable<ShortLink[]>;
-  slSearch(query: string, page: number, size: number, sortBy: string): Observable<ShortLink[]>;
+  slGetSize(): Observable<Size>;
+  slSearch(
+    query: string,
+    page: number,
+    size: number,
+    sortBy: string
+  ): Observable<ShortLink[]>;
   slGetSingle(guid: string): Observable<ShortLink>;
   slCreate(shortLink: ShortLink): Promise<ShortLink>;
   slEdit(shortLink: ShortLink): Promise<ShortLink>;

@@ -12,6 +12,7 @@ import {
   ShortLink,
   ProtectedLogin,
   ProtectedResponse,
+  Size,
 } from './api.models';
 import { Inject, EventEmitter } from '@angular/core';
 
@@ -101,6 +102,12 @@ export class APIRestProvider implements IAPIProvider {
 
     return this.http
       .get<ShortLink[]>('/api/shortlinks', opts)
+      .pipe(catchError(this.errorCatcher));
+  }
+
+  public slGetSize(): Observable<Size> {
+    return this.http
+      .get<Size>('/api/shortlinks/size', this.defopts())
       .pipe(catchError(this.errorCatcher));
   }
 

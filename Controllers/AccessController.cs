@@ -203,6 +203,11 @@ namespace slms2asp.Controllers
         public async Task CountRedirect(ShortLinkModel shortLink, bool disableTracking)
         {
             var addr = HttpContext.Connection.RemoteIpAddress;
+            Logger.LogInformation("IPADDR: " + addr.MapToIPv4().ToString());
+            HttpContext.Request.Headers.Keys.ToList().ForEach(k =>
+            {
+                Logger.LogInformation("HEADER: " + k + "=" + Request.Headers[k]);
+            });
 
             bool isUnique = true;
 

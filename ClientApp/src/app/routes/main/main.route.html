@@ -6,4 +6,5 @@
   <div *ngFor="let sl of shortLinks" class="link-tile">
     <app-linktile [shortLink]="sl"></app-linktile>
   </div>
+  <mat-spinner *ngIf="isLoading" diameter="60" class="mr-auto ml-auto" color="accent"></mat-spinner>
 </div>
