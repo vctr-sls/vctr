@@ -22,3 +22,10 @@ jobs:
         docker build . -t zekro/vctr:${TRAVIS_BRANCH}
         docker login -u ${DOCKER_USERNAME} -p ${DOCKER_PASSWORD}
         docker push zekro/vctr:${TRAVIS_BRANCH}
+        
+    - stage: docker-deploy-tag
+      if: tag IS present
+      script: |
+        docker build . -t zekro/vctr:${TRAVIS_TAG}
+        docker login -u ${DOCKER_USERNAME} -p ${DOCKER_PASSWORD}
+        docker push zekro/vctr:${TRAVIS_TAG}
