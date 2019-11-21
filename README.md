@@ -11,7 +11,8 @@
 
 vctr `[ˈvɛktər]` is a self hosted service to access, create, manage and analyze short links.
 
-You can test vctr's live demo hosted on on [s2.zekro.de](https://s2.zekro.de/ui). The password is `test`.
+You can test vctr's live demo hosted on on [s2.zekro.de](https://s2.zekro.de/ui). The password is `test`.  
+Attention: This data may not be consistent, of course, and entries may be deleted and/or modified.
 
 ---
 
