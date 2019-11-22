@@ -17,8 +17,7 @@ namespace slms2asp.Filters
         {
             var httpCtx = context.HttpContext;
 
-            StringValues headerValues;
-            httpCtx.Request.Headers.TryGetValue("X-Forwarded-For", out headerValues);
+            httpCtx.Request.Headers.TryGetValue("X-Forwarded-For", out StringValues headerValues);
 
             var val = headerValues.FirstOrDefault();
             if (!val.IsEmpty())
