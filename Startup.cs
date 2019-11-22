@@ -33,6 +33,7 @@ namespace slms2asp
             services.AddMvc(options =>
             {
                 options.Filters.Add(typeof(HeaderFilter));
+                options.Filters.Add(typeof(ProxyAddressFilter));
             })
             .SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
 
@@ -40,11 +41,6 @@ namespace slms2asp
             services.AddSpaStaticFiles(configuration =>
             {
                 configuration.RootPath = "ClientApp/dist/ClientApp";
-            });
-
-            services.Configure<ForwardedHeadersOptions>(options =>
-            {
-                options.ForwardedHeaders = ForwardedHeaders.All;
             });
 
             services
@@ -86,8 +82,6 @@ namespace slms2asp
             {
                 app.UseExceptionHandler("/Error");
             }
-
-            app.UseForwardedHeaders();
 
             app.UseAuthentication();
 
