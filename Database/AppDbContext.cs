@@ -1,11 +1,6 @@
-﻿using Microsoft.AspNetCore.Authentication;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using slms2asp.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace slms2asp.Database
 {
@@ -16,7 +11,7 @@ namespace slms2asp.Database
     /// </summary>
     public class AppDbContext : DbContext
     {
-        private IConfiguration configuration;
+        private readonly IConfiguration Configuration;
 
         public DbSet<ShortLinkModel> ShortLinks { get; private set; }
         public DbSet<AccessModel> Accesses { get; private set; }
@@ -24,14 +19,14 @@ namespace slms2asp.Database
 
         public AppDbContext() { }
 
-        public AppDbContext(IConfiguration _configuration)
+        public AppDbContext(IConfiguration configuration)
         {
-            configuration = _configuration;
+            Configuration = configuration;
         }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            var connectionString = configuration.GetConnectionString("MySQL") ?? "";
+            var connectionString = Configuration.GetConnectionString("MySQL") ?? "";
 
             optionsBuilder.UseMySql(connectionString);
         }

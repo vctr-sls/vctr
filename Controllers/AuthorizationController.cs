@@ -1,7 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Primitives;
 using slms2asp.Database;
 using slms2asp.Extensions;
@@ -26,9 +25,9 @@ namespace slms2asp.Controllers
     {
         private readonly AppDbContext Db;
 
-        public AuthorizationController(AppDbContext _db)
+        public AuthorizationController(AppDbContext db)
         {
-            Db = _db;
+            Db = db;
         }
 
         // ------------------------------------------------
@@ -46,8 +45,7 @@ namespace slms2asp.Controllers
         [HttpPost]
         public async Task<IActionResult> Login()
         {
-            StringValues authHeaderValue;
-            if (!HttpContext.Request.Headers.TryGetValue("Authorization", out authHeaderValue))
+            if (!HttpContext.Request.Headers.TryGetValue("Authorization", out var authHeaderValue))
             {
                 return Unauthorized();
             }

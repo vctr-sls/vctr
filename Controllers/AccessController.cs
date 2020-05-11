@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Net.Mime;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
@@ -12,6 +6,9 @@ using slms2asp.Database;
 using slms2asp.Extensions;
 using slms2asp.Models;
 using slms2asp.Shared;
+using System;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace slms2asp.Controllers
 {
@@ -178,7 +175,7 @@ namespace slms2asp.Controllers
         // ------------------------------------------------
         // -- HELPERS
 
-        public bool IsValid(ShortLinkModel shortLink)
+        private bool IsValid(ShortLinkModel shortLink)
         {
             if (shortLink == null || 
                 !shortLink.IsActive || 
@@ -200,7 +197,7 @@ namespace slms2asp.Controllers
             return true;
         }
 
-        public async Task CountRedirect(ShortLinkModel shortLink, bool disableTracking)
+        private async Task CountRedirect(ShortLinkModel shortLink, bool disableTracking)
         {
             var addr = HttpContext.Connection.RemoteIpAddress;
 
@@ -211,8 +208,6 @@ namespace slms2asp.Controllers
                 var guid = IPCache.Get(addr);
                 isUnique = !guid.HasValue || guid.Value != shortLink.GUID;
             }
-
-            //Db.ShortLinks.Update(shortLink);
 
             var ipInfoToken = Configuration.GetSection("secrets")?.GetValue<string>("ipinfotoken");
             var ipInfo = new IPInfoModel();
@@ -261,8 +256,6 @@ namespace slms2asp.Controllers
             {
                 IPCache.Push(addr, shortLink.GUID);
             }
-
-            //await Db.SaveChangesAsync();
         }
     }
 }

@@ -1,13 +1,13 @@
-using System;
-using System.Linq;
-using System.Net.Mime;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using slms2asp.Database;
 using slms2asp.Extensions;
 using slms2asp.Models;
 using slms2asp.Shared;
+using System;
+using System.Linq;
+using System.Net.Mime;
+using System.Threading.Tasks;
 
 namespace slms2asp.Controllers
 {
