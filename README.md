@@ -123,5 +123,12 @@ bin/Release/netcoreapp2.1/linux-x64/
 
 ---
 
-© 2019 Ringo Hoffmann (zekro Development).  
+## Community Projects ❤
+
+- [Lukaesebrot/vctr-go](https://github.com/Lukaesebrot/vctr-go) - A wrapper for the vctr API written in go.
+- [Lukaesebrot/vctr-cli](https://github.com/Lukaesebrot/vctr-cli) - A CLI tool connecting to the vctr API.
+
+---
+
+© 2020 Ringo Hoffmann (zekro Development).  
 Covered by the MIT Licence.
