@@ -3,7 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.30717.126
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Gateway", "Gateway\Gateway.csproj", "{9486D952-4F2E-4D19-B99D-1ADA1450F964}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RESTAPI", "RESTAPI\RESTAPI.csproj", "{9486D952-4F2E-4D19-B99D-1ADA1450F964}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DatabaseAccessLayer", "DatabaseAccessLayer\DatabaseAccessLayer.csproj", "{A2FFED20-8D39-4ABF-81EC-CB9D6833C0CA}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +17,10 @@ Global
 		{9486D952-4F2E-4D19-B99D-1ADA1450F964}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9486D952-4F2E-4D19-B99D-1ADA1450F964}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9486D952-4F2E-4D19-B99D-1ADA1450F964}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A2FFED20-8D39-4ABF-81EC-CB9D6833C0CA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A2FFED20-8D39-4ABF-81EC-CB9D6833C0CA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A2FFED20-8D39-4ABF-81EC-CB9D6833C0CA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A2FFED20-8D39-4ABF-81EC-CB9D6833C0CA}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
