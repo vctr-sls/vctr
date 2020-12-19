@@ -13,10 +13,8 @@ namespace Gateway.Controllers.Endpoints
 {
     [Route("/")]
     [ApiController]
-    public class RedirectionController : ControllerBase, ILinkController
+    public class RedirectionController : ControllerBase
     {
-        public LinkModel ProcessedLink { get; set; }
-
         private readonly IHashingService fastHasher;
         private readonly IDatabaseAccess database;
         private readonly ICacheAccess cache;
