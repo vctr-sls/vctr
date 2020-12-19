@@ -6,7 +6,7 @@ using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace RESTAPI.Services
+namespace RESTAPI.Services.Hashing
 {
     class HashingPreferences
     {
@@ -66,14 +66,14 @@ namespace RESTAPI.Services
 
     public class Argon2HashingService : IPasswordHashingService
     {
-        private static RNGCryptoServiceProvider rngCsp = new RNGCryptoServiceProvider();
+        private static readonly RNGCryptoServiceProvider rngCsp = new RNGCryptoServiceProvider();
 
         private readonly HashingPreferences defaultPrefs = new HashingPreferences();
 
         public Argon2HashingService(IConfiguration config)
         {
             defaultPrefs.MemorySize = config.GetValue(Constants.ConfigKeyPasswordHashingMemoryPoolKB, 128 * 1024);
-            defaultPrefs.DegreeOfParallelism = config.GetValue(Constants.ConfigKeyPasswordHashingDegreeOfParallelism, Environment.ProcessorCount); // Guess no one has < 255 processor cores who uses this :D
+            defaultPrefs.DegreeOfParallelism = config.GetValue(Constants.ConfigKeyPasswordHashingDegreeOfParallelism, Environment.ProcessorCount);
             defaultPrefs.Iterations = config.GetValue(Constants.ConfigKeyPasswordHashingIterations, 4);
             defaultPrefs.SaltLength = config.GetValue(Constants.ConfigKeyPasswordHashingSaltLength, 16);
             defaultPrefs.KeyLength = config.GetValue(Constants.ConfigKeyPasswordHashingKeyLength, 32);

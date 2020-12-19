@@ -1,4 +1,4 @@
-﻿namespace RESTAPI.Services
+﻿namespace RESTAPI.Services.Hashing
 {
     public interface IPasswordHashingService : IHashingService
     { }

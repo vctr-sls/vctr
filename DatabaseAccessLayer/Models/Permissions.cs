@@ -2,13 +2,16 @@
 {
     public enum Permissions
     {
-        ADMINISTRATOR               = 1 << 0,
-        CAN_CREATE_LINKS            = 1 << 1,
-        CAN_UPDATE_LINKS            = 1 << 2,
-        CAN_DELETE_LINKS            = 1 << 3,
-        CAN_CREATE_USERS            = 1 << 4,
-        CAN_UPDATE_USERS            = 1 << 5,
-        CAN_DELETE_USERS            = 1 << 6,
-        CAN_PERFORM_STATE_CHANGES   = 1 << 7,
+        UNSET                   = -1,
+        ADMINISTRATOR           = int.MaxValue, // All possible permissions
+        VIEW_LINKS              = 1 << 1,
+        CREATE_LINKS            = 1 << 2,
+        UPDATE_LINKS            = 1 << 3,
+        DELETE_LINKS            = 1 << 4,
+        VIEW_USERS              = 1 << 5,
+        CREATE_USERS            = 1 << 6,
+        UPDATE_USERS            = 1 << 7,
+        DELETE_USERS            = 1 << 8,
+        PERFORM_STATE_CHANGES   = 1 << 9,
     }
 }

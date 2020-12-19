@@ -2,6 +2,7 @@
 using DatabaseAccessLayer.Models;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
+using RESTAPI.Services.Hashing;
 using System;
 using System.Threading.Tasks;
 
@@ -54,7 +55,7 @@ namespace RESTAPI.Services
                 Permissions = Permissions.ADMINISTRATOR,
             };
 
-            await database.Create(user);
+            database.Create(user);
             await database.Commit();
 
             logger.LogInformation($"Root user with name '{userName}' and the provided password was created.");

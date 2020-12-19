@@ -8,6 +8,8 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
 using RESTAPI.Services;
+using RESTAPI.Services.Authorization;
+using RESTAPI.Services.Hashing;
 using System;
 using System.Threading.Tasks;
 
@@ -41,6 +43,7 @@ namespace RESTAPI
             services
                 .AddScoped<IDatabaseAccess, DatabaseAccess>()
                 .AddSingleton<IPasswordHashingService, Argon2HashingService>()
+                .AddSingleton<IAuthorizationService, JwtAuthorizationService>()
                 .AddScoped<InitializationService>()
                 ;
 

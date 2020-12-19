@@ -18,5 +18,11 @@ namespace DatabaseAccessLayer.Models
             Guid = Guid.NewGuid();
             Created = DateTime.Now;
         }
+
+        public EntityModel(EntityModel model)
+        {
+            Guid = model.Guid;
+            Created = model.Created;
+        }
     }
 }

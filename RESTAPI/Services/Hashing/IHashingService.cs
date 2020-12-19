@@ -1,6 +1,6 @@
 ﻿using System.Threading.Tasks;
 
-namespace RESTAPI.Services
+namespace RESTAPI.Services.Hashing
 {
     public interface IHashingService
     {
