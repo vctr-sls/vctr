@@ -19,6 +19,9 @@ namespace DatabaseAccessLayer
         public async Task<T> GetById<T>(Guid id) where T : EntityModel =>
             await ctx.FindAsync<T>(id);
 
+        //public async Task<T> GetById<T>(Guid id) where T : EntityModel =>
+        //    await GetTable<T>().FirstOrDefaultAsync(e => e.Guid == id);
+
         public IQueryable<T> GetAll<T>() where T : EntityModel =>
             GetTable<T>();
 

@@ -24,5 +24,9 @@
         public const string ConfigKeySessionsBypassSecureCookies = "Sessions:BypassSecureCookies";
 
         public const string ConfigKeyCacheDurationsLinks = "Caching:Durations:Links";
+
+        public const string ConfigKeyRoutingRoot = "Routing:Root";
+        public const string ConfigKeyRoutingNotFound = "Routing:NotFound";
+        public const string ConfigKeyRoutingPassword = "Routing:Password";
     }
 }

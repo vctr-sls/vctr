@@ -45,7 +45,7 @@ namespace Gateway.Models
         public LinkViewModel(LinkModel model, bool hydrateUser = false) : base(model) =>
             Hydrate(model, hydrateUser);
 
-        public LinkViewModel(LinkModel model, UserModel authorizedUser) =>
+        public LinkViewModel(LinkModel model, UserModel authorizedUser) : base(model) =>
             Hydrate(model, authorizedUser.HasPermissions(Permissions.VIEW_USERS) || model.Creator.Guid == authorizedUser.Guid);
 
         private void Hydrate(LinkModel model, bool hydrateUser)

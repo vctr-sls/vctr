@@ -132,7 +132,7 @@ namespace Gateway.Controllers.Endpoints
 
             if (!string.IsNullOrEmpty(newLink.Ident) && newLink.Ident != link.Ident)
             {
-                if (!await ValidateIdent(link.Ident))
+                if (!await ValidateIdent(newLink.Ident))
                     return BadRequest("ident already exists");
                 link.Ident = newLink.Ident;
             }
