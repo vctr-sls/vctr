@@ -37,7 +37,7 @@ namespace Gateway.Controllers.Endpoints
         // --- GET /api/links ---
 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<LinkViewModel>>> GetUsers(
+        public async Task<ActionResult<IEnumerable<LinkViewModel>>> GetLinks(
             [FromQuery] int offset = 0,
             [FromQuery] int limit = 100)
         {
@@ -45,6 +45,30 @@ namespace Gateway.Controllers.Endpoints
 
             var links = await database.GetAll<LinkModel>()
                 .Where(l => canViewLinks || l.Creator.Guid == AuthorizedUser.Guid)
+                .OrderBy(t => t.Created)
+                .Skip(offset)
+                .Take(limit)
+                .Select(l => new LinkViewModel(l, AuthorizedUser))
+                .ToListAsync();
+
+            return Ok(links);
+        }
+
+        // -------------------------------------------------------------------------
+        // --- GET /api/links/search ---
+
+        [HttpGet("search")]
+        public async Task<ActionResult<IEnumerable<LinkViewModel>>> GetLinkSearch(
+            [FromQuery] string query,
+            [FromQuery] int offset = 0,
+            [FromQuery] int limit = 100)
+        {
+            query = query.ToLower();
+            var canViewLinks = AuthorizedUser.HasPermissions(Permissions.VIEW_LINKS);
+
+            var links = await database.GetAll<LinkModel>()
+                .Where(l => canViewLinks || l.Creator.Guid == AuthorizedUser.Guid)
+                .Where(l => l.Ident.ToLower().Contains(query) || l.Destination.ToLower().Contains(query))
                 .OrderBy(t => t.Created)
                 .Skip(offset)
                 .Take(limit)

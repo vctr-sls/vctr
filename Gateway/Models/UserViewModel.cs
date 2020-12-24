@@ -1,6 +1,5 @@
 ﻿using DatabaseAccessLayer.Models;
 using System;
-using System.ComponentModel.DataAnnotations;
 using System.Text.Json.Serialization;
 
 namespace Gateway.Models
@@ -13,6 +12,7 @@ namespace Gateway.Models
         [JsonPropertyName("permissions")]
         public Permissions Permissions { get; set; }
 
+        [JsonPropertyName("last_login")]
         public DateTime LastLogin { get; set; }
 
         public UserViewModel()

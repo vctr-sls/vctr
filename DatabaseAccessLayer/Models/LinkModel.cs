@@ -3,6 +3,9 @@ using System.ComponentModel.DataAnnotations;
 
 namespace DatabaseAccessLayer.Models
 {
+    /// <summary>
+    /// Link database model.
+    /// </summary>
     public class LinkModel : EntityModel
     {
         [StringLength(256, MinimumLength = 2)]

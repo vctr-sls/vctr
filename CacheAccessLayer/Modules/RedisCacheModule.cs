@@ -7,6 +7,9 @@ using System.Threading.Tasks;
 
 namespace CacheAccessLayer.Modules
 {
+    /// <summary>
+    /// Implementation of <see cref="ICacheAccess"/> for Redis.
+    /// </summary>
     public class RedisCacheModule : ICacheAccess
     {
         private readonly ConnectionMultiplexer connections;

@@ -4,6 +4,9 @@ using System.Text.Json.Serialization;
 
 namespace DatabaseAccessLayer.Models
 {
+    /// <summary>
+    /// Entity database base model.
+    /// </summary>
     public class EntityModel
     {
         [Key]

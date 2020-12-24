@@ -141,5 +141,37 @@ namespace Gateway.Controllers.Endpoints
 
             return NoContent();
         }
+
+        // -------------------------------------------------------------------------
+        // --- GET /api/users/me/links ---
+
+        [HttpGet("me/links")]
+        public Task<ActionResult<List<LinkViewModel>>> GetMyLinks(
+            [FromQuery] int offset = 0,
+            [FromQuery] int limit = 100)
+            => GetLinks(AuthorizedUser.Guid, offset, limit);
+
+
+        // -------------------------------------------------------------------------
+        // --- GET /api/users/:id/links ---
+
+        [HttpGet("{id}/links")]
+        public async Task<ActionResult<List<LinkViewModel>>> GetLinks(
+            [FromRoute] Guid id,
+            [FromQuery] int offset = 0,
+            [FromQuery] int limit = 100)
+        {
+            var canViewLinks = AuthorizedUser.HasPermissions(Permissions.VIEW_LINKS);
+
+            var links = await database.GetAll<LinkModel>()
+                .Where(l => l.Creator.Guid == id && (canViewLinks || id == AuthorizedUser.Guid))
+                .OrderBy(t => t.Created)
+                .Skip(offset)
+                .Take(limit)
+                .Select(l => new LinkViewModel(l, AuthorizedUser))
+                .ToListAsync();
+
+            return Ok(links);
+        }
     }
 }
