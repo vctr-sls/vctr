@@ -64,7 +64,8 @@ namespace Gateway
                 app.UseSwagger();
                 app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "Gateway v1"));
                 app.UseCors(options => options
-                    .AllowAnyOrigin()
+                    .WithOrigins("http://localhost:3000")
+                    .AllowCredentials()
                     .AllowAnyMethod()
                     .AllowAnyHeader());
             }
