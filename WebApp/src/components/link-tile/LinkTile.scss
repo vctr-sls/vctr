@@ -1,0 +1,65 @@
+@import '../../scss/colors.scss';
+
+.link-tile-container {
+    display: flex;
+    width: 100%;
+    padding: 20px 20px 20px 25px;
+    background-color: $c-bg-blue;
+    margin-bottom: 20px;
+    cursor: pointer;
+    transition: all .15s ease;
+    border-bottom: solid 0px $c-accent;
+
+    &:hover {
+        transform: scale(1.01);
+        border-bottom-width: 4px;
+    }
+
+    &:last-child {
+        margin-bottom: 0;
+    }
+
+    > .details-container {
+        margin-right: auto;
+        > * {
+            margin-bottom: 10px;
+            &:last-child { margin-bottom: 0; }
+        }
+        > .title-bar {
+            > * {
+                margin-right: 15px;
+                &:last-child { margin-right: none; }
+            }
+            .ident {
+                font-size: 25px;
+                font-weight: 500;
+                color: $c-accent;
+            }
+        }
+        > .properties-bar {
+            display: flex;
+            > * {
+                margin: auto 5px auto 0;
+                &:last-child { margin-right: 0; }
+            }
+        }
+        .stats-bar {
+            display: flex;
+            > * {
+                margin: auto 10px auto 0;
+            }
+            > span {
+                margin-left: 0px;
+            }
+        }
+    }
+
+    .controls-container {
+        opacity: 0;
+        transition: all .15s ease;
+    }
+
+    &:hover > .controls-container {
+        opacity: 1;
+    }
+}
