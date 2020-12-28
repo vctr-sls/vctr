@@ -11,24 +11,25 @@ import ModalWrapper from '../../components/modal/Modal';
 import TileSkeleton from '../../components/tile-skeleton/TileSkeleton';
 import ElementsUtil from '../../util/elements';
 import SearchBar from '../../components/search-bar/SearchBar';
+import InputLimiter from '../../util/limiter';
 
 interface LinksProps extends RouteComponentProps {}
 
 class Links extends Component<LinksProps> {
   state = {
+    isSearch: false,
     selectedToDelete: (null as any) as LinkModel,
-    links: [] as LinkModel[],
+    links: (null as any) as LinkModel[],
   };
 
+  private searchInputLimiter = InputLimiter.with(250);
+
   async componentDidMount() {
-    try {
-      const links = await APIService.getUserLinks('me');
-      this.setState({ links });
-    } catch {}
+    await this.fetchLinks();
   }
 
   render() {
-    const links = this.state.links.map((l) => (
+    const links = this.state.links?.map((l) => (
       <LinkTile
         key={`link-tile-${l.guid}`}
         link={l}
@@ -38,15 +39,34 @@ class Links extends Component<LinksProps> {
 
     return (
       <div>
-        <SearchBar placeholder="Search for links" />
+        <SearchBar
+          placeholder="Search for links"
+          onChange={(v) => this.onSearchInput(v)}
+        />
         {this.state.selectedToDelete && this.deleteModal}
-        {!!links.length ||
+        {this.state.links === null &&
           ElementsUtil.repeat(5, (i: number) => (
             <TileSkeleton key={`tile-skeleton-${i}`} delay={`0.${i}s`} />
           ))}
+        {links?.length === 0 && (
+          <p className="links-no-links">No links available.</p>
+        )}
         {links}
       </div>
     );
+  }
+
+  private async fetchLinks(searchInput?: string) {
+    try {
+      this.setState({ links: null });
+      let links;
+      if (searchInput) {
+        links = await APIService.searchUserLinks('me', searchInput!);
+      } else {
+        links = await APIService.getUserLinks('me');
+      }
+      this.setState({ links });
+    } catch {}
   }
 
   private get deleteModal(): JSX.Element {
@@ -78,6 +98,13 @@ class Links extends Component<LinksProps> {
   private async onLinkDelete() {
     const link = this.state.selectedToDelete;
     if (!link) return;
+  }
+
+  private onSearchInput(v: string) {
+    this.searchInputLimiter.input(v, (res) => {
+      this.setState({ isSearch: !!res });
+      this.fetchLinks(res);
+    });
   }
 }
 

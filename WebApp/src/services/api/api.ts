@@ -51,7 +51,9 @@ export default class APIService {
     offset: number = 0,
     limit: number = 100
   ): Promise<LinkModel[]> {
-    return this.get(`links?offset=${offset}&limit=${limit}&query=${query}`);
+    return this.get(
+      `links/search?offset=${offset}&limit=${limit}&query=${query}`
+    );
   }
 
   public static getLink(id: string): Promise<LinkModel> {
@@ -98,6 +100,17 @@ export default class APIService {
     limit: number = 100
   ): Promise<LinkModel[]> {
     return this.get(`users/${userId}/links?offset=${offset}&limit=${limit}`);
+  }
+
+  public static searchUserLinks(
+    userId: string,
+    query: string,
+    offset: number = 0,
+    limit: number = 100
+  ): Promise<LinkModel[]> {
+    return this.get(
+      `users/${userId}/links/search?offset=${offset}&limit=${limit}&query=${query}`
+    );
   }
 
   // ------------------------------------------------------------

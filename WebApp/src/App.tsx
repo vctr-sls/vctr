@@ -8,7 +8,7 @@ import StateService from './services/state/state';
 import { BrowserRouter as Router, Route, Redirect } from 'react-router-dom';
 import Sidebar, { SidebarEntry } from './components/sidebar/Sidebar';
 import Login from './routes/login/Login';
-import { Permissions } from './services/api/models';
+import { Permissions, UserModel } from './services/api/models';
 import Links from './routes/links/Links';
 
 export default class App extends Component {
@@ -21,6 +21,7 @@ export default class App extends Component {
 
   async componentDidMount() {
     APIService.events.on('authentication-error', () => {
+      this.stateService.selfUser = (null as any) as UserModel;
       this.redirect('/login');
     });
 
