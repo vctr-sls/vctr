@@ -8,6 +8,9 @@ import APIService from '../../services/api/api';
 import { LinkModel } from '../../services/api/models';
 import LinkTile from '../../components/link-tile/LinkTile';
 import ModalWrapper from '../../components/modal/Modal';
+import TileSkeleton from '../../components/tile-skeleton/TileSkeleton';
+import ElementsUtil from '../../util/elements';
+import SearchBar from '../../components/search-bar/SearchBar';
 
 interface LinksProps extends RouteComponentProps {}
 
@@ -35,7 +38,12 @@ class Links extends Component<LinksProps> {
 
     return (
       <div>
+        <SearchBar placeholder="Search for links" />
         {this.state.selectedToDelete && this.deleteModal}
+        {!!links.length ||
+          ElementsUtil.repeat(5, (i: number) => (
+            <TileSkeleton key={`tile-skeleton-${i}`} delay={`0.${i}s`} />
+          ))}
         {links}
       </div>
     );
