@@ -1,0 +1,23 @@
+@import '../../scss/colors.scss';
+
+.snackbar-container {
+    display: flex;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    padding: 15px;
+    background-color: $c-bg-purple;
+    box-shadow: 0px 0px 20px 0px black;
+    z-index: 200;
+
+    transition: all .15s ease;
+
+    > * {
+        margin: auto;
+    }
+
+    &.error {
+        background-color: $c-accent;
+    }
+}

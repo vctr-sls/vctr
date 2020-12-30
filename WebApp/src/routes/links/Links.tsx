@@ -13,6 +13,7 @@ import ElementsUtil from '../../util/elements';
 import SearchBar from '../../components/search-bar/SearchBar';
 import InputLimiter from '../../util/limiter';
 import { ReactComponent as Add } from '../../assets/add.svg';
+import SnackBarService from '../../components/snackbar/SnackBarService';
 
 interface LinksProps extends RouteComponentProps {}
 
@@ -112,6 +113,7 @@ class Links extends Component<LinksProps> {
     const i = this.state.links.findIndex((l) => l.guid === link.guid);
     if (i >= 0) this.state.links.splice(i, 1);
     this.setState({ selectedToDelete: null });
+    SnackBarService.show('Link successfully removed.');
   }
 
   private onSearchInput(v: string) {

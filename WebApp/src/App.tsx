@@ -13,6 +13,10 @@ import Links from './routes/links/Links';
 import LinkEditor from './routes/link-editor/LinkEditor';
 import NotFound from './routes/not-found/NotFound';
 import Password from './routes/password/Password';
+import SnackBar from './components/snackbar/SnackBar';
+import SnackBarService, {
+  SnackBarType,
+} from './components/snackbar/SnackBarService';
 
 const IGNORE_AUTH_ROUTES = ['/notfound', '/password'];
 
@@ -34,6 +38,8 @@ export default class App extends Component {
       this.redirect('/login');
     });
 
+    APIService.events.on('error', (err: Error) => this.handleApiError(err));
+
     if (this.stateService.selfUser === null) {
       try {
         const me = await APIService.getUser('me');
@@ -52,6 +58,7 @@ export default class App extends Component {
             onActivate={(r) => this.onSidebarActivate(r)}
           />
         )}
+        <SnackBar />
         <div className="app-router-outlet">
           <Router>
             <Route
@@ -116,5 +123,28 @@ export default class App extends Component {
     }
 
     return entries;
+  }
+
+  private async handleApiError(err: Error) {
+    let content: string | JSX.Element = 'Unexpected error.';
+
+    const errRes = (err as any) as Response;
+    if (!!errRes.body && !!errRes.statusText) {
+      let msg = errRes.statusText;
+      const body = await errRes.json();
+      if (!!body.error) {
+        msg = body.error;
+      } else if (!!body.errors) {
+        msg = body.errors[Object.keys(body.errors)[0]][0];
+      }
+      content = (
+        <span>
+          Request Failed: <code>{msg}</code>
+        </span>
+      );
+    }
+
+    SnackBarService.show(content, SnackBarType.ERROR, 5000);
+    console.error(err);
   }
 }

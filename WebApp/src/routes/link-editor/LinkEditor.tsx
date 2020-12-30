@@ -10,6 +10,7 @@ import Switch from '../../components/switch/Switch';
 import TimeUtil from '../../util/time';
 import { ReactComponent as Back } from '../../assets/back.svg';
 import RandomUtil from '../../util/random';
+import SnackBarService from '../../components/snackbar/SnackBarService';
 
 interface LinkEditorProps extends RouteComponentProps {
   id: string;
@@ -189,9 +190,11 @@ class LinkEditor extends Component<LinkEditorProps> {
       if (this.isNew) {
         await APIService.createLink(this.state.link);
         this.props.history.goBack();
+        SnackBarService.show('Link successfully created.');
       } else {
         const link = await APIService.updateLink(this.state.link);
         this.setState({ link });
+        SnackBarService.show('Link successfully updated.');
       }
     } catch {}
   }
