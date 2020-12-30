@@ -7,6 +7,7 @@ import { ReactComponent as LogoLarge } from '../../assets/logo-large.svg';
 import APIService from '../../services/api/api';
 import StateService from '../../services/state/state';
 import { RouteComponentProps, withRouter } from 'react-router';
+import Switch from '../../components/switch/Switch';
 
 interface LoginProps extends RouteComponentProps {
   state: StateService;
@@ -40,6 +41,15 @@ class Login extends Component<LoginProps> {
             onChange={(e) => this.setState({ password: e.target.value })}
             onKeyPress={(e) => this.loginKeyPress(e)}
           />
+          <div style={{ marginTop: '30px' }}>
+            <Switch
+              enabled={this.state.remember}
+              onChange={(v) => this.setState({ remember: v })}
+              size={30}
+            >
+              Remember for 30 days
+            </Switch>
+          </div>
           <button
             disabled={!this.passwordEnabled}
             style={{ marginTop: '30px' }}

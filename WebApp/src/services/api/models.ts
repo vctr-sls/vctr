@@ -22,13 +22,13 @@ export interface LoginModel {
 
 export interface EntityModel {
   guid: string;
-  created: Date;
+  created: string;
 }
 
 export interface UserModel extends EntityModel {
   username: string;
   permissions: Permissions;
-  last_login: Date;
+  last_login: string;
 }
 
 export interface UserCreateModel extends UserModel {
@@ -42,11 +42,11 @@ export interface LinkModel extends EntityModel {
   enabled: boolean;
   permanent_redirect: boolean;
   password_required: boolean;
-  last_access: Date;
+  last_access: string;
   access_count: number;
   unique_access_count: number;
   total_access_limit: number;
-  expires: Date;
+  expires: string;
 }
 
 export interface LinkCreateModel extends LinkModel {

@@ -10,6 +10,7 @@ import Sidebar, { SidebarEntry } from './components/sidebar/Sidebar';
 import Login from './routes/login/Login';
 import { Permissions, UserModel } from './services/api/models';
 import Links from './routes/links/Links';
+import LinkEditor from './routes/link-editor/LinkEditor';
 
 export default class App extends Component {
   private stateService = new StateService();
@@ -51,8 +52,13 @@ export default class App extends Component {
               exact
               path="/login"
               render={() => <Login state={this.stateService} />}
-            ></Route>
-            <Route exact path="/links" render={() => <Links />}></Route>
+            />
+            <Route exact path="/links" render={() => <Links />} />
+            <Route
+              exact
+              path="/links/:id"
+              render={({ match }) => <LinkEditor id={match.params.id} />}
+            />
 
             <Route exact path="/" render={() => <Redirect to="/links" />} />
 
@@ -75,7 +81,7 @@ export default class App extends Component {
         return;
       }
     }
-    this.redirect(r);
+    this.redirect('/' + r);
   }
 
   private redirect(to: string) {

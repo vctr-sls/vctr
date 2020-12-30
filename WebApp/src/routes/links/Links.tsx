@@ -12,6 +12,7 @@ import TileSkeleton from '../../components/tile-skeleton/TileSkeleton';
 import ElementsUtil from '../../util/elements';
 import SearchBar from '../../components/search-bar/SearchBar';
 import InputLimiter from '../../util/limiter';
+import { ReactComponent as Add } from '../../assets/add.svg';
 
 interface LinksProps extends RouteComponentProps {}
 
@@ -34,15 +35,24 @@ class Links extends Component<LinksProps> {
         key={`link-tile-${l.guid}`}
         link={l}
         onDelete={() => this.setState({ selectedToDelete: l })}
+        onClick={() => this.props.history.push(`/links/${l.guid}`)}
       />
     ));
 
     return (
       <div>
-        <SearchBar
-          placeholder="Search for links"
-          onChange={(v) => this.onSearchInput(v)}
-        />
+        <div className="links-top-bar">
+          <SearchBar
+            placeholder="Search for links"
+            onChange={(v) => this.onSearchInput(v)}
+          />
+          <button
+            className="add-btn"
+            onClick={() => this.props.history.push('/links/new')}
+          >
+            <Add />
+          </button>
+        </div>
         {this.state.selectedToDelete && this.deleteModal}
         {this.state.links === null &&
           ElementsUtil.repeat(5, (i: number) => (
@@ -98,6 +108,10 @@ class Links extends Component<LinksProps> {
   private async onLinkDelete() {
     const link = this.state.selectedToDelete;
     if (!link) return;
+    await APIService.deleteLink(link.guid);
+    const i = this.state.links.findIndex((l) => l.guid === link.guid);
+    if (i >= 0) this.state.links.splice(i, 1);
+    this.setState({ selectedToDelete: null });
   }
 
   private onSearchInput(v: string) {

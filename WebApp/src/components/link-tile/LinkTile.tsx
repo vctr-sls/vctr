@@ -17,18 +17,23 @@ import TimeUtil from '../../util/time';
 interface LinkTileProps {
   link: LinkModel;
   onDelete: (link: LinkModel) => void;
+  onClick: (link: LinkModel) => void;
 }
 
 export default class LinkTile extends Component<LinkTileProps> {
   static defaultProps = {
     onDelete: (link: LinkModel) => {},
+    onClick: (link: LinkModel) => {},
   };
 
   render() {
     const link = this.props.link;
 
     return (
-      <div className="link-tile-container">
+      <div
+        className="link-tile-container"
+        onClick={() => this.props.onClick.call(this, link)}
+      >
         <div className="details-container">
           <div className="title-bar">
             <span className="ident">{link.ident}</span>
@@ -38,7 +43,7 @@ export default class LinkTile extends Component<LinkTileProps> {
           <div className="properties-bar">
             {link.enabled || <Disabled />}
             {link.password_required && <Lock />}
-            {link.expires >= TimeUtil.nullDate && <Clock />}
+            {new Date(link.expires) > TimeUtil.nullDate && <Clock />}
           </div>
           <div className="stats-bar">
             <EyeOutlined /> <span>{link.access_count}</span>
