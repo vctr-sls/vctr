@@ -54,7 +54,7 @@ namespace Gateway.Controllers.Endpoints
         {
             var existingUser = await database.GetWhere<UserModel>(u => u.UserName.Equals(user.UserName)).FirstOrDefaultAsync();
             if (existingUser != null)
-                return BadRequest("username already exists");
+                return BadRequest(new ResponseErrorModel("username already exists"));
 
             var newUser = new UserModel
             {

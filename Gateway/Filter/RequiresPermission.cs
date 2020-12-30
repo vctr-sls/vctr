@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 using Gateway.Controllers;
+using Gateway.Models;
 
 namespace Gateway.Filter
 {
@@ -35,7 +36,7 @@ namespace Gateway.Filter
 
         private static void SetBadRequest(ActionExecutingContext ctx)
         {
-            var result = new ObjectResult(new { message = "missing permissions" })
+            var result = new ObjectResult(new ResponseErrorModel("missing permission"))
             {
                 StatusCode = 400
             };

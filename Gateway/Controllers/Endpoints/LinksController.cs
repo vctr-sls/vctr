@@ -91,10 +91,10 @@ namespace Gateway.Controllers.Endpoints
                 while (!await ValidateIdent(link.Ident));
             } 
             else if (!await ValidateIdent(link.Ident))
-                return BadRequest("ident already exists");
+                return BadRequest(new ResponseErrorModel("ident already exists"));
 
             if (!await LinksUtil.ValidateDestination(link.Destination))
-                return BadRequest("invalid destination url");
+                return BadRequest(new ResponseErrorModel("invalid destination url"));
 
             var newLink = new LinkModel
             {
@@ -150,14 +150,14 @@ namespace Gateway.Controllers.Endpoints
             if (!string.IsNullOrEmpty(newLink.Destination) && newLink.Destination != link.Destination)
             {
                 if (!(await LinksUtil.ValidateDestination(newLink.Destination)))
-                    return BadRequest("invalid destination url");
+                    return BadRequest(new ResponseErrorModel("invalid destination url"));
                 link.Destination = newLink.Destination;
             }
 
             if (!string.IsNullOrEmpty(newLink.Ident) && newLink.Ident != link.Ident)
             {
                 if (!await ValidateIdent(newLink.Ident))
-                    return BadRequest("ident already exists");
+                    return BadRequest(new ResponseErrorModel("ident already exists"));
                 link.Ident = newLink.Ident;
             }
 
