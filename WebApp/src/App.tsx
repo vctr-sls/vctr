@@ -11,6 +11,10 @@ import Login from './routes/login/Login';
 import { Permissions, UserModel } from './services/api/models';
 import Links from './routes/links/Links';
 import LinkEditor from './routes/link-editor/LinkEditor';
+import NotFound from './routes/not-found/NotFound';
+import Password from './routes/password/Password';
+
+const IGNORE_AUTH_ROUTES = ['/notfound', '/password'];
 
 export default class App extends Component {
   private stateService = new StateService();
@@ -21,12 +25,14 @@ export default class App extends Component {
   };
 
   async componentDidMount() {
+    this.stateService.events.on('update', () => this.setState({}));
+
+    if (IGNORE_AUTH_ROUTES.includes(window.location.pathname)) return;
+
     APIService.events.on('authentication-error', () => {
       this.stateService.selfUser = (null as any) as UserModel;
       this.redirect('/login');
     });
-
-    this.stateService.events.on('update', () => this.setState({}));
 
     if (this.stateService.selfUser === null) {
       try {
@@ -59,6 +65,8 @@ export default class App extends Component {
               path="/links/:id"
               render={({ match }) => <LinkEditor id={match.params.id} />}
             />
+            <Route exact path="/notfound" render={() => <NotFound />} />
+            <Route exact path="/password" render={() => <Password />} />
 
             <Route exact path="/" render={() => <Redirect to="/links" />} />
 

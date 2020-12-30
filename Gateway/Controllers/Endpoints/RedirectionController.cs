@@ -79,7 +79,7 @@ namespace Gateway.Controllers.Endpoints
             if (!string.IsNullOrEmpty(link.PasswordHash))
             {
                 if (string.IsNullOrEmpty(password))
-                    return Route(BadRequest, "password required", routePassword);
+                    return Route(BadRequest, "password required", $"{routePassword}?link={link.Ident}");
                 if (!await passwordHasher.CompareEncodedHash(password, link.PasswordHash))
                     return BadRequest("invalid password");
             }
