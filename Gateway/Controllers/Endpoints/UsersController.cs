@@ -52,8 +52,7 @@ namespace Gateway.Controllers.Endpoints
         [RequiresPermission(Permissions.CREATE_USERS)]
         public async Task<ActionResult<IEnumerable<UserViewModel>>> Create([FromBody] UserCreateModel user)
         {
-            var existingUser = await database.GetWhere<UserModel>(u => u.UserName.Equals(user.UserName)).FirstOrDefaultAsync();
-            if (existingUser != null)
+            if (!await UsernameAlreadyExists(user.UserName))
                 return BadRequest(new ResponseErrorModel("username already exists"));
 
             var newUser = new UserModel
@@ -121,6 +120,32 @@ namespace Gateway.Controllers.Endpoints
         }
 
         // -------------------------------------------------------------------------
+        // --- POST /api/users/me ---
+
+        [HttpPost("me")]
+        public async Task<ActionResult<UserViewModel>> Update([FromBody] UpdateSelfUserModel newUser)
+        {
+            var user = AuthorizedUser;
+
+            if (!await UsernameAlreadyExists(user.UserName))
+                return BadRequest(new ResponseErrorModel("username already exists"));
+
+            if (!string.IsNullOrEmpty(newUser.UserName))
+                user.UserName = newUser.UserName;
+
+            if (!string.IsNullOrEmpty(newUser.NewPassword))
+            {
+                if (string.IsNullOrEmpty(newUser.CurrentPassword) || !await hasher.CompareEncodedHash(newUser.CurrentPassword, user.PasswordHash))
+                    return BadRequest(new ResponseErrorModel("invalid current password"));
+            }
+
+            database.Update(user);
+            await database.Commit();
+
+            return Ok(new UserViewModel(user));
+        }
+
+        // -------------------------------------------------------------------------
         // --- POST /api/users/:id ---
 
         [HttpPost("{id}")]
@@ -132,6 +157,9 @@ namespace Gateway.Controllers.Endpoints
             var user = await database.GetById<UserModel>(id);
             if (user == null)
                 return NotFound();
+
+            if (!await UsernameAlreadyExists(user.UserName))
+                return BadRequest(new ResponseErrorModel("username already exists"));
 
             if (!string.IsNullOrEmpty(newUser.UserName))
                 user.UserName = newUser.UserName;
@@ -252,6 +280,15 @@ namespace Gateway.Controllers.Endpoints
                 .ToListAsync();
 
             return Ok(links);
+        }
+
+        // -------------------------------------------------------------------------
+        // --- HELPERS ---
+
+        private async Task<bool> UsernameAlreadyExists(string userName)
+        {
+            var existingUser = await database.GetWhere<UserModel>(u => u.UserName.Equals(userName)).FirstOrDefaultAsync();
+            return (existingUser == null);
         }
     }
 }
