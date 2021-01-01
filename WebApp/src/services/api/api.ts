@@ -2,6 +2,7 @@
 
 import { EventEmitter } from 'events';
 import {
+  CountModel,
   LinkCreateModel,
   LinkModel,
   LoginModel,
@@ -100,6 +101,20 @@ export default class APIService {
     limit: number = 100
   ): Promise<LinkModel[]> {
     return this.get(`users/${userId}/links?offset=${offset}&limit=${limit}`);
+  }
+
+  public static getUserLinksCount(userId: string): Promise<CountModel> {
+    return this.get(`users/${userId}/links/count`);
+  }
+
+  public static searchUsers(
+    query: string,
+    offset: number = 0,
+    limit: number = 100
+  ): Promise<UserModel[]> {
+    return this.get(
+      `users/search?offset=${offset}&limit=${limit}&query=${query}`
+    );
   }
 
   public static searchUserLinks(

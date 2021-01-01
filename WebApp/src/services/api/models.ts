@@ -35,6 +35,15 @@ export interface UserCreateModel extends UserModel {
   password: string;
 }
 
+export interface UserUpdateModel extends UserCreateModel {
+  current_password: string;
+  new_password: string;
+}
+
+export interface UserViewModel extends UserModel {
+  link_count: number;
+}
+
 export interface LinkModel extends EntityModel {
   ident: string;
   destination: string;
@@ -51,4 +60,8 @@ export interface LinkModel extends EntityModel {
 
 export interface LinkCreateModel extends LinkModel {
   password: string;
+}
+
+export interface CountModel {
+  count: number;
 }

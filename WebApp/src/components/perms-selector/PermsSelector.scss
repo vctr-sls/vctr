@@ -1,0 +1,9 @@
+.perms-container {
+    display: flex;
+    > * {
+        width: fit-content !important;
+    }
+    > input {
+        margin-right: 10px;
+    }
+}

@@ -2,7 +2,7 @@
 
 import './App.scss';
 
-import _, { Component } from 'react';
+import { Component } from 'react';
 import APIService from './services/api/api';
 import StateService from './services/state/state';
 import { BrowserRouter as Router, Route, Redirect } from 'react-router-dom';
@@ -17,6 +17,8 @@ import SnackBar from './components/snackbar/SnackBar';
 import SnackBarService, {
   SnackBarType,
 } from './components/snackbar/SnackBarService';
+import Users from './routes/users/Users';
+import UserEditor from './routes/user-editor/UserEditor';
 
 const IGNORE_AUTH_ROUTES = ['/notfound', '/password'];
 
@@ -71,6 +73,12 @@ export default class App extends Component {
               exact
               path="/links/:id"
               render={({ match }) => <LinkEditor id={match.params.id} />}
+            />
+            <Route exact path="/users" render={() => <Users />} />
+            <Route
+              exact
+              path="/users/:id"
+              render={({ match }) => <UserEditor id={match.params.id} />}
             />
             <Route exact path="/notfound" render={() => <NotFound />} />
             <Route exact path="/password" render={() => <Password />} />

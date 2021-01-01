@@ -2,7 +2,7 @@
 
 import './Sidebar.scss';
 
-import _, { Component } from 'react';
+import { Component } from 'react';
 import { ReactComponent as LogoLarge } from '../../assets/logo-large.svg';
 
 interface SidebarProps {

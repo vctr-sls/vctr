@@ -22,8 +22,8 @@ interface LinkTileProps {
 
 export default class LinkTile extends Component<LinkTileProps> {
   static defaultProps = {
-    onDelete: (link: LinkModel) => {},
-    onClick: (link: LinkModel) => {},
+    onDelete: (_: LinkModel) => {},
+    onClick: (_: LinkModel) => {},
   };
 
   render() {

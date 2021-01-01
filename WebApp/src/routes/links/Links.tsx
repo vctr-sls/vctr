@@ -56,7 +56,7 @@ class Links extends Component<LinksProps> {
         </div>
         {this.state.selectedToDelete && this.deleteModal}
         {this.state.links === null &&
-          ElementsUtil.repeat(5, (i: number) => (
+          ElementsUtil.repeat(5, (i) => (
             <TileSkeleton key={`tile-skeleton-${i}`} delay={`0.${i}s`} />
           ))}
         {links?.length === 0 && (

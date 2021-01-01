@@ -1,0 +1,47 @@
+@import '../../scss/colors.scss';
+
+.users-tile-container {
+    display: flex;
+    width: 100%;
+    padding: 20px 20px 20px 25px;
+    background-color: $c-bg-blue;
+    margin-bottom: 20px;
+    cursor: pointer;
+    transition: all .15s ease;
+    border-bottom: solid 0px $c-accent;
+
+    &:hover {
+        transform: scale(1.01);
+        border-bottom-width: 4px;
+    }
+
+    &:last-child {
+        margin-bottom: 0;
+    }
+
+    > .details-container {
+        margin-right: auto;
+        width: calc(100% - 75px);
+        > * {
+            margin-bottom: 10px;
+            &:last-child { margin-bottom: 0; }
+        }
+        > span {
+            display: block;
+        }
+        > .username {
+            font-size: 25px;
+            font-weight: 500;
+            color: $c-accent;
+        }
+    }
+
+    .controls-container {
+        opacity: 0;
+        transition: all .15s ease;
+    }
+
+    &:hover > .controls-container {
+        opacity: 1;
+    }
+}
