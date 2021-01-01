@@ -45,7 +45,7 @@ namespace Gateway.Controllers.Endpoints
 
             var links = await database.GetAll<LinkModel>()
                 .Where(l => canViewLinks || l.Creator.Guid == AuthorizedUser.Guid)
-                .OrderBy(t => t.Created)
+                .OrderByDescending(t => t.Created)
                 .Skip(offset)
                 .Take(limit)
                 .Select(l => new LinkViewModel(l, AuthorizedUser))
@@ -69,7 +69,7 @@ namespace Gateway.Controllers.Endpoints
             var links = await database.GetAll<LinkModel>()
                 .Where(l => canViewLinks || l.Creator.Guid == AuthorizedUser.Guid)
                 .Where(l => l.Ident.ToLower().Contains(query) || l.Destination.ToLower().Contains(query))
-                .OrderBy(t => t.Created)
+                .OrderByDescending(t => t.Created)
                 .Skip(offset)
                 .Take(limit)
                 .Select(l => new LinkViewModel(l, AuthorizedUser))

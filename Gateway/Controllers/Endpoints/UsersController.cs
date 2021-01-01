@@ -36,7 +36,7 @@ namespace Gateway.Controllers.Endpoints
             [FromQuery] int limit = 100)
         {
             var users = await database.GetAll<UserModel>()
-                .OrderBy(t => t.Created)
+                .OrderByDescending(t => t.Created)
                 .Skip(offset)
                 .Take(limit)
                 .Select(u => new UserViewModel(u))
@@ -82,6 +82,29 @@ namespace Gateway.Controllers.Endpoints
         [HttpPost("me")]
         public Task<ActionResult<UserViewModel>> PostMe([FromBody] UserUpdateModel newUser) =>
             Update(AuthorizedUser.Guid, newUser);
+
+        // -------------------------------------------------------------------------
+        // --- GET /api/users/search ---
+
+        [HttpGet("search")]
+        [RequiresPermission(Permissions.VIEW_USERS)]
+        public async Task<ActionResult<IEnumerable<UserViewModel>>> GetUsersSearch(
+            [FromQuery] string query,
+            [FromQuery] int offset = 0,
+            [FromQuery] int limit = 100)
+        {
+            query = query.ToLower();
+
+            var users = await database.GetAll<UserModel>()
+                .Where(u => u.UserName.ToLower().Contains(query) || u.MailAddress.ToLower().Contains(query))
+                .OrderByDescending(t => t.Created)
+                .Skip(offset)
+                .Take(limit)
+                .Select(u => new UserViewModel(u))
+                .ToListAsync();
+
+            return Ok(users);
+        }
 
         // -------------------------------------------------------------------------
         // --- GET /api/users/:id ---
@@ -165,13 +188,35 @@ namespace Gateway.Controllers.Endpoints
 
             var links = await database.GetAll<LinkModel>()
                 .Where(l => l.Creator.Guid == id && (canViewLinks || id == AuthorizedUser.Guid))
-                .OrderBy(t => t.Created)
+                .OrderByDescending(t => t.Created)
                 .Skip(offset)
                 .Take(limit)
                 .Select(l => new LinkViewModel(l, AuthorizedUser))
                 .ToListAsync();
 
             return Ok(links);
+        }
+
+        // -------------------------------------------------------------------------
+        // --- GET /api/users/me/links/count ---
+
+        [HttpGet("me/links/count")]
+        public Task<ActionResult<CountResponseModel>> GetMyLinksCount()
+            => GetLinksCount(AuthorizedUser.Guid);
+
+        // -------------------------------------------------------------------------
+        // --- GET /api/users/:id/links/count ---
+
+        [HttpGet("{id}/links/count")]
+        public async Task<ActionResult<CountResponseModel>> GetLinksCount([FromRoute] Guid id)
+        {
+            var canViewLinks = AuthorizedUser.HasPermissions(Permissions.VIEW_LINKS);
+
+            var count = await database.GetAll<LinkModel>()
+                .Where(l => l.Creator.Guid == id && (canViewLinks || id == AuthorizedUser.Guid))
+                .CountAsync();
+
+            return Ok(new CountResponseModel { Count = count });
         }
 
         // -------------------------------------------------------------------------
@@ -200,7 +245,7 @@ namespace Gateway.Controllers.Endpoints
             var links = await database.GetAll<LinkModel>()
                 .Where(l => l.Creator.Guid == id && (canViewLinks || id == AuthorizedUser.Guid))
                 .Where(l => l.Ident.ToLower().Contains(query) || l.Destination.ToLower().Contains(query))
-                .OrderBy(t => t.Created)
+                .OrderByDescending(t => t.Created)
                 .Skip(offset)
                 .Take(limit)
                 .Select(l => new LinkViewModel(l, AuthorizedUser))
