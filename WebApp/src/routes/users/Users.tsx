@@ -35,7 +35,7 @@ class Users extends Component<UsersProps> {
       <UsersTile
         user={u}
         onDelete={() => this.setState({ selectedToDelete: u })}
-        onClick={() => this.props.history.push(`/users/${u.guid}`)}
+        onClick={() => this.props.history.push(`users/${u.guid}`)}
       />
     ));
 
@@ -48,7 +48,7 @@ class Users extends Component<UsersProps> {
           />
           <button
             className="add-btn"
-            onClick={() => this.props.history.push('/users/new')}
+            onClick={() => this.props.history.push('users/new')}
           >
             <Add />
           </button>

@@ -47,7 +47,7 @@ export default class App extends Component {
 
     APIService.events.on('authentication-error', () => {
       this.stateService.selfUser = (null as any) as UserModel;
-      this.redirect('/login');
+      this.redirect('login');
     });
 
     APIService.events.on('error', (err: Error) => this.handleApiError(err));
@@ -75,25 +75,25 @@ export default class App extends Component {
           <Router>
             <Route
               exact
-              path="/login"
+              path="login"
               render={() => <Login state={this.stateService} />}
             />
             <Route exact path="/links" render={() => <Links />} />
             <Route
               exact
-              path="/links/:id"
+              path="links/:id"
               render={({ match }) => <LinkEditor id={match.params.id} />}
             />
             <Route exact path="/users" render={() => <Users />} />
             <Route
               exact
-              path="/users/:id"
+              path="users/:id"
               render={({ match }) => <UserEditor id={match.params.id} />}
             />
-            <Route exact path="/notfound" render={() => <NotFound />} />
-            <Route exact path="/password" render={() => <Password />} />
+            <Route exact path="notfound" render={() => <NotFound />} />
+            <Route exact path="password" render={() => <Password />} />
 
-            <Route exact path="/" render={() => <Redirect to="/links" />} />
+            <Route exact path="" render={() => <Redirect to="links" />} />
 
             {this.state.redirect && <Redirect to={this.state.redirect} />}
           </Router>
@@ -114,7 +114,7 @@ export default class App extends Component {
         return;
       }
     }
-    this.redirect('/' + r);
+    this.redirect(r);
   }
 
   private redirect(to: string) {

@@ -36,7 +36,7 @@ class Links extends Component<LinksProps> {
         key={`link-tile-${l.guid}`}
         link={l}
         onDelete={() => this.setState({ selectedToDelete: l })}
-        onClick={() => this.props.history.push(`/links/${l.guid}`)}
+        onClick={() => this.props.history.push(`links/${l.guid}`)}
       />
     ));
 
@@ -49,7 +49,7 @@ class Links extends Component<LinksProps> {
           />
           <button
             className="add-btn"
-            onClick={() => this.props.history.push('/links/new')}
+            onClick={() => this.props.history.push('links/new')}
           >
             <Add />
           </button>
