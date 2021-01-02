@@ -41,6 +41,7 @@ export default class Sidebar extends Component<SidebarProps> {
   private sidebarTile(e: SidebarEntry): JSX.Element {
     const isActive = window.location.pathname
       .replace(process.env.PUBLIC_URL, '')
+      .substr(1)
       .startsWith(e.route);
     return (
       <div
