@@ -20,7 +20,7 @@ import SnackBarService, {
 import Users from './routes/users/Users';
 import UserEditor from './routes/user-editor/UserEditor';
 
-const IGNORE_AUTH_ROUTES = ['/notfound', '/password'];
+const IGNORE_AUTH_ROUTES = ['notfound', 'password'];
 
 export default class App extends Component {
   private stateService = new StateService();
@@ -33,7 +33,12 @@ export default class App extends Component {
   async componentDidMount() {
     this.stateService.events.on('update', () => this.setState({}));
 
-    if (IGNORE_AUTH_ROUTES.includes(window.location.pathname)) return;
+    if (
+      IGNORE_AUTH_ROUTES.includes(
+        `${process.env.PUBLIC_URL}/${window.location.pathname}`
+      )
+    )
+      return;
 
     APIService.events.on('authentication-error', () => {
       this.stateService.selfUser = (null as any) as UserModel;
