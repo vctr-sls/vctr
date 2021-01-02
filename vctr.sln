@@ -30,6 +30,8 @@ Project("{E24C65DC-7377-472B-9ABA-BC803B73C61A}") = "WebApp", "WebApp\", "{D0A66
 		SlnRelativePath = "WebApp\"
 	EndProjectSection
 EndProject
+Project("{888888A0-9F3D-457C-B088-3A5042F75D52}") = "Migrator", "Migrator\Migrator.pyproj", "{0FB76647-4063-4149-9191-1287A8F7405E}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -52,6 +54,8 @@ Global
 		{D0A66C6A-CDD5-47D0-8BD2-14D39DF6AE79}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D0A66C6A-CDD5-47D0-8BD2-14D39DF6AE79}.Release|Any CPU.ActiveCfg = Debug|Any CPU
 		{D0A66C6A-CDD5-47D0-8BD2-14D39DF6AE79}.Release|Any CPU.Build.0 = Debug|Any CPU
+		{0FB76647-4063-4149-9191-1287A8F7405E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0FB76647-4063-4149-9191-1287A8F7405E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
