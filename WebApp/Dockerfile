@@ -3,7 +3,7 @@
 FROM node:15-alpine as build
 WORKDIR /build
 COPY ./WebApp/ .
-RUN apk add git python3 py3-pip
+RUN apk add git python2 py2-pip
 RUN npm ci &&\
     npm run build
 
