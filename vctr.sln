@@ -7,7 +7,27 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Gateway", "Gateway\Gateway.
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DatabaseAccessLayer", "DatabaseAccessLayer\DatabaseAccessLayer.csproj", "{A2FFED20-8D39-4ABF-81EC-CB9D6833C0CA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CacheAccessLayer", "CacheAccessLayer\CacheAccessLayer.csproj", "{C0A3CBC6-5ABD-4649-B3A5-16199253D4EF}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CacheAccessLayer", "CacheAccessLayer\CacheAccessLayer.csproj", "{C0A3CBC6-5ABD-4649-B3A5-16199253D4EF}"
+EndProject
+Project("{E24C65DC-7377-472B-9ABA-BC803B73C61A}") = "WebApp", "WebApp\", "{D0A66C6A-CDD5-47D0-8BD2-14D39DF6AE79}"
+	ProjectSection(WebsiteProperties) = preProject
+		TargetFrameworkMoniker = ".NETFramework,Version%3Dv4.0"
+		Debug.AspNetCompiler.VirtualPath = "/localhost_50648"
+		Debug.AspNetCompiler.PhysicalPath = "WebApp\"
+		Debug.AspNetCompiler.TargetPath = "PrecompiledWeb\localhost_50648\"
+		Debug.AspNetCompiler.Updateable = "true"
+		Debug.AspNetCompiler.ForceOverwrite = "true"
+		Debug.AspNetCompiler.FixedNames = "false"
+		Debug.AspNetCompiler.Debug = "True"
+		Release.AspNetCompiler.VirtualPath = "/localhost_50648"
+		Release.AspNetCompiler.PhysicalPath = "WebApp\"
+		Release.AspNetCompiler.TargetPath = "PrecompiledWeb\localhost_50648\"
+		Release.AspNetCompiler.Updateable = "true"
+		Release.AspNetCompiler.ForceOverwrite = "true"
+		Release.AspNetCompiler.FixedNames = "false"
+		Release.AspNetCompiler.Debug = "False"
+		VWDPort = "50648"
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -27,6 +47,10 @@ Global
 		{C0A3CBC6-5ABD-4649-B3A5-16199253D4EF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C0A3CBC6-5ABD-4649-B3A5-16199253D4EF}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C0A3CBC6-5ABD-4649-B3A5-16199253D4EF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D0A66C6A-CDD5-47D0-8BD2-14D39DF6AE79}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D0A66C6A-CDD5-47D0-8BD2-14D39DF6AE79}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D0A66C6A-CDD5-47D0-8BD2-14D39DF6AE79}.Release|Any CPU.ActiveCfg = Debug|Any CPU
+		{D0A66C6A-CDD5-47D0-8BD2-14D39DF6AE79}.Release|Any CPU.Build.0 = Debug|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
