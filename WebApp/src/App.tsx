@@ -19,8 +19,13 @@ import SnackBarService, {
 } from './components/snackbar/SnackBarService';
 import Users from './routes/users/Users';
 import UserEditor from './routes/user-editor/UserEditor';
+import { createBrowserHistory } from 'history';
 
 const IGNORE_AUTH_ROUTES = ['notfound', 'password'];
+
+export const history = createBrowserHistory({
+  basename: process.env.PUBLIC_URL,
+});
 
 export default class App extends Component {
   private stateService = new StateService();
