@@ -76,13 +76,6 @@ namespace Gateway.Controllers.Endpoints
             Ok(new UserViewModel(AuthorizedUser));
 
         // -------------------------------------------------------------------------
-        // --- POST /api/users/me ---
-
-        [HttpPost("me")]
-        public Task<ActionResult<UserViewModel>> PostMe([FromBody] UserUpdateModel newUser) =>
-            Update(AuthorizedUser.Guid, newUser);
-
-        // -------------------------------------------------------------------------
         // --- GET /api/users/search ---
 
         [HttpGet("search")]
@@ -127,11 +120,12 @@ namespace Gateway.Controllers.Endpoints
         {
             var user = AuthorizedUser;
 
-            if (!await UsernameAlreadyExists(user.UserName))
-                return BadRequest(new ResponseErrorModel("username already exists"));
-
-            if (!string.IsNullOrEmpty(newUser.UserName))
+            if (!string.IsNullOrEmpty(newUser.UserName) && !newUser.UserName.Equals(user.UserName))
+            {
+                if (!await UsernameAlreadyExists(newUser.UserName))
+                    return BadRequest(new ResponseErrorModel("username already exists"));
                 user.UserName = newUser.UserName;
+            }
 
             if (!string.IsNullOrEmpty(newUser.NewPassword))
             {
@@ -158,11 +152,13 @@ namespace Gateway.Controllers.Endpoints
             if (user == null)
                 return NotFound();
 
-            if (!await UsernameAlreadyExists(user.UserName))
-                return BadRequest(new ResponseErrorModel("username already exists"));
+            if (!string.IsNullOrEmpty(newUser.UserName) && !newUser.UserName.Equals(user.UserName))
+            {
+                if (!await UsernameAlreadyExists(newUser.UserName))
+                    return BadRequest(new ResponseErrorModel("username already exists"));
 
-            if (!string.IsNullOrEmpty(newUser.UserName))
                 user.UserName = newUser.UserName;
+            }
 
             if (!string.IsNullOrEmpty(newUser.Password))
                 user.PasswordHash = await hasher.GetEncodedHash(newUser.Password);
