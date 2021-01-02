@@ -114,7 +114,7 @@ export default class App extends Component {
         return;
       }
     }
-    this.redirect(r);
+    this.redirect('/' + r);
   }
 
   private redirect(to: string) {
