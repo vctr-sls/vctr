@@ -72,28 +72,28 @@ export default class App extends Component {
         )}
         <SnackBar />
         <div className="app-router-outlet">
-          <Router>
+          <Router basename={process.env.PUBLIC_URL}>
             <Route
               exact
-              path="login"
+              path="/login"
               render={() => <Login state={this.stateService} />}
             />
             <Route exact path="/links" render={() => <Links />} />
             <Route
               exact
-              path="links/:id"
+              path="/links/:id"
               render={({ match }) => <LinkEditor id={match.params.id} />}
             />
             <Route exact path="/users" render={() => <Users />} />
             <Route
               exact
-              path="users/:id"
+              path="/users/:id"
               render={({ match }) => <UserEditor id={match.params.id} />}
             />
-            <Route exact path="notfound" render={() => <NotFound />} />
-            <Route exact path="password" render={() => <Password />} />
+            <Route exact path="/notfound" render={() => <NotFound />} />
+            <Route exact path="/password" render={() => <Password />} />
 
-            <Route exact path="" render={() => <Redirect to="links" />} />
+            <Route exact path="/" render={() => <Redirect to="links" />} />
 
             {this.state.redirect && <Redirect to={this.state.redirect} />}
           </Router>
