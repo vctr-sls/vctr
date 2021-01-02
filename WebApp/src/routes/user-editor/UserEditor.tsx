@@ -95,12 +95,16 @@ class UserEditor extends Component<UserEditorProps> {
               }
             />
           </div>
-          <div className="spacing">
-            <PermsSelector
-              value={user.permissions}
-              onChange={(v) => this.wrapSetState(() => (user.permissions = v))}
-            />
-          </div>
+          {!this.isMe && (
+            <div className="spacing">
+              <PermsSelector
+                value={user.permissions}
+                onChange={(v) =>
+                  this.wrapSetState(() => (user.permissions = v))
+                }
+              />
+            </div>
+          )}
         </div>
         <button
           disabled={!this.isValid}
@@ -139,12 +143,12 @@ class UserEditor extends Component<UserEditorProps> {
       if (this.isNew) {
         await APIService.createUser(this.state.user);
         this.props.history.goBack();
-        SnackBarService.show('Link successfully created.');
+        SnackBarService.show('User successfully created.');
       } else {
         if (this.isMe) this.state.user.guid = 'me';
         const link = await APIService.updateUser(this.state.user);
         this.setState({ link });
-        SnackBarService.show('Link successfully updated.');
+        SnackBarService.show('User successfully updated.');
       }
     } catch {}
   }

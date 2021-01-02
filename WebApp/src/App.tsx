@@ -128,6 +128,11 @@ export default class App extends Component {
         displayname: 'users',
         route: 'users',
       });
+    } else {
+      entries.push({
+        displayname: 'me',
+        route: 'users/me',
+      });
     }
 
     return entries;
