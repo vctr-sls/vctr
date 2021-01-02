@@ -1,9 +1,9 @@
 # --- WEBAPP BUILD STAGE
 
-FROM node:15-alpine as build
+FROM node:15-alpine as build-web
 WORKDIR /build
 COPY ./WebApp/ .
-RUN apk add git python2 py2-pip
+RUN apk add --no-cache --virtual .gyp python make g++ python2 py2-pip
 RUN npm ci &&\
     npm run build
 
