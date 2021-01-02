@@ -36,7 +36,6 @@ export default class App extends Component {
   };
 
   async componentDidMount() {
-    console.log(process.env.PUBLIC_URL);
     this.stateService.events.on('update', () => this.setState({}));
 
     if (
