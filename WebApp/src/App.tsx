@@ -40,7 +40,7 @@ export default class App extends Component {
 
     if (
       IGNORE_AUTH_ROUTES.includes(
-        `${process.env.PUBLIC_URL}/${window.location.pathname}`
+        window.location.pathname.replace(process.env.PUBLIC_URL, '')
       )
     )
       return;
