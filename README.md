@@ -70,7 +70,7 @@ If you are using vctr < `v1.0`, you can use the [`Migrator`](Migrator) script to
 It is provided with a Dockerfile, so you do not need to install python on your host system.
 
 ```
-$ docker build -t vctr-migrator . -f ./Migrator/Dockerfile
+$ docker build . t vctr-migrator -f ./Migrator/Dockerfile
 $ docker run --name vctr-migrator \
     -e CREATOR_GUID="USER_GUID_TO_BIND_LINKS_TO" \
     -e CONNECTIONSTRING_MYSQL="host=...;user=...;password=...;database=..." \
