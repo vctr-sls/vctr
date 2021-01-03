@@ -191,6 +191,7 @@ namespace Gateway.Controllers.Endpoints
 
             var accesses = await database.GetWhere<AccessModel>(a => a.Link.Guid == id).ToArrayAsync();
             database.DeleteRange(accesses);
+            database.Delete(link);
 
             await database.Commit();
             await cache.Remove<LinkModel>(link.Ident);
