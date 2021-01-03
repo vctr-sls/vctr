@@ -1,125 +1,81 @@
 <div align="center">
     <img src=".media/gh-banner-rendered.png">
-    <br/>
-    <a href="https://travis-ci.org/zekroTJA/vctr"><img src="https://travis-ci.org/zekroTJA/vctr.svg?branch=master"></a>
-    <a href="https://hub.docker.com/r/zekro/vctr"><img src="https://img.shields.io/badge/docker-zekro%2Fvctr-16abc9?logo=docker&logoColor=16abc9"></a>
+    <hr>
+    <h1>~ vctr ~</h1>
+    <strong>
+        simple self hosted short link service
+    </strong><br><br>
+    <a href="https://dc.zekro.de"><img height="28" src="https://img.shields.io/discord/307084334198816769.svg?style=for-the-badge&logo=discord" /></a>&nbsp;
+    <a href="https://github.com/zekroTJA/vctr/releases"><img height="28" src="https://img.shields.io/github/tag/zekroTJA/vctr.svg?style=for-the-badge"/></a>&nbsp;
+    <a href="https://hub.docker.com/r/zekro/shinpuru"><img alt="Docker Cloud Automated build" src="https://img.shields.io/docker/cloud/automated/zekro/shinpuru.svg?color=cyan&logo=docker&logoColor=cyan&style=for-the-badge"></a>&nbsp;
+    <img height="28" src="https://forthebadge.com/images/badges/built-with-grammas-recipe.svg">
 </div>
 
 ---
 
-> This project is currently work in progress and not in a productive usable state. Keep track of following releases for actual usable versions.
-
-vctr `[ˈvɛktər]` is a self hosted service to access, create, manage and analyze short links.
-
-You can test vctr's live demo hosted on on [s2.zekro.de](https://s2.zekro.de/ui). The password is `test`.  
-Attention: This data may not be consistent, of course, and entries may be deleted and/or modified.
-
----
-
-## Features / Roadmap
-
-| Feature | Logic implemented | Implemented in API | Implemented in Front End |
-| ------- | ----------------- | ------------------ | ------------------------ |
-| Create short links that direct to another URL (example: `<host>/gh` → `https://github.com/zekroTJA`) | ✔️ | ✔️ | ✔️ |
-| Enable/Disable shortlinks | ✔️ | ✔️ | ✔️ |
-| Change short ident and/or root URL of short link | ✔️ | ✔️ | ✔️ |
-| Set a access count limit for unique accesses | ✔️ | ✔️ | ✔️ |
-| Chose between temporary *(uncached)* and permanent *(cached)* rediecting | ✔️ | ✔️ | ✔️ |
-| Set an activation and/or expiration date for the short link | ✔️ | ✔️ | ✔️ |
-| Configure server settings like password or default redirection | ✔️ | ✔️ | ✔️ |
-| Analyse usage of short links | ✔️ | ✖️ | ❌ |
-
-> - ✔️ fully implemented
-> - ✖️ partially implemented but not fully functional yet
-> - ❌ not implemented
-
-## TO-DOs
-
-- [ ] `[UI ]` General Settings View
-- [ ] `[API]` Short link analysis details endpoint
-- [ ] `[UI ]` Short link details and analysis
-
----
-
-## Configuration
-
-vctr uses following configuration structrue:
-
-```json
-{
-    "Logging": {
-        "LogLevel": {
-            "Default": "Debug"
-        }
-    },
-
-    "ConnectionStrings": {
-        "MySQL": "Server=localhost;Database=vctr;User Id=vctr;Password=password"
-    },
-
-    "Secrets": {
-        "IPInfoToken": ""
-    },
-    
-    "Server": {
-        "URL": "localhost"
-    }
-}
-```
-
-Settings can be provided by:
-- an `appsettings.json` file in the root direction
-- environment variables  
-  *Every key must start with `VCTR_` and groups are seperated by `__`, for example: `VCTR_CONNECTIONSTRINGS__MYSQL`*.
-- command arguments  
-  *Groups are seperated by `:`, for example: `--ConnectionStrings:MySQL`*.
-
----
+vctr `[ˈvɛktər]` is a self hosted service to access, create and manage short links on your domain.
 
 ## Setup
 
-vctr currently requires a connection to a MySQL / MariaDB database to save persistent data.
+It is recommendet to use the provided Docker images or Dockerfiles to set up vctr.
 
-### Docker
+- [`Gateway/Dockerfile`](Gateway/Dockerfile): The main vctr gateway
+- [`WebApp/Dockerfile`](WebApp/Dockerfile): The default web frontend for vctr gateway
 
-The recommended way to set up and install vctr is by using the provided docker image, which can be built using the `Dockerfile` in this repository or by pulling the latest pre-built image from [Docker Hub](https://hub.docker.com/r/zekro/vctr) registry.
+You can use the provided [`docker-compose.yml`](docker-compose.yml) config to set up the whole vctr environment with `traefik` as reverse proxy, `redis` as cache and `postgresql` as database.
+
+After startup, go to `yourdomain.com/ui/login` and enter your predefined root account credentials.
+
+### Configuration
+
+You can either use the provided [`appsettings.json`](Gateway/appsettings.json) to configure the vctr gateway or use the following environment variables:
+```yml
+environment:
+  VCTR_LOGGING__LOGLEVEL__DEFAULT: "Information"
+  VCTR_LOGGING__LOGLEVEL__MICROSOFT: "Warning"
+  VCTR_LOGGING__LOGLEVEL__MICROSOFT.HOSTING.LIFETIME: "Information"
+
+  # Use either one of these:
+  VCTR_CONNECTIONSTRINGS__POSTGRES: "Host=postgres;Database=vctr;Username=root;  Password=strong_postgres_root_passwrod"
+  VCTR_CONNECTIONSTRINGS__MYSQL: "Host=mysql;Database=vctr;Username=root;  Password=strong_mysql_root_passwrod"
+
+  VCTR_PASSWORDHASHING_MEMORYPOOLKB: 131072
+  VCTR_PASSWORDHASHING_ITERATIONS: 4
+
+  # Set this to have persistent sessions
+  # after application restart
+  VCTR_SESSIONS_JWTSECRET: "my_strong_jwt_secret"
+  # Enable this is you are testing without an HTTPS
+  # connection to the gateway
+  VCTR_SESSIONS_BYPASSSECURECOOKIES: false
+
+  VCTR_INITIALIZATION__ROOTUSERNAME: "root"
+  VCTR_INITIALIZATION__ROOTUSERPASSWORD: "strong_vctr_root_passwrod"
+
+  VCTR_CACHING__DURATION__LINKS: "30.00:00:00"
+  VCTR_CACHING__REDIS__SERVERS: "redis:6379"
+  VCTR_CACHING__REDIS__DATABASE: 0
+
+  VCTR_ROUTING__ROOT: "https://zekro.de"
+  VCTR_ROUTING__NOTFOUND: "/ui/notfound"
+  VCTR_ROUTING__PASSWORD: "/ui/password"
+```
+
+---
+
+## Migration
+
+If you are using vctr < `v1.0`, you can use the [`Migrator`](Migrator) script to migrate links from old vctr instances to new (>= `v1.0`) vctr versions.
+
+It is provided with a Dockerfile, so you do not need to install python on your host system.
 
 ```
-# docker pull zekro/vctr:latest
+$ docker build -t vctr-migrator . -f ./Migrator/Dockerfile
+$ docker run --name vctr-migrator \
+    -e CREATOR_GUID="USER_GUID_TO_BIND_LINKS_TO" \
+    -e CONNECTIONSTRING_MYSQL="host=...;user=...;password=...;database=..." \
+    -e CONNECTIONSTRING_PSQL="host=...;user=...;password=...;database=..."
 ```
-
-```
-# docker run \
-    --name vctr \
-    --publish 80:80 \
-    --env 'VCTR_CONNECTIONSTRINGS__MYSQL=Server=localhost;Database=vctr;User Id=vctr;Password=password' \
-    --env 'VCTR_SERVER__URL=localhost' \
-    --env 'VCTR_SECRETS__IPINFOTOKEN=token' \
-    --detached \
-    zekro/vctr:latest
-```
-
-Then, open up your browser and connect to the published address of `vctr` to initially set a password which is used  to access the service.
-
-## Self-Compile Binaries
-
-For that, following installations are required:
-- ASP.NET Core 2.1 SDK
-- node JS >= 12.13.x
-
-Then, compile it with the following command to a self-contained binary with all nessecary web assets and libraries:
-```
-$ dotnet publish -c Release -r linux-x64 --self-contained true
-```
-
-Of course, you need to modify the RID (`Runtime Identifier`) depending on your needs. [Here](https://docs.microsoft.com/en-us/dotnet/core/rid-catalog) you can find a catalog of runtime identifiers available.
-
-The resulting assets are located at
-```
-bin/Release/netcoreapp2.1/linux-x64/
-```
-
-*Don't be surprised because the binaies will be named `slms2asp`. That's the actual current namespace of the application, which was created when `vctr` was not the official project name.*
 
 ---
 
