@@ -189,7 +189,9 @@ namespace Gateway.Controllers.Endpoints
             if (!Can(Permissions.DELETE_LINKS, link))
                 return NotFound();
 
-            database.Delete(link);
+            var accesses = await database.GetWhere<AccessModel>(a => a.Link.Guid == id).ToArrayAsync();
+            database.DeleteRange(accesses);
+
             await database.Commit();
             await cache.Remove<LinkModel>(link.Ident);
 

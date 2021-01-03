@@ -22,6 +22,8 @@ namespace DatabaseAccessLayer
 
         T Delete<T>(T model) where T : EntityModel;
 
+        void DeleteRange<T>(params T[] model) where T : EntityModel;
+
         Task Commit();
     }
 }

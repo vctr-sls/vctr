@@ -183,7 +183,16 @@ namespace Gateway.Controllers.Endpoints
             if (user == null)
                 return NotFound();
 
+            var userLinks = await database.GetWhere<LinkModel>(l => l.Creator.Guid == id).ToArrayAsync();
+            foreach (var link in userLinks)
+            {
+                var accesses = await database.GetWhere<AccessModel>(a => a.Link.Guid == link.Guid).ToArrayAsync();
+                database.DeleteRange(accesses);
+            }
+
+            database.DeleteRange(userLinks);
             database.Delete(user);
+
             await database.Commit();
 
             return NoContent();

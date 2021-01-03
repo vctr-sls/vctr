@@ -37,6 +37,9 @@ namespace DatabaseAccessLayer
         public T Delete<T>(T model) where T : EntityModel =>
             GetTable<T>().Remove(model).Entity;
 
+        public void DeleteRange<T>(params T[] model) where T : EntityModel =>
+            GetTable<T>().RemoveRange(model);
+
         public Task Commit() => ctx.SaveChangesAsync();
 
         private DbSet<T> GetTable<T>() where T : EntityModel
