@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="23" height="23" viewBox="0 0 23 23">
+  <g id="clock" transform="translate(0)">
+    <g id="Group_5" data-name="Group 5">
+      <rect id="Rectangle_4" data-name="Rectangle 4" width="23" height="23" transform="translate(0)" fill="none"/>
+    </g>
+    <g id="Group_8" data-name="Group 8" transform="translate(1.904 1.904)">
+      <g id="Group_7" data-name="Group 7">
+        <g id="Group_6" data-name="Group 6">
+          <path id="Path_4" data-name="Path 4" d="M11.254,2a9.254,9.254,0,1,0,9.254,9.254A9.281,9.281,0,0,0,11.254,2ZM15.14,15.14l-4.812-2.961V6.627h1.388v4.812l4.164,2.5Z" transform="translate(-2 -2)" fill="#fff"/>
+        </g>
+      </g>
+    </g>
+  </g>
+</svg>

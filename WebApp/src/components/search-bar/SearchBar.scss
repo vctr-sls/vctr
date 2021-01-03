@@ -1,0 +1,23 @@
+@import '../../scss/colors.scss';
+
+.search-bar-container {
+    display: flex;
+    width: 100%;
+
+    .search-bar-icon {
+        fill: $c-accent;
+        margin-right: 10px;
+    }
+    
+    .search-bar-input {
+        width: 100%;
+        border: none;
+        background-color: transparent;
+        border-bottom: solid 2px $c-accent;
+        font-size: 18px;
+    
+        &:focus {
+            border-bottom-width: 4px;
+        }
+    }
+}

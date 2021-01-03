@@ -1,0 +1,39 @@
+@import '../../scss/colors.scss';
+
+.modal-background-container {
+    position: fixed;
+    display: flex;
+    width: 100vw;
+    height: 100vh;
+    top: 0;
+    left: 0;
+    background-color: rgba(black, 0.75);
+    z-index: 100;
+
+    > div {
+        display: flex;
+        width: 100vw;
+        margin: auto 0;
+        background-color: $c-bg-purple;
+
+        > div {
+            margin: 20px auto;
+            padding: 0 50px;
+            max-width: 1000px;
+            > h2 {
+                margin-top: 0;
+            }
+        }
+
+    }
+
+    .modal-bottomrow {
+        display: flex;
+        > * {
+            > * {
+                margin-left: 10px;
+            }
+            margin-left: auto;
+        }
+    }
+}

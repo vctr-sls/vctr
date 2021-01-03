@@ -1,0 +1,48 @@
+@import '../../scss/colors.scss';
+
+.links-no-links {
+    font-size: 23px;
+    text-align: center;
+    margin-top: 20vh;
+    opacity: 0.75;
+}
+
+.links-top-bar {
+    display: flex;
+    margin-bottom: 25px;
+
+    .add-btn {
+        margin-left: 20px;
+        width: 45px;
+        height: 45px;
+        padding: 4px;
+
+        > svg {
+            width: 100%;
+            height: 100%;
+        }
+    }
+}
+
+.links-stats {
+    display: flex;
+    margin: 30px 0 50px 0;
+
+    > div {
+        margin-right: 20px;
+        &:last-child { margin-right: none; }
+
+        background-color: rgba($c-bg-purple, 0.75);
+        width: fit-content;
+        padding: 10px;
+        > span {
+            display: block;
+            text-align: center;
+
+            &:nth-child(2) {
+                font-size: 30px;
+                margin: 12px 0px 3px 0px;
+            }
+        }
+    }
+}

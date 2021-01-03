@@ -1,0 +1,73 @@
+version: "3"
+
+services:
+  traefik:
+    image: "traefik:v2.2"
+    command:
+      - "--api.insecure=true"
+      - "--providers.docker"
+      - "--entrypoints.http.address=:80"
+      - "--entrypoints.https.address=:443"
+      - "--providers.docker.exposedByDefault=false"
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - "/var/run/docker.sock:/var/run/docker.sock"
+
+  postgres:
+    image: "postgres:latest"
+    ports:
+      - "5432:5432"
+    volumes:
+      - "./postgres:/var/lib/postgresql/data"
+    environment:
+      POSTGRES_USER: "root"
+      POSTGRES_PASSWORD: "strong_postgres_root_passwrod"
+    restart: always
+
+  redis:
+    image: "redis:latest"
+    expose:
+      - "6379"
+    restart: always
+
+  vctr-gw:
+    build:
+      context: '.'
+      dockerfile: './Gateway/Dockerfile'
+    image: "zekro/vctr-gw:latest"
+    expose:
+      - "80"
+    environment:
+      VCTR_CONNECTIONSTRINGS__POSTGRES: "Host=postgres;Database=vctr;Username=root;Password=strong_postgres_root_passwrod"
+      VCTR_INITIALIZATION__ROOTUSERNAME: "root"
+      VCTR_INITIALIZATION__ROOTUSERPASSWORD: "strong_vctr_root_passwrod"
+      VCTR_CACHING__DURATION: "30.00:00:00"
+      VCTR_CACHING__REDIS__SERVERS: "redis:6379"
+      VCTR_CACHING__REDIS__DATABASE: 2
+      VCTR_ROUTING__ROOT: "https://zekro.de"
+      VCTR_ROUTING__NOTFOUND: "/ui/notfound"
+      VCTR_ROUTING__PASSWORD: "/ui/password"
+    restart: always
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.vctr-gw.entrypoints=https"
+      - "traefik.http.routers.vctr-gw.tls=true"
+      - "traefik.http.routers.vctr-gw.rule=Host(`yourdomain.com`)"
+
+  vctr-fe:
+    build:
+      context: '.'
+      dockerfile: './WebApp/Dockerfile'
+    image: "zekro/vctr-fe:latest"
+    expose:
+      - "80"
+    restart: always
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.vctr-fe.entrypoints=https"
+      - "traefik.http.routers.vctr-fe.tls=true"
+      - "traefik.http.routers.vctr-fe.rule=Host(`yourdomain.com`) && PathPrefix(`/ui`)"
+      - "traefik.http.routers.vctr-fe.middlewares=vctr-fe-stripprefix"
+      - "traefik.http.middlewares.vctr-fe-stripprefix.stripprefix.prefixes=/ui/"

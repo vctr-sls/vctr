@@ -1,0 +1,44 @@
+@import '../../scss/colors.scss';
+
+.sidebar-container {
+    display: flex;
+    flex-flow: column;
+    position: relative;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 30vw;
+    max-width: 250px;
+    background-color: $c-bg-blue;
+
+    .sidebar-logo {
+        margin: 10px auto;
+        padding: 10px 35px;
+    }
+
+    .sidebar-tile {
+        width: 100%;
+        background-color: rgba($c-bg-purple, 0.5);
+        color: $c-winered;
+        padding: 15px;
+        cursor: pointer;
+        font-size: 24px;
+        font-weight: 500;
+        text-shadow: -1.5px 1.5px rgba($c-bg-blue, 0.75);
+
+        transition: all 0.15s ease;
+
+        &:hover {
+            background-color: rgba($c-bg-purple, 1);
+        }
+
+        &.active {
+            background-color: rgba($c-winered, 1);
+            color: $c-blue;
+        }
+
+        &.logout {
+            margin-top: auto;
+        }
+    }
+}

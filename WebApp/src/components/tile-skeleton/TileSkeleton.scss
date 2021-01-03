@@ -1,0 +1,11 @@
+@keyframes tile-skeleton {
+    0% { opacity: 0; }
+    50% { opacity: 0.4; }
+    100% { opacity: 0; }
+}
+
+.tile-skeleton {
+    background-color: white;
+    opacity: 0;
+    animation: tile-skeleton 2s ease infinite;
+}
