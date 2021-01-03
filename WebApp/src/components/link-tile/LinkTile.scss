@@ -21,7 +21,7 @@
 
     > .details-container {
         margin-right: auto;
-        width: calc(100% - 75px);
+        width: calc(100% - 120px);
         > * {
             margin-bottom: 10px;
             &:last-child { margin-bottom: 0; }
@@ -61,6 +61,16 @@
     .controls-container {
         opacity: 0;
         transition: all .15s ease;
+        display: flex;
+        .button-copy {
+            background-color: $c-bg-purple;
+        }
+        > button {
+            width: 50px;
+            height: 50px;
+            margin-right: 10px;
+            &:last-child { margin-right: 0; }
+        }
     }
 
     &:hover > .controls-container {

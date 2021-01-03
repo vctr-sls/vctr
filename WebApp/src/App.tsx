@@ -20,6 +20,7 @@ import SnackBarService, {
 import Users from './routes/users/Users';
 import UserEditor from './routes/user-editor/UserEditor';
 import { createBrowserHistory } from 'history';
+import Copy2Clipboard from './components/copy2cb/Copy2Clipboard';
 
 const IGNORE_AUTH_ROUTES = ['notfound', 'password'];
 
@@ -64,6 +65,8 @@ export default class App extends Component {
   render() {
     return (
       <div className="app-container">
+        <Copy2Clipboard />
+
         {this.isLoggedIn && (
           <Sidebar
             entries={this.sidebarEntries}

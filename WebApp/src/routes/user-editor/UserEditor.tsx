@@ -4,11 +4,18 @@ import './UserEditor.scss';
 
 import { Component } from 'react';
 import { RouteComponentProps, withRouter } from 'react-router';
-import { Permissions, UserUpdateModel } from '../../services/api/models';
+import {
+  LinkModel,
+  Permissions,
+  UserUpdateModel,
+} from '../../services/api/models';
 import APIService from '../../services/api/api';
 import SnackBarService from '../../components/snackbar/SnackBarService';
 import { ReactComponent as Back } from '../../assets/back.svg';
 import PermsSelector from '../../components/perms-selector/PermsSelector';
+import LinkTile from '../../components/link-tile/LinkTile';
+import ElementsUtil from '../../util/elements';
+import TileSkeleton from '../../components/tile-skeleton/TileSkeleton';
 
 interface UserEditorProps extends RouteComponentProps {
   id: string;
@@ -17,6 +24,7 @@ interface UserEditorProps extends RouteComponentProps {
 class UserEditor extends Component<UserEditorProps> {
   state = {
     user: (null as any) as UserUpdateModel,
+    links: (null as any) as LinkModel[],
   };
 
   async componentDidMount() {
@@ -29,6 +37,8 @@ class UserEditor extends Component<UserEditorProps> {
       try {
         const user = await APIService.getUser(this.props.id);
         this.setState({ user });
+        const links = await APIService.getUserLinks(user.guid);
+        this.setState({ links });
       } catch {}
     }
   }
@@ -39,6 +49,7 @@ class UserEditor extends Component<UserEditorProps> {
 
   private get editorDom(): JSX.Element {
     const user = this.state.user;
+    const links = this.state.links?.map((l) => <LinkTile link={l} />);
 
     return (
       <div className="user-editor-container">
@@ -113,6 +124,17 @@ class UserEditor extends Component<UserEditorProps> {
         >
           {this.isNew ? 'Create User' : 'Save Changes'}
         </button>
+
+        {!this.isNew && !this.isMe && (
+          <div className="links-container">
+            <h2>{user.username}'s Links</h2>
+            {this.state.links === null
+              ? ElementsUtil.repeat(3, (i) => (
+                  <TileSkeleton key={`tile-skeleton-${i}`} delay={`0.${i}s`} />
+                ))
+              : links}
+          </div>
+        )}
       </div>
     );
   }

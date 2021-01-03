@@ -11,8 +11,10 @@ import { ReactComponent as Disabled } from '../../assets/disabled.svg';
 import { ReactComponent as EyeOutlined } from '../../assets/eye-outlined.svg';
 import { ReactComponent as EyeFilled } from '../../assets/eye-filled.svg';
 import { ReactComponent as Delete } from '../../assets/delete.svg';
+import { ReactComponent as Copy } from '../../assets/copy.svg';
 import UrlUtils from '../../util/urls';
 import TimeUtil from '../../util/time';
+import Copy2ClipboardService from '../copy2cb/Copy2ClipboardService';
 
 interface LinkTileProps {
   link: LinkModel;
@@ -51,6 +53,9 @@ export default class LinkTile extends Component<LinkTileProps> {
           </div>
         </div>
         <div className="controls-container">
+          <button onClick={(e) => this.onCopyClick(e)} className="button-copy">
+            <Copy />
+          </button>
           <button onClick={(e) => this.onDeleteClick(e)}>
             <Delete />
           </button>
@@ -62,5 +67,11 @@ export default class LinkTile extends Component<LinkTileProps> {
   private onDeleteClick(e: React.MouseEvent<HTMLButtonElement, MouseEvent>) {
     e.stopPropagation();
     this.props.onDelete.call(this, this.props.link);
+  }
+
+  private onCopyClick(e: React.MouseEvent<HTMLButtonElement, MouseEvent>) {
+    e.stopPropagation();
+    const shortLink = `${window.location.origin}/${this.props.link.ident}`;
+    Copy2ClipboardService.copy(shortLink);
   }
 }
