@@ -36,8 +36,8 @@ environment:
   VCTR_LOGGING__LOGLEVEL__MICROSOFT.HOSTING.LIFETIME: "Information"
 
   # Use either one of these:
-  VCTR_CONNECTIONSTRINGS__POSTGRES: "Host=postgres;Database=vctr;Username=root;  Password=strong_postgres_root_passwrod"
-  VCTR_CONNECTIONSTRINGS__MYSQL: "Host=mysql;Database=vctr;Username=root;  Password=strong_mysql_root_passwrod"
+  VCTR_CONNECTIONSTRINGS__POSTGRES: "Host=postgres;Database=vctr;Username=root;Password=strong_postgres_root_passwrod"
+  VCTR_CONNECTIONSTRINGS__MYSQL: "Host=mysql;Database=vctr;Username=root;Password=strong_mysql_root_passwrod"
 
   VCTR_PASSWORDHASHING_MEMORYPOOLKB: 131072
   VCTR_PASSWORDHASHING_ITERATIONS: 4
