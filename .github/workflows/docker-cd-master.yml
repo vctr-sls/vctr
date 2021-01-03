@@ -1,0 +1,48 @@
+name: Docker CD Master
+
+on:
+  push:
+    branches:
+      - master
+    paths-ignore:
+      - '*.md'
+
+jobs:
+
+  deploy-gateway:
+
+    name: Deploy Gateway
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out code into the Go module directory
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 1
+
+      - name: Build and Publish Docker Image
+        env:
+          DOCKER_USERNAME: zekro
+          DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
+        run: |
+          docker build . -t zekro/vctr-gw:latest
+          docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD
+          docker push zekro/vctr-gw:latest
+
+  deploy-webapp:
+
+    name: Deploy WebApp
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out code into the Go module directory
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 1
+
+      - name: Build and Publish Docker Image
+        env:
+          DOCKER_USERNAME: zekro
+          DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
+        run: |
+          docker build . -t zekro/vctr-fe:latest
+          docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD
+          docker push zekro/vctr-fe:latest
