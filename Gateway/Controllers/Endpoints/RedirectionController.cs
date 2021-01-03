@@ -89,7 +89,7 @@ namespace Gateway.Controllers.Endpoints
             link.AccessCount++;
 
             var hashedIPAddr = await fastHasher.GetEncodedHash(HttpContext.Connection.RemoteIpAddress.ToString());
-            if (await database.GetWhere<AccessModel>(a => a.SourceIPHash.Equals(hashedIPAddr)).FirstOrDefaultAsync() == null)
+            if (await database.GetWhere<AccessModel>(a => a.Link.Guid.Equals(link.Guid) && a.SourceIPHash.Equals(hashedIPAddr)).FirstOrDefaultAsync() == null)
                 link.UniqueAccessCount++;
 
             database.Create(new AccessModel
