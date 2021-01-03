@@ -24,7 +24,7 @@ jobs:
           DOCKER_USERNAME: zekro
           DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
         run: |
-          docker build . -t zekro/vctr-gw:latest
+          docker build . -t zekro/vctr-gw:latest -f ./Gateway/Dockerfile
           docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD
           docker push zekro/vctr-gw:latest
 
@@ -43,6 +43,6 @@ jobs:
           DOCKER_USERNAME: zekro
           DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
         run: |
-          docker build . -t zekro/vctr-fe:latest
+          docker build . -t zekro/vctr-fe:latest -f ./WebApp/Dockerfile
           docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD
           docker push zekro/vctr-fe:latest
