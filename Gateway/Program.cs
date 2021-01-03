@@ -23,9 +23,10 @@ namespace Gateway
                 .Build();
 
             return Host.CreateDefaultBuilder(args)
+                .ConfigureAppConfiguration(c => c.AddConfiguration(config))
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
-                    webBuilder.UseConfiguration(config);
+                    //webBuilder.UseConfiguration(config);
                     webBuilder.UseStartup<Startup>();
                 });
         }
