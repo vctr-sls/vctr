@@ -1,12 +1,10 @@
   
-name: Docker CD Master
+name: Docker CD Tag
 
 on:
   push:
-    branches:
-      - master
-    paths-ignore:
-      - '*.md'
+    tags:
+      - '*'
 
 jobs:
 
