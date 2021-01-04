@@ -1,0 +1,50 @@
+  
+name: Docker CD Master
+
+on:
+  push:
+    branches:
+      - master
+    paths-ignore:
+      - '*.md'
+
+jobs:
+
+  deploy-gateway:
+
+    name: Deploy Gateway
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out code into the Go module directory
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 1
+
+      - name: Set env
+        run: echo "RELEASE_VERSION=${GITHUB_REF#refs/*/}" >> $GITHUB_ENV
+
+      - name: Build and Publish Docker Image
+        run: |
+          docker build . -t zekro/vctr-gw:$RELEASE_VERSION -f ./Gateway/Dockerfile
+          docker login -u zekro -p ${{ secrets.DOCKER_PASSWORD }}
+          docker push zekro/vctr-gw:$RELEASE_VERSION
+          
+  deploy-webapp:
+
+    name: Deploy WebApp
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out code into the Go module directory
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 1
+          
+      - name: Set env
+        run: echo "RELEASE_VERSION=${GITHUB_REF#refs/*/}" >> $GITHUB_ENV
+
+      - name: Build and Publish Docker Image
+        run: |
+          docker build . -t zekro/vctr-fe:$RELEASE_VERSION -f ./WebApp/Dockerfile
+          docker login -u zekro -p ${{ secrets.DOCKER_PASSWORD }}
+          docker push zekro/vctr-fe:$RELEASE_VERSION
+
