@@ -21,8 +21,7 @@
       "commandName": "Project",
       "launchUrl": "swagger",
       "environmentVariables": {
-        "VCTR_CONNECTIONSTRINGS__POSTGRES": "Host=testserver;Database=vctr;Username=root;Password=root",
-        "ASPNETCORE_ENVIRONMENT": "Production"
+        "ASPNETCORE_ENVIRONMENT": "Development"
       },
       "dotnetRunMessages": "true",
       "applicationUrl": "http://localhost:5000"

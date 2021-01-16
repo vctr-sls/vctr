@@ -21,6 +21,7 @@ import Users from './routes/users/Users';
 import UserEditor from './routes/user-editor/UserEditor';
 import { createBrowserHistory } from 'history';
 import Copy2Clipboard from './components/copy2cb/Copy2Clipboard';
+import { STATUS_CODES } from 'http';
 
 const IGNORE_AUTH_ROUTES = ['notfound', 'password'];
 
@@ -51,7 +52,7 @@ export default class App extends Component {
       this.redirect('login');
     });
 
-    APIService.events.on('error', (err: Error) => this.handleApiError(err));
+    APIService.events.on('error', (res: Response) => this.handleApiError(res));
 
     if (this.stateService.selfUser === null) {
       try {
@@ -151,13 +152,12 @@ export default class App extends Component {
     return entries;
   }
 
-  private async handleApiError(err: Error) {
+  private async handleApiError(res: Response) {
     let content: string | JSX.Element = 'Unexpected error.';
 
-    const errRes = (err as any) as Response;
-    if (!!errRes.body && !!errRes.statusText) {
-      let msg = errRes.statusText;
-      const body = await errRes.json();
+    if (!!res.body) {
+      let msg = res.statusText ?? STATUS_CODES[res.status] ?? 'Unknown Error';
+      const body = await res.json();
       if (!!body.error) {
         msg = body.error;
       } else if (!!body.errors) {
@@ -171,6 +171,6 @@ export default class App extends Component {
     }
 
     SnackBarService.show(content, SnackBarType.ERROR, 5000);
-    console.error(err);
+    console.error(res);
   }
 }
