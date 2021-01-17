@@ -51,6 +51,8 @@ namespace DatabaseAccessLayer
                 return ctx.Links as DbSet<T>;
             else if (typ == typeof(AccessModel))
                 return ctx.Accesses as DbSet<T>;
+            else if (typ == typeof(ApiKeyModel))
+                return ctx.ApiKeys as DbSet<T>;
             else
                 throw new ArgumentException("invalid entity type");
         }

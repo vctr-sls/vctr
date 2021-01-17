@@ -8,6 +8,8 @@
 
         public const string RandomIdentChars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789_-";
         public const int RandomIdentLength = 6;
+        public const string RandomApiKeyChars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+        public const int RandomApiKeyLength = 32;
 
         public const string SessionCookieName = "__vctr_session";
 

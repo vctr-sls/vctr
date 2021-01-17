@@ -18,5 +18,6 @@
         UPDATE_USERS            = 1 << 7,
         DELETE_USERS            = 1 << 8,
         PERFORM_STATE_CHANGES   = 1 << 9,
+        CREATE_API_KEY          = 1 << 10,
     }
 }

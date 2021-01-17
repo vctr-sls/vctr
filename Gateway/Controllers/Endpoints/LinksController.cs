@@ -113,7 +113,9 @@ namespace Gateway.Controllers.Endpoints
             database.Create(newLink);
             await database.Commit();
 
-            return Ok(new LinkViewModel(newLink, AuthorizedUser));
+            return Created(
+                $"/api/links/{newLink.Guid}",
+                new LinkViewModel(newLink, AuthorizedUser));
         }
 
         // -------------------------------------------------------------------------

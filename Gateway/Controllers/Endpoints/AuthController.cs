@@ -1,12 +1,12 @@
 ﻿using DatabaseAccessLayer;
 using DatabaseAccessLayer.Models;
+using Gateway.Models;
+using Gateway.Services.Authorization;
+using Gateway.Services.Hashing;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
-using Gateway.Models;
-using Gateway.Services.Authorization;
-using Gateway.Services.Hashing;
 using System;
 using System.Threading.Tasks;
 
