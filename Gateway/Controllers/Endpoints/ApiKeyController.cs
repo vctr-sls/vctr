@@ -31,7 +31,7 @@ namespace Gateway.Controllers.Endpoints
         }
 
         // -------------------------------------------------------------------------
-        // --- GET /api/apikey ---
+        // --- POST /api/apikey ---
 
         [HttpPost]
         [RequiresPermission(Permissions.CREATE_API_KEY)]
@@ -52,5 +52,42 @@ namespace Gateway.Controllers.Endpoints
                 $"/api/apikey/{keyModel.Guid}", 
                 new ApiKeyCreatedViewModel(keyModel, key));
         }
+
+        // -------------------------------------------------------------------------
+        // --- GET /api/apikey ---
+
+        [HttpGet]
+        public async Task<ActionResult<ApiKeyViewModel>> GetApiKey()
+        {
+            var apiKey = await GetMyApiKey();
+
+            if (apiKey == null)
+                return NotFound();
+
+            return Ok(new ApiKeyViewModel(apiKey));
+        }
+
+        // -------------------------------------------------------------------------
+        // --- DELETE /api/apikey ---
+
+        [HttpDelete]
+        public async Task<ActionResult<ApiKeyViewModel>> DeleteApiKey()
+        {
+            var apiKey = await GetMyApiKey();
+
+            if (apiKey != null)
+            {
+                database.Delete(apiKey);
+                await database.Commit();
+            }
+
+            return Ok();
+        }
+
+        // -------------------------------------------------------------------------
+        // --- HELPERS ---
+
+        private Task<ApiKeyModel> GetMyApiKey() =>
+            database.GetWhere<ApiKeyModel>(k => k.User.Guid == AuthorizedUser.Guid).FirstOrDefaultAsync();
     }
 }
