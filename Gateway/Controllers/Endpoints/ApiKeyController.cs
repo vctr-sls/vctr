@@ -1,16 +1,12 @@
 ﻿using DatabaseAccessLayer;
 using DatabaseAccessLayer.Models;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using Gateway.Filter;
 using Gateway.Models;
 using Gateway.Services.Hashing;
 using Gateway.Util;
-using System;
-using System.Collections.Generic;
-using System.Linq;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using System.Threading.Tasks;
-using CacheAccessLayer;
 
 namespace Gateway.Controllers.Endpoints
 {
@@ -20,11 +16,11 @@ namespace Gateway.Controllers.Endpoints
     public class ApiKeyController : AuthorizedControllerBase
     {
         private readonly IDatabaseAccess database;
-        private readonly IPasswordHashingService hasher;
+        private readonly IApiKeyHashingService hasher;
 
         public ApiKeyController(
             IDatabaseAccess _database,
-            IPasswordHashingService _hasher)
+            IApiKeyHashingService _hasher)
         {
             database = _database;
             hasher = _hasher;
@@ -37,6 +33,10 @@ namespace Gateway.Controllers.Endpoints
         [RequiresPermission(Permissions.CREATE_API_KEY)]
         public async Task<ActionResult<ApiKeyCreatedViewModel>> CreateApiKey()
         {
+            var apiKey = await GetMyApiKey();
+            if (apiKey != null)
+                database.Delete(apiKey);
+
             var key = RandomUtil.GetString(Constants.RandomApiKeyLength, Constants.RandomApiKeyChars);
 
             var keyModel = new ApiKeyModel()

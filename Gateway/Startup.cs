@@ -46,6 +46,7 @@ namespace Gateway
                 .AddScoped<IDatabaseAccess, DatabaseAccess>()
                 .AddSingleton<ICacheAccess, RedisCacheModule>()
                 .AddSingleton<IPasswordHashingService, Argon2HashingService>()
+                .AddSingleton<IApiKeyHashingService, Sha512HashingService>()
                 .AddSingleton<IHashingService, Sha1HashingService>()
                 .AddSingleton<IAuthorizationService, JwtAuthorizationService>()
                 .AddScoped<InitializationService>()
