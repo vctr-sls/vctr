@@ -62,23 +62,27 @@ namespace Gateway.Filter
                     () => authorization.ValidateSessionKey(token),
                     (_) => null);
 
-            ok = ctx.HttpContext.Request.Headers.TryGetValue("authorization", out var apiKey);
-            if (ok && !string.IsNullOrEmpty(apiKey))
+            ok = ctx.HttpContext.Request.Headers.TryGetValue("authorization", out var authHeaderValue);
+            if (!ok || !authHeaderValue.ToString().ToLower().StartsWith("basic "))
+                return null;
+            authHeaderValue = authHeaderValue.ToString()[6..];
+
+            if (!string.IsNullOrEmpty(authHeaderValue))
             {
-                var keyHash = await hasher.GetEncodedHash(apiKey);
-                var apiKeyModel = await database.GetWhere<ApiKeyModel>(k => k.KeyHash == keyHash)
+                var keyHash = await hasher.GetEncodedHash(authHeaderValue);
+                var apiKey = await database.GetWhere<ApiKeyModel>(k => k.KeyHash == keyHash)
                     .Include(k => k.User).FirstOrDefaultAsync();
 
-                if (apiKeyModel != null)
+                if (apiKey != null)
                 {
-                    apiKeyModel.AccessCount++;
-                    apiKeyModel.LastAccess = DateTime.Now;
-                    database.Update(apiKeyModel);
+                    apiKey.AccessCount++;
+                    apiKey.LastAccess = DateTime.Now;
+                    database.Update(apiKey);
                     await database.Commit();
 
                     return new AuthClaims()
                     {
-                        Guid = apiKeyModel.User.Guid,
+                        Guid = apiKey.User.Guid,
                     };
                 }
             }
