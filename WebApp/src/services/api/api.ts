@@ -1,6 +1,7 @@
 /** @format */
 
 import { EventEmitter } from 'events';
+import { STATUS_CODES } from 'http';
 import {
   ApiKeyCreateModel,
   ApiKeyModel,
@@ -214,7 +215,7 @@ export default class APIService {
 
     if (!res.ok) {
       if (emitError) this.emitError(res);
-      throw new Error(res.statusText);
+      throw new Error(res.statusText || STATUS_CODES[res.status]);
     }
 
     if (res.status === 204 || res.headers.get('content-length') === '0') {
