@@ -22,6 +22,7 @@ import UserEditor from './routes/user-editor/UserEditor';
 import { createBrowserHistory } from 'history';
 import Copy2Clipboard from './components/copy2cb/Copy2Clipboard';
 import { STATUS_CODES } from 'http';
+import ApiKey from './routes/apikey/ApiKey';
 
 const IGNORE_AUTH_ROUTES = ['notfound', 'password'];
 
@@ -94,6 +95,11 @@ export default class App extends Component {
               path="/users/:id"
               render={({ match }) => <UserEditor id={match.params.id} />}
             />
+            <Route
+              exact
+              path="/apikey"
+              render={({ match }) => <ApiKey id={match.params.id} />}
+            />
             <Route exact path="/notfound" render={() => <NotFound />} />
             <Route exact path="/password" render={() => <Password />} />
 
@@ -146,6 +152,13 @@ export default class App extends Component {
       entries.push({
         displayname: 'me',
         route: 'users/me',
+      });
+    }
+
+    if (this.stateService.selfUser?.permissions & Permissions.CREATE_API_KEY) {
+      entries.push({
+        displayname: 'api key',
+        route: 'apikey',
       });
     }
 
