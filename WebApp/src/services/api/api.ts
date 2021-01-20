@@ -2,6 +2,8 @@
 
 import { EventEmitter } from 'events';
 import {
+  ApiKeyCreateModel,
+  ApiKeyModel,
   CountModel,
   LinkCreateModel,
   LinkModel,
@@ -129,9 +131,28 @@ export default class APIService {
   }
 
   // ------------------------------------------------------------
+  // --- USERS ---
+
+  public static createApiKey(): Promise<ApiKeyCreateModel> {
+    return this.post('apikey');
+  }
+
+  public static getApiKey(emitError?: boolean): Promise<ApiKeyModel> {
+    return this.get('apikey', emitError);
+  }
+
+  public static resetApiKey(): Promise<any> {
+    return this.delete('apikey');
+  }
+
+  // ------------------------------------------------------------
   // --- HELPERS ---
 
-  public static get<T>(path: string, emitError: boolean = true): Promise<T> {
+  public static emitError(res: any) {
+    this.events.emit('error', res);
+  }
+
+  private static get<T>(path: string, emitError: boolean = true): Promise<T> {
     return this.req<T>('GET', path, undefined, undefined, emitError);
   }
 
@@ -192,7 +213,7 @@ export default class APIService {
     }
 
     if (!res.ok) {
-      if (emitError) this.events.emit('error', res);
+      if (emitError) this.emitError(res);
       throw new Error(res.statusText);
     }
 

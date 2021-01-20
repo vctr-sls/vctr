@@ -65,7 +65,9 @@ namespace Gateway.Controllers.Endpoints
             database.Create(newUser);
             await database.Commit();
 
-            return Ok(new UserViewModel(newUser));
+            return Created(
+                $"/api/users/{newUser.Guid}",
+                new UserViewModel(newUser));
         }
 
         // -------------------------------------------------------------------------

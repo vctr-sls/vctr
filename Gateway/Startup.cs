@@ -35,9 +35,9 @@ namespace Gateway
             {
                 var connectionStirng = default(string);
                 if (!string.IsNullOrEmpty(connectionStirng = Configuration.GetConnectionString("postgres")))
-                    options.UseNpgsql(connectionStirng);
+                    options.UseNpgsql(connectionStirng, c => c.MigrationsAssembly("Gateway"));
                 else if (!string.IsNullOrEmpty(connectionStirng = Configuration.GetConnectionString("mysql")))
-                    options.UseMySQL(connectionStirng);
+                    options.UseMySQL(connectionStirng, c => c.MigrationsAssembly("Gateway"));
                 else
                     throw new ArgumentException("unsupported database connection string provided");
             });
@@ -46,6 +46,7 @@ namespace Gateway
                 .AddScoped<IDatabaseAccess, DatabaseAccess>()
                 .AddSingleton<ICacheAccess, RedisCacheModule>()
                 .AddSingleton<IPasswordHashingService, Argon2HashingService>()
+                .AddSingleton<IApiKeyHashingService, Sha512HashingService>()
                 .AddSingleton<IHashingService, Sha1HashingService>()
                 .AddSingleton<IAuthorizationService, JwtAuthorizationService>()
                 .AddScoped<InitializationService>()
@@ -79,8 +80,13 @@ namespace Gateway
 
             using (var scope = app.ApplicationServices.CreateScope())
             {
-                var initializationService = scope.ServiceProvider.GetService<InitializationService>();
                 var logger = scope.ServiceProvider.GetService<ILogger<Startup>>();
+
+                var db = scope.ServiceProvider.GetRequiredService<DatabaseContext>();
+                logger.LogInformation("Ensuring database is created and up-to-date...");
+                db.Database.Migrate();
+
+                var initializationService = scope.ServiceProvider.GetService<InitializationService>();
                 Task.Run(async () =>
                 {
                     try

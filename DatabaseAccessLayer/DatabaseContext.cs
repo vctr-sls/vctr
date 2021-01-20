@@ -8,10 +8,9 @@ namespace DatabaseAccessLayer
         public DbSet<UserModel> Users { get; private set; }
         public DbSet<LinkModel> Links { get; private set; }
         public DbSet<AccessModel> Accesses { get; private set; }
+        public DbSet<ApiKeyModel> ApiKeys { get; private set; }
 
         public DatabaseContext(DbContextOptions<DatabaseContext> options) : base(options)
-        {
-            Database.EnsureCreated();
-        }
+        { }
     }
 }

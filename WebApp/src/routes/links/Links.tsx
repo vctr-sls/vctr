@@ -109,11 +109,14 @@ class Links extends Component<LinksProps> {
   private async onLinkDelete() {
     const link = this.state.selectedToDelete;
     if (!link) return;
-    await APIService.deleteLink(link.guid);
-    const i = this.state.links.findIndex((l) => l.guid === link.guid);
-    if (i >= 0) this.state.links.splice(i, 1);
-    this.setState({ selectedToDelete: null });
-    SnackBarService.show('Link successfully removed.');
+
+    try {
+      await APIService.deleteLink(link.guid);
+      const i = this.state.links.findIndex((l) => l.guid === link.guid);
+      if (i >= 0) this.state.links.splice(i, 1);
+      this.setState({ selectedToDelete: null });
+      SnackBarService.show('Link successfully removed.');
+    } catch {}
   }
 
   private onSearchInput(v: string) {

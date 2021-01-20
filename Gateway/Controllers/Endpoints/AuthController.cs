@@ -1,12 +1,12 @@
 ﻿using DatabaseAccessLayer;
 using DatabaseAccessLayer.Models;
+using Gateway.Models;
+using Gateway.Services.Authorization;
+using Gateway.Services.Hashing;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
-using Gateway.Models;
-using Gateway.Services.Authorization;
-using Gateway.Services.Hashing;
 using System;
 using System.Threading.Tasks;
 
@@ -22,12 +22,12 @@ namespace Gateway.Controllers.Endpoints
         private readonly bool bypassSecureCookies;
         private readonly IAuthorizationService authorization;
         private readonly IDatabaseAccess database;
-        private readonly IPasswordHashingService hasher;
+        private readonly IHashingService hasher;
 
         public AuthController(
             IAuthorizationService _authorization,
             IDatabaseAccess _database,
-            IPasswordHashingService _hasher,
+            IHashingService _hasher,
             IConfiguration config)
         {
             authorization = _authorization;

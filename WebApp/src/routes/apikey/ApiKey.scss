@@ -1,0 +1,35 @@
+@import '../../scss/colors.scss';
+
+.apikey-warning {
+    background-color: rgba(rgb(255, 0, 55), 0.65);
+    max-width: fit-content;
+    padding: 15px;
+}
+
+.apikey-control {
+    margin-top: 20px;
+    > button {
+        margin-right: 15px;
+        &:last-child { margin-right: 0; }
+    }
+}
+
+.apikey-secbtn {
+    background-color: $c-blue;
+}
+
+.apikey-key-view {
+    margin-top: 20px;
+
+    background-color: rgba(white, 0.1);
+    max-width: fit-content;
+    padding: 5px 10px;
+    font-family: 'Share Tech Mono', monospace;
+}
+
+.apikey-infotable {
+    th {
+        text-align: left;
+        padding-right: 20px;
+    }
+}

@@ -12,6 +12,7 @@ export enum Permissions {
   UPDATE_USERS = 1 << 7,
   DELETE_USERS = 1 << 8,
   PERFORM_STATE_CHANGES = 1 << 9,
+  CREATE_API_KEY = 1 << 10,
 }
 
 export interface LoginModel {
@@ -64,4 +65,15 @@ export interface LinkCreateModel extends LinkModel {
 
 export interface CountModel {
   count: number;
+}
+
+export interface ApiKeyModel {
+  guid: string;
+  created: string;
+  last_access: string;
+  access_count: number;
+}
+
+export interface ApiKeyCreateModel extends ApiKeyModel {
+  key: string;
 }
