@@ -22,12 +22,12 @@ namespace Gateway.Controllers.Endpoints
         private readonly bool bypassSecureCookies;
         private readonly IAuthorizationService authorization;
         private readonly IDatabaseAccess database;
-        private readonly IHashingService hasher;
+        private readonly IPasswordHashingService hasher;
 
         public AuthController(
             IAuthorizationService _authorization,
             IDatabaseAccess _database,
-            IHashingService _hasher,
+            IPasswordHashingService _hasher,
             IConfiguration config)
         {
             authorization = _authorization;
