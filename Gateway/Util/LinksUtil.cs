@@ -14,19 +14,19 @@ namespace Gateway.Util
             if (!UrlRegex.IsMatch(destination))
                 return false;
 
-            using (var client = new HttpClient())
+            using var client = new HttpClient
             {
-                client.Timeout = TimeSpan.FromSeconds(10);
+                Timeout = TimeSpan.FromSeconds(10)
+            };
 
-                try
-                {
-                    var res = await client.GetAsync(destination, HttpCompletionOption.ResponseHeadersRead);
-                    return (int) res.StatusCode < 400;
-                }
-                catch
-                {
-                    return false;
-                }
+            try
+            {
+                var res = await client.GetAsync(destination, HttpCompletionOption.ResponseHeadersRead);
+                return (int)res.StatusCode < 400;
+            }
+            catch
+            {
+                return false;
             }
         }
     }

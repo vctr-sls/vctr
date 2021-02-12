@@ -4,7 +4,7 @@
     {
         public const string RegexUserName = @"[a-zA-Z0-9_\-]+";
         public const string RegexLinkIdent = @"[a-zA-Z0-9_\-]+";
-        public const string RegexUrl = @"^(ht|f)tp(s?)\:\/\/[0-9a-zA-Z]([-.\w]*[0-9a-zA-Z])*(:(0-9)*)*(\/?)([a-zA-Z0-9\-\.\?\,\'\/\\\+&%\$#_]*)?$";
+        public const string RegexUrl = @"^https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&\/\/=]*)$";
 
         public const string RandomIdentChars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789_-";
         public const int RandomIdentLength = 6;
