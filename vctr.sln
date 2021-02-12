@@ -37,6 +37,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		.editorconfig = .editorconfig
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Gateway.Test", "Gateway.Test\Gateway.Test.csproj", "{44513F4C-F81A-411F-A85A-F2E34D2E2F86}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -61,6 +63,10 @@ Global
 		{D0A66C6A-CDD5-47D0-8BD2-14D39DF6AE79}.Release|Any CPU.Build.0 = Debug|Any CPU
 		{0FB76647-4063-4149-9191-1287A8F7405E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{0FB76647-4063-4149-9191-1287A8F7405E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{44513F4C-F81A-411F-A85A-F2E34D2E2F86}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{44513F4C-F81A-411F-A85A-F2E34D2E2F86}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{44513F4C-F81A-411F-A85A-F2E34D2E2F86}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{44513F4C-F81A-411F-A85A-F2E34D2E2F86}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
