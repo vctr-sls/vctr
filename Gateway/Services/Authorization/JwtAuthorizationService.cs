@@ -39,8 +39,8 @@ namespace Gateway.Services.Authorization
             var token = tokenHandler.CreateJwtSecurityToken(
                   issuer: issuer,
                   subject: ci,
-                  notBefore: DateTime.UtcNow,
-                  expires: DateTime.UtcNow.Add(expire),
+                  notBefore: DateTime.Now,
+                  expires: DateTime.Now.Add(expire),
                   signingCredentials: credentials);
 
             return tokenHandler.WriteToken(token);
@@ -53,6 +53,9 @@ namespace Gateway.Services.Authorization
                 IssuerSigningKey = signingKey,
                 ValidIssuer = issuer,
                 ValidateIssuer = true,
+                ValidateLifetime = true,
+                RequireExpirationTime = true,
+                ClockSkew = TimeSpan.FromSeconds(10),
                 ValidateAudience = false
             };
 
