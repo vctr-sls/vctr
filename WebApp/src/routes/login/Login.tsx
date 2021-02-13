@@ -8,6 +8,9 @@ import APIService from '../../services/api/api';
 import StateService from '../../services/state/state';
 import { RouteComponentProps, withRouter } from 'react-router';
 import Switch from '../../components/switch/Switch';
+import SnackBarService, {
+  SnackBarType,
+} from '../../components/snackbar/SnackBarService';
 
 interface LoginProps extends RouteComponentProps {
   state: StateService;
@@ -78,6 +81,7 @@ class Login extends Component<LoginProps> {
       this.props.history.replace('/links');
     } catch (err) {
       console.error(err);
+      SnackBarService.show('Invalid username or password.', SnackBarType.ERROR);
     }
   }
 

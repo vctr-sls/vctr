@@ -29,7 +29,7 @@ export default class APIService {
   // --- AUTH ---
 
   public static authLogin(model: LoginModel): Promise<UserModel> {
-    return this.post('auth/login', model);
+    return this.post('auth/login', model, false);
   }
 
   public static authLogout(): Promise<any> {
