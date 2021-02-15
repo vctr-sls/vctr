@@ -1,14 +1,10 @@
-﻿using Moq;
-using NUnit.Framework;
+﻿using Gateway.Services.Authorization;
 using Microsoft.Extensions.Configuration;
+using Microsoft.IdentityModel.Tokens;
+using NUnit.Framework;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Gateway.Services.Authorization;
 using System.Threading;
-using Microsoft.IdentityModel.Tokens;
 
 namespace Gateway.Test.Services.Authorization
 {

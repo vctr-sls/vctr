@@ -81,6 +81,9 @@ namespace Gateway.Services.Hashing
 
         public async Task<string> GetEncodedHash(string password)
         {
+            if (password == null) throw new ArgumentNullException(nameof(password));
+            if (password.Length == 0) throw new ArgumentException("invalid length", nameof(password));
+
             var argon2Id = defaultPrefs.MakeUnsaltedHasher(password);
             argon2Id.Salt = GetSalt(defaultPrefs.SaltLength);
             var hash = await argon2Id.GetBytesAsync(defaultPrefs.KeyLength);
@@ -90,6 +93,11 @@ namespace Gateway.Services.Hashing
 
         public async Task<bool> CompareEncodedHash(string password, string encodedHash)
         {
+            if (password == null) throw new ArgumentNullException(nameof(password));
+            if (password.Length == 0) throw new ArgumentException("invalid length", nameof(password));
+            if (encodedHash == null) throw new ArgumentNullException(nameof(encodedHash));
+            if (encodedHash.Length == 0) throw new ArgumentException("invalid length", nameof(encodedHash));
+
             var (prefs, salt, hash) = HashingPreferences.DecodeHash(encodedHash);
 
             var hasher = prefs.MakeUnsaltedHasher(password);
