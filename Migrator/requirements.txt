@@ -1,3 +1,0 @@
-mysql
-mysql-connector-python
-pg8000

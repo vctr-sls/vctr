@@ -24,19 +24,3 @@ jobs:
           docker build . -t zekro/vctr-gw:latest -f ./Gateway/Dockerfile
           docker login -u zekro -p ${{ secrets.DOCKER_PASSWORD }}
           docker push zekro/vctr-gw:latest
-
-  deploy-webapp:
-
-    name: Deploy WebApp
-    runs-on: ubuntu-latest
-    steps:
-      - name: Check out code into the Go module directory
-        uses: actions/checkout@v2
-        with:
-          fetch-depth: 1
-
-      - name: Build and Publish Docker Image
-        run: |
-          docker build . -t zekro/vctr-fe:latest -f ./WebApp/Dockerfile
-          docker login -u zekro -p ${{ secrets.DOCKER_PASSWORD }}
-          docker push zekro/vctr-fe:latest
