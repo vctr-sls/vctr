@@ -20,6 +20,7 @@ namespace Gateway
                 .AddJsonFile("appsettings.json", optional: true)
                 .AddJsonFile("appsettings.Development.json", optional: true)
                 .AddEnvironmentVariables(prefix: "VCTR_")
+                .AddCommandLine(args)
                 .Build();
 
             return Host.CreateDefaultBuilder(args)

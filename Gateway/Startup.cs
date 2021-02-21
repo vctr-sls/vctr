@@ -78,28 +78,30 @@ namespace Gateway
             app.UseEndpoints(endpoints => 
                 endpoints.MapControllers());
 
-            using (var scope = app.ApplicationServices.CreateScope())
+            if (!Configuration.GetValue("iscirun", false))
             {
-                var logger = scope.ServiceProvider.GetService<ILogger<Startup>>();
-
-                var db = scope.ServiceProvider.GetRequiredService<DatabaseContext>();
-                logger.LogInformation("Ensuring database is created and up-to-date...");
-                db.Database.Migrate();
-
-                var initializationService = scope.ServiceProvider.GetService<InitializationService>();
-                Task.Run(async () =>
+                using (var scope = app.ApplicationServices.CreateScope())
                 {
-                    try
-                    {
-                        logger.LogInformation("Running initialization routine...");
-                        await initializationService.InitializationRoutine();
-                    } catch (Exception e)
-                    {
-                        logger.LogError($"Initialization Routine Failed: {e.Message}");
-                    }
-                }).Wait();
-            }
+                    var logger = scope.ServiceProvider.GetService<ILogger<Startup>>();
 
+                    var db = scope.ServiceProvider.GetRequiredService<DatabaseContext>();
+                    logger.LogInformation("Ensuring database is created and up-to-date...");
+                    db.Database.Migrate();
+
+                    var initializationService = scope.ServiceProvider.GetService<InitializationService>();
+                    Task.Run(async () =>
+                    {
+                        try
+                        {
+                            logger.LogInformation("Running initialization routine...");
+                            await initializationService.InitializationRoutine();
+                        } catch (Exception e)
+                        {
+                            logger.LogError($"Initialization Routine Failed: {e.Message}");
+                        }
+                    }).Wait();
+                }
+            }
         }
     }
 }
