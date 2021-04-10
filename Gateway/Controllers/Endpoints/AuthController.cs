@@ -41,7 +41,9 @@ namespace Gateway.Controllers.Endpoints
         // --- POST /api/auth/login ---
 
         [HttpPost("[action]")]
-        public async Task<ActionResult<UserViewModel>> Login([FromBody] LoginModel login)
+        public async Task<ActionResult<UserLoginViewModel>> Login(
+            [FromBody] LoginModel login,
+            [FromQuery] bool getSessionKey)
         {
             var user = await database
                 .GetWhere<UserModel>(u => u.UserName.Equals(login.Ident) || string.IsNullOrEmpty(u.MailAddress) && u.MailAddress.Equals(login.Ident))
@@ -73,7 +75,11 @@ namespace Gateway.Controllers.Endpoints
 
             await database.Commit();
 
-            return Ok(new UserViewModel(user));
+            var res = new UserLoginViewModel(user);
+            if (getSessionKey)
+                res.SessionKey = jwt;
+
+            return Ok(res);
         }
 
         // -------------------------------------------------------------------------

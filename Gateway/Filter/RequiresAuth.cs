@@ -63,13 +63,21 @@ namespace Gateway.Filter
                     (_) => null);
 
             ok = ctx.HttpContext.Request.Headers.TryGetValue("authorization", out var authHeaderValue);
-            if (!ok || !authHeaderValue.ToString().ToLower().StartsWith("basic "))
+            if (!ok)
                 return null;
-            authHeaderValue = authHeaderValue.ToString()[6..];
 
-            if (!string.IsNullOrEmpty(authHeaderValue))
+            var ahvStr = authHeaderValue.ToString();
+            if (ahvStr.ToString().StartsWith("session "))
+                return FlowUtil.TryCatch(
+                    () => authorization.ValidateSessionKey(ahvStr[8..]),
+                    (_) => null);
+
+            if (ahvStr.ToLower().StartsWith("basic "))
+                ahvStr = ahvStr[6..];
+
+            if (!string.IsNullOrEmpty(ahvStr))
             {
-                var keyHash = await hasher.GetEncodedHash(authHeaderValue);
+                var keyHash = await hasher.GetEncodedHash(ahvStr);
                 var apiKey = await database.GetWhere<ApiKeyModel>(k => k.KeyHash == keyHash)
                     .Include(k => k.User).FirstOrDefaultAsync();
 
