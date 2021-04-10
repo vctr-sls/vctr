@@ -10,8 +10,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Gateway.Migrations
 {
     [DbContext(typeof(DatabaseContext))]
-    [Migration("20210117160358_AddApiKeysTable")]
-    partial class AddApiKeysTable
+    [Migration("20210410083541_Initialization")]
+    partial class Initialization
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {

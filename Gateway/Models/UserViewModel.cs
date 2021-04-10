@@ -25,4 +25,17 @@ namespace Gateway.Models
             LastLogin = model.LastLogin;
         }
     }
+
+    public class UserLoginViewModel : UserViewModel
+    {
+        [JsonPropertyName("session_key")]
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+        public string SessionKey { get; set; }
+
+        public UserLoginViewModel() 
+        { }
+
+        public UserLoginViewModel(UserModel model) : base(model) 
+        { }
+    }
 }
